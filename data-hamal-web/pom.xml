@@ -5,16 +5,11 @@
     <parent>
         <artifactId>data-hamal</artifactId>
         <groupId>com.striveonger.study</groupId>
-        <version>1.0-SNAPSHOT</version>
+        <version>0.0.1</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>data-hamal-web</artifactId>
-
-    <properties>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
-    </properties>
 
     <dependencies>
         <dependency>
@@ -31,7 +26,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>com.striveonger.study</groupId>
+            <artifactId>data-hamal-commons-beans</artifactId>
+            <version>${data-hamal.version}</version>
+        </dependency>
 
     </dependencies>
 </project>

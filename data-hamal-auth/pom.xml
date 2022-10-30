@@ -9,7 +9,10 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>data-hamal-services</artifactId>
-    <packaging>pom</packaging>
+    <artifactId>data-hamal-auth</artifactId>
 
+    <dependencies>
+
+
+    </dependencies>
 </project>
