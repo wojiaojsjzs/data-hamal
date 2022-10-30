@@ -26,6 +26,7 @@ com.striveonger.study
 │     └── data-hamal-commons-beans               // 公共实体
 │     └── data-hamal-commons-tools               // 通用工具
 │     └── data-hamal-commons-constants           // 公共常量
+│     └── data-hamal-commons-generate            // 代码生成
 ├── data-hamal-services                          // 开放服务
 │     └── data-hamal-services-files              // 文件服务 [9020]
 │     └── data-hamal-services-contexts           // 对象服务 [9030]
