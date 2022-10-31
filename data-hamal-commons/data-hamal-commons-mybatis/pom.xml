@@ -10,7 +10,10 @@
     <modelVersion>4.0.0</modelVersion>
 
 
-    <artifactId>data-hamal-commons-generate</artifactId>
+    <artifactId>data-hamal-commons-mybatis</artifactId>
+    <description>
+
+    </description>
 
     <dependencies>
 
@@ -22,6 +25,7 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
+            <scope>test</scope>
         </dependency>
 
         <!-- Mybatis-Plus 代码生成工具 -->
@@ -29,11 +33,13 @@
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-generator</artifactId>
             <version>${mybatis-plus.version}</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.freemarker</groupId>
             <artifactId>freemarker</artifactId>
             <version>${freemarker.version}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
