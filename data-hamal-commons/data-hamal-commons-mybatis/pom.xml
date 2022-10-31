@@ -11,9 +11,7 @@
 
 
     <artifactId>data-hamal-commons-mybatis</artifactId>
-    <description>
-
-    </description>
+    <description>提供公共的sqlSession类（需要传入数据源）</description>
 
     <dependencies>
 
