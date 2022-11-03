@@ -23,7 +23,6 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <scope>test</scope>
         </dependency>
 
         <!-- Mybatis-Plus 代码生成工具 -->
