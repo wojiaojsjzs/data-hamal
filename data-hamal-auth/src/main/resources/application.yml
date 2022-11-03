@@ -1,0 +1,31 @@
+server:
+  port: 9010
+  servlet:
+    context-path: /auth
+
+spring:
+  main:
+    # 当出现相同名字的类进行注册时，准许覆盖注册
+    allow-bean-definition-overriding: true
+  mvc:
+    pathmatch:
+      matching-strategy: ANT_PATH_MATCHER
+  application:
+    name: data-hamal-auth
+  profiles:
+    active: dev
+
+data:
+  hamal:
+    dao:
+      datasource:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://127.0.0.1:3306/data_hamal?zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&serverTimezone=Asia/Shanghai
+        username: root
+        password: root
+        minimum-idle: 1
+        maximum-pool-size: 3
+        max-lifetime: 1800000
+        idle-timeout: 600000
+      mapper:
+        package: "com.striveonger.study.auth.mapper"

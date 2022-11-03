@@ -29,6 +29,8 @@
         <mybatis-plus.version>3.5.2</mybatis-plus.version>
         <mysql-connector.version>8.0.30</mysql-connector.version>
         <freemarker.version>2.3.31</freemarker.version>
+        <knife4j.version>2.0.9</knife4j.version>
+        <hikari.version>5.0.1</hikari.version>
     </properties>
 
     <modules>
@@ -117,7 +119,19 @@
                 <version>${mysql-connector.version}</version>
             </dependency>
 
+            <!-- 数据库连接池 -->
+            <dependency>
+                <groupId>com.zaxxer</groupId>
+                <artifactId>HikariCP</artifactId>
+                <version>${hikari.version}</version>
+            </dependency>
 
+            <!-- 引入Knife4j的官方start包,Swagger2基于Springfox2.10.5项目 -->
+            <dependency>
+                <groupId>com.github.xiaoymin</groupId>
+                <artifactId>knife4j-spring-boot-starter</artifactId>
+                <version>${knife4j.version}</version>
+            </dependency>
         </dependencies>
         </dependencyManagement>
 
