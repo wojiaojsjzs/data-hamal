@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+        com.striveonger.study.mybatis.config.MybatisConfig

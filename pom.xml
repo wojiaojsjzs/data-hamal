@@ -132,6 +132,25 @@
                 <artifactId>knife4j-spring-boot-starter</artifactId>
                 <version>${knife4j.version}</version>
             </dependency>
+
+            <!-- Data Hamal -->
+            <dependency>
+                <groupId>com.striveonger.study</groupId>
+                <artifactId>data-hamal-commons-mybatis</artifactId>
+                <version>${data-hamal.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.striveonger.study</groupId>
+                <artifactId>data-hamal-commons-swagger</artifactId>
+                <version>${data-hamal.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.striveonger.study</groupId>
+                <artifactId>data-hamal-commons-tools</artifactId>
+                <version>${data-hamal.version}</version>
+            </dependency>
+
+
         </dependencies>
         </dependencyManagement>
 

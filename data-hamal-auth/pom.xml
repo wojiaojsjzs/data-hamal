@@ -16,26 +16,40 @@
         <dependency>
             <groupId>com.striveonger.study</groupId>
             <artifactId>data-hamal-commons-mybatis</artifactId>
-            <version>${data-hamal.version}</version>
         </dependency>
         <dependency>
             <groupId>com.striveonger.study</groupId>
             <artifactId>data-hamal-commons-swagger</artifactId>
-            <version>${data-hamal.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.striveonger.study</groupId>
+            <artifactId>data-hamal-commons-tools</artifactId>
         </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-        <!--<dependency>-->
-        <!--    <groupId>com.alibaba.cloud</groupId>-->
-        <!--    <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-        <!--    <groupId>com.alibaba.cloud</groupId>-->
-        <!--    <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>-->
-        <!--</dependency>-->
-
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <executable>true</executable>
+                    <mainClass>com.striveonger.study.auth.AuthApplication</mainClass>
+                </configuration>
+                <!--这里需要配置一下，因为采用的是import方式引入的spring boot 而非 parent的方式 ，parent定义了 repackage-->
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>

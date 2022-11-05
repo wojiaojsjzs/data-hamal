@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.metrics.buffering.BufferingApplicationStartup;
+import org.springframework.context.annotation.ComponentScan;
 
 /**
  * @author Mr.Lee
@@ -12,6 +13,7 @@ import org.springframework.boot.context.metrics.buffering.BufferingApplicationSt
  * @date 2022-11-03 23:20
  */
 @SpringBootApplication
+@ComponentScan({"com.striveonger.study.*"})
 public class AuthApplication {
     private static final Logger log = LoggerFactory.getLogger(AuthApplication.class);
 
