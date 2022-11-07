@@ -3,13 +3,13 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>data-hamal</artifactId>
+        <artifactId>data-hamal-services</artifactId>
         <groupId>com.striveonger.study</groupId>
         <version>0.0.1</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>data-hamal-auth</artifactId>
+    <artifactId>data-hamal-service-files</artifactId>
 
     <dependencies>
         <dependency>
@@ -31,24 +31,4 @@
         </dependency>
     </dependencies>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <executable>true</executable>
-                    <mainClass>com.striveonger.study.auth.AuthApplication</mainClass>
-                </configuration>
-                <!--这里需要配置一下，因为采用的是import方式引入的spring boot 而非 parent的方式 ，parent定义了 repackage-->
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>repackage</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
 </project>

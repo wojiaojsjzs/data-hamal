@@ -31,8 +31,6 @@ public class SwaggerConfig {
                         .version("0.0.1")
                         .build())
                 .select()
-                // 这里指定Controller扫描包路径
-                .apis(RequestHandlerSelectors.basePackage("com.striveonger.study.auth.web.controller"))
                 .paths(PathSelectors.any())
                 .build();
         return docket;

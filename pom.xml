@@ -15,11 +15,13 @@
 
     <properties>
         <data-hamal.version>0.0.1</data-hamal.version>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
         <java.version>17</java.version>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
         <spring-cloud.version>2021.0.4</spring-cloud.version>
         <spring-cloud-alibaba.version>2021.0.4.0</spring-cloud-alibaba.version>
         <spring-boot.version>2.7.4</spring-boot.version>
@@ -149,9 +151,7 @@
                 <artifactId>data-hamal-commons-tools</artifactId>
                 <version>${data-hamal.version}</version>
             </dependency>
-
-
         </dependencies>
-        </dependencyManagement>
+    </dependencyManagement>
 
-    </project>
+</project>
