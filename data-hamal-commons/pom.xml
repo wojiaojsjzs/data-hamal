@@ -14,8 +14,7 @@
 
     <modules>
         <module>data-hamal-commons-apis</module>
-        <module>data-hamal-commons-beans</module>
-        <module>data-hamal-commons-constants</module>
+        <module>data-hamal-commons-core</module>
         <module>data-hamal-commons-mybatis</module>
         <module>data-hamal-commons-swagger</module>
         <module>data-hamal-commons-tools</module>

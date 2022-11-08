@@ -22,3 +22,16 @@ create table users (
     primary key (id)
 ) engine = innodb comment = '用户表';
 
+
+drop table if exists files;
+create table files (
+    id            varchar(50)    not null       comment '文件ID',
+    filename      varchar(30)    not null       comment '文件名',
+    filepath      varchar(255)   not null       comment '文件路径',
+    filetype      varchar(30)    not null       comment '文件类型',
+    status        tinyint(1)     default 0      comment '文件状态（0存在 1不存在）',
+    create_time   datetime       default now()  comment '创建时间',
+    update_time   datetime       default now()  comment '更新时间',
+    deleted       tinyint(1)     default 0      comment '删除标志（0否 1是）',
+    primary key (id)
+) engine = innodb comment = '文件表';

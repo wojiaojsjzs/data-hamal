@@ -1,7 +1,7 @@
 server:
   port: 9020
   servlet:
-    context-path: /file/storage
+    context-path: /storage/file
 
 spring:
   datasource:
