@@ -17,6 +17,5 @@ public class FileHashTest {
         Assertions.assertEquals(code1, code2);
         System.out.println(code1);
         System.out.println(code2);
-
     }
 }
