@@ -140,6 +140,11 @@
             <!-- Data Hamal -->
             <dependency>
                 <groupId>com.striveonger.study</groupId>
+                <artifactId>data-hamal-commons-core</artifactId>
+                <version>${data-hamal.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.striveonger.study</groupId>
                 <artifactId>data-hamal-commons-mybatis</artifactId>
                 <version>${data-hamal.version}</version>
             </dependency>

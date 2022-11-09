@@ -21,3 +21,8 @@ spring:
     name: data-hamal-service-files
   profiles:
     active: dev
+
+data:
+  hamal:
+    file:
+      storage: /Users/striveonger/tmp/storage

@@ -66,6 +66,13 @@ public class Result<T> implements Serializable {
         return new Result<>(ResultStatus.FAIL);
     }
 
+    public static <T> Result<T> status(ResultStatus status) {
+        return new Result<>(status);
+    }
+
+    // TODO: 后面可以添加一些常用的状态码的便捷方法
+
+
     public Result<T> message(String message) {
         this.message = message;
         return this;

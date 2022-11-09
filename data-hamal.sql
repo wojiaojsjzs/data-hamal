@@ -29,6 +29,7 @@ create table files (
     filename      varchar(30)    not null       comment '文件名',
     filepath      varchar(255)   not null       comment '文件路径',
     filetype      varchar(30)    not null       comment '文件类型',
+    hashcode      varchar(255)   not null       comment '文件Hash',
     status        tinyint(1)     default 0      comment '文件状态（0存在 1不存在）',
     create_time   datetime       default now()  comment '创建时间',
     update_time   datetime       default now()  comment '更新时间',
