@@ -1,10 +1,15 @@
 package com.striveonger.study.core.result;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.striveonger.study.core.constant.ResultStatus;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
+import java.util.HashMap;
+import java.util.Objects;
 
 /**
  * @author Mr.Lee
@@ -15,6 +20,8 @@ public class Result<T> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    private static final String DATA_KEY = "data";
+
     /**
      * 响应状态
      */
@@ -23,6 +30,7 @@ public class Result<T> implements Serializable {
     /**
      * 响应时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS", timezone = "GMT+8")
     private final LocalDateTime now = LocalDateTime.now();
 
     /**
@@ -30,12 +38,10 @@ public class Result<T> implements Serializable {
      */
     private String message;
 
-    /**
-     * 响应数据
-     */
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private T data;
 
-    private Result() {}
+    private Result() { }
 
     private Result(ResultStatus status) {
         this.state = status.getState();
@@ -55,23 +61,32 @@ public class Result<T> implements Serializable {
     }
 
     public T getData() {
-        return data;
+        return this.data;
     }
 
     public static <T> Result<T> success() {
         return new Result<>(ResultStatus.SUCCESS);
     }
 
+    public static <T> Result<T> success(T data) {
+        return new Result<T>(ResultStatus.SUCCESS).data(data);
+    }
+
+    public static <T> Result<T> success(String message, T data) {
+        return new Result<T>(ResultStatus.SUCCESS).message(message).data(data);
+    }
+
     public static <T> Result<T> fail() {
         return new Result<>(ResultStatus.FAIL);
+    }
+
+    public static <T> Result<T> accident() {
+        return new Result<T>(ResultStatus.ACCIDENT);
     }
 
     public static <T> Result<T> status(ResultStatus status) {
         return new Result<>(status);
     }
-
-    // TODO: 后面可以添加一些常用的状态码的便捷方法
-
 
     public Result<T> message(String message) {
         this.message = message;

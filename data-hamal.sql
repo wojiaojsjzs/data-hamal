@@ -22,7 +22,6 @@ create table users (
     primary key (id)
 ) engine = innodb comment = '用户表';
 
-
 drop table if exists files;
 create table files (
     id            varchar(50)    not null       comment '文件ID',
@@ -30,9 +29,18 @@ create table files (
     filepath      varchar(255)   not null       comment '文件路径',
     filetype      varchar(30)    not null       comment '文件类型',
     hashcode      varchar(255)   not null       comment '文件Hash',
-    status        tinyint(1)     default 0      comment '文件状态（0存在 1不存在）',
     create_time   datetime       default now()  comment '创建时间',
     update_time   datetime       default now()  comment '更新时间',
     deleted       tinyint(1)     default 0      comment '删除标志（0否 1是）',
     primary key (id)
 ) engine = innodb comment = '文件表';
+
+select * from files;
+
+delete from files;
+
+
+select now();
+set global time_zone='+08:00';
+set time_zone='+08:00';
+flush privileges;

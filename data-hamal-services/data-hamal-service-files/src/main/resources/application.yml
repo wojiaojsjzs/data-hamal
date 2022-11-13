@@ -1,9 +1,18 @@
 server:
   port: 9020
+  tomcat:
+    accept-count: 50
+    max-connections: 500
+    max-http-form-post-size: 1GB
+    max-swallow-size: 512MB
   servlet:
     context-path: /storage/file
 
 spring:
+  servlet:
+    multipart:
+      max-file-size: 200MB
+      max-request-size: 1GB
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://127.0.0.1:3306/data_hamal?zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&serverTimezone=Asia/Shanghai

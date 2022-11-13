@@ -6,7 +6,7 @@
         <artifactId>data-hamal-services</artifactId>
         <groupId>com.striveonger.study</groupId>
         <version>0.0.1</version>
-    </parent>
+    </parent>`
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>data-hamal-service-files</artifactId>
@@ -29,10 +29,6 @@
             <artifactId>data-hamal-commons-tools</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
     </dependencies>
 
 </project>

@@ -28,8 +28,18 @@ public enum FileHash {
         return name;
     }
 
+
     public String code(File file) {
-        try (InputStream input = new FileInputStream(file)) {
+        try {
+            return code(new FileInputStream(file));
+        } catch (FileNotFoundException e) {
+            log.error("读取文件失败", e);
+        }
+        return null;
+    }
+
+    public String code(InputStream input) {
+        try (input) {
             MessageDigest digest = MessageDigest.getInstance(getName());
             byte[] bytes = new byte[4096];
             int count;

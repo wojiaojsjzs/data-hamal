@@ -1,6 +1,7 @@
 package com.striveonger.study.mybatis.config;
 
 import com.baomidou.mybatisplus.annotation.DbType;
+import com.baomidou.mybatisplus.core.config.GlobalConfig;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
 import org.mybatis.spring.mapper.MapperScannerConfigurer;
@@ -38,5 +39,14 @@ public class MybatisConfig {
         MapperScannerConfigurer configurer = new MapperScannerConfigurer();
         configurer.setBasePackage(basePackage);
         return configurer;
+    }
+
+    @Bean
+    public GlobalConfig.DbConfig dbConfig() {
+        GlobalConfig.DbConfig config = new GlobalConfig.DbConfig();
+        config.setLogicDeleteField("deleted");
+        config.setLogicDeleteValue("1");
+        config.setLogicNotDeleteValue("0");
+        return config;
     }
 }

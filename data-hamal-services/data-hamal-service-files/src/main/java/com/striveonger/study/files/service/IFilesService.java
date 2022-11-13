@@ -13,4 +13,7 @@ import com.striveonger.study.files.entity.Files;
  */
 public interface IFilesService extends IService<Files> {
 
+    Files getByHashCode(String hashcode);
+
+    Files getById(String id);
 }
