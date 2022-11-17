@@ -23,18 +23,32 @@ com.striveonger.study
 ├── data-hamal-auth                              // 认证中心 [9010]
 ├── data-hamal-commons                           // 通用模块
 │     └── data-hamal-commons-apis                // 全局接口
-│     └── data-hamal-commons-beans               // 公共实体
+│     └── data-hamal-commons-core                // 核心功能
+│     └── data-hamal-commons-mybatis             // 数据访问
+│     └── data-hamal-commons-swagger             // 接口文档
 │     └── data-hamal-commons-tools               // 通用工具
-│     └── data-hamal-commons-constants           // 公共常量
-│     └── data-hamal-commons-mybatis             // 代码生成
 ├── data-hamal-services                          // 开放服务
-│     └── data-hamal-services-files              // 文件服务 [9020]
-│     └── data-hamal-services-contexts           // 对象服务 [9030]
-│     └── data-hamal-services-tasks              // 任务服务 [9040]
+│     └── data-hamal-services-leaf               // 叶子服务 [9020]
+│     └── data-hamal-services-files              // 文件服务 [9030]
+│     └── data-hamal-services-contexts           // 对象服务 [9040]
+│     └── data-hamal-services-tasks              // 任务服务 [9050]
 ├──pom.xml                                       // 公共依赖
 ~~~
 
 >   服务碎片化
+
+## 组件说明
+### data-hamal-web
+### data-hamal-web
+### data-hamal-web
+### data-hamal-web
+### data-hamal-web
+### data-hamal-web
+### data-hamal-web
+### data-hamal-web
+### data-hamal-web
+
+
 
 ## 安装教程
 
