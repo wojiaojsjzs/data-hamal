@@ -20,7 +20,7 @@ import java.util.function.Consumer;
 
 /**
  * @author Mr.Lee
- * @description: 文件导出工具
+ * @description: 文件流工具
  * @date 2022-11-12 19:55
  */
 public class FileStreamUtils {
@@ -61,11 +61,16 @@ public class FileStreamUtils {
             byte[] bytes = FileUtil.readBytes(file);
             Consumer<OutputStream> write = o -> IoUtil.write(o, true, bytes);
             response.reset();
-            String tag = PreviewTypeConstant.typeTag(prefix);
-            response.setContentType(tag + "/" + prefix + ";charset=UTF-8");
             String filenameDisplay = filenameDisplay(request, fileName);
-            response.setHeader("Content-Disposition", "filename=\"" + filenameDisplay + "\"");
-            // response.setHeader("Content-Length", fileSize);
+            String tag = PreviewTypeConstant.typeTag(prefix);
+            response.setContentType(tag + "/" + prefix);
+            if ("image".equals(tag)) {
+                response.setHeader("Content-Disposition", "filename=\"" + filenameDisplay + "\"");
+            } else {
+                // response.setHeader("Content-Length", String.valueOf(bytes.length / 8));
+                response.setHeader("Accept-Ranges", "bytes");
+                response.setHeader("Content-Range", "bytes 0-");
+            }
             process(request, response, write);
         } else {
             throw new CustomException(ResultStatus.ACCIDENT, "不支持预览的文件类型");
