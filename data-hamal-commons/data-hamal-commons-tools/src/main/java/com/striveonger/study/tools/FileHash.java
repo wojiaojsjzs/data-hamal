@@ -17,7 +17,7 @@ public enum FileHash {
 
     MD5("MD5"), SHA1("SHA1"), SHA256("SHA-256"), SHA512("SHA-512");
 
-    private final Logger log = LoggerFactory.getLogger(SpringContextHolder.class);
+    private final Logger log = LoggerFactory.getLogger(FileHash.class);
     private final String name;
 
     FileHash(String name) {

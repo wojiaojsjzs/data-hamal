@@ -43,7 +43,7 @@ public class FileStreamUtils {
         String filenameDisplay = filenameDisplay(request, fileName);
         response.setHeader("Content-Disposition", "attachment;filename=\"" + filenameDisplay + "\"");
         // response.setHeader("Content-Length", fileSize);
-        process(request, response, write);
+        process(response, write);
     }
 
 
@@ -71,7 +71,7 @@ public class FileStreamUtils {
                 response.setHeader("Accept-Ranges", "bytes");
                 response.setHeader("Content-Range", "bytes 0-");
             }
-            process(request, response, write);
+            process(response, write);
         } else {
             throw new CustomException(ResultStatus.ACCIDENT, "不支持预览的文件类型");
         }
@@ -80,12 +80,10 @@ public class FileStreamUtils {
 
     /**
      * 导出文件, 由浏览器下载
-     *
-     * @param request  请求体
      * @param response 响应体
      * @param write    写数据的外部调用
      */
-    private static void process(HttpServletRequest request, HttpServletResponse response, Consumer<OutputStream> write) {
+    private static void process(HttpServletResponse response, Consumer<OutputStream> write) {
         OutputStream out = null;
         try {
             out = response.getOutputStream();
@@ -108,22 +106,17 @@ public class FileStreamUtils {
     }
 
     private static String filenameDisplay(HttpServletRequest request, String fileName) {
-        try {
-            String filenameDisplay = URLEncoder.encode(fileName, "UTF-8");
-            if (request.getHeader("User-Agent").toLowerCase().indexOf("firefox") > 0) {
-                filenameDisplay = new String(fileName.getBytes(StandardCharsets.UTF_8), "ISO8859-1");// firefox浏览器
-            } else if (request.getHeader("User-Agent").toUpperCase().indexOf("MSIE") > 0) {
-                filenameDisplay = URLEncoder.encode(fileName, "UTF-8");// IE浏览器
-            } else if (request.getHeader("User-Agent").toUpperCase().indexOf("SAFARI") > 0) {
-                filenameDisplay = new String(fileName.getBytes(StandardCharsets.UTF_8), "ISO8859-1");// safari 浏览器
-            } else if (request.getHeader("User-Agent").toUpperCase().indexOf("CHROME") > 0) {
-                filenameDisplay = new String(fileName.getBytes(StandardCharsets.UTF_8), "ISO8859-1");// Chrome浏览器
-            }
-            return filenameDisplay;
-        } catch (UnsupportedEncodingException e) {
-            log.error("generate filename display error...", e);
-            throw new CustomException("generate filename display error...");
+        String filenameDisplay = URLEncoder.encode(fileName, StandardCharsets.UTF_8);
+        if (request.getHeader("User-Agent").toLowerCase().indexOf("firefox") > 0) {
+            filenameDisplay = new String(fileName.getBytes(StandardCharsets.UTF_8), StandardCharsets.ISO_8859_1);// firefox浏览器
+        } else if (request.getHeader("User-Agent").toUpperCase().indexOf("MSIE") > 0) {
+            filenameDisplay = URLEncoder.encode(fileName, StandardCharsets.UTF_8);// IE浏览器
+        } else if (request.getHeader("User-Agent").toUpperCase().indexOf("SAFARI") > 0) {
+            filenameDisplay = new String(fileName.getBytes(StandardCharsets.UTF_8), StandardCharsets.ISO_8859_1);// safari 浏览器
+        } else if (request.getHeader("User-Agent").toUpperCase().indexOf("CHROME") > 0) {
+            filenameDisplay = new String(fileName.getBytes(StandardCharsets.UTF_8), StandardCharsets.ISO_8859_1);// Chrome浏览器
         }
+        return filenameDisplay;
     }
 
 

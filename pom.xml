@@ -33,6 +33,7 @@
         <freemarker.version>2.3.31</freemarker.version>
         <knife4j.version>2.0.9</knife4j.version>
         <hikari.version>5.0.1</hikari.version>
+        <curator.version>5.2.0</curator.version>
         <junit.version>5.9.1</junit.version>
         <junit.platform.version>1.9.1</junit.platform.version>
     </properties>
@@ -97,19 +98,16 @@
                 <artifactId>mybatis-spring-boot-starter</artifactId>
                 <version>${spring-boot.mybatis}</version>
             </dependency>
-
             <dependency>
                 <groupId>org.mybatis</groupId>
                 <artifactId>mybatis</artifactId>
                 <version>${mybatis.version}</version>
             </dependency>
-
             <dependency>
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-boot-starter</artifactId>
                 <version>${mybatis-plus.version}</version>
             </dependency>
-
             <dependency>
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-annotation</artifactId>
@@ -137,6 +135,19 @@
                 <version>${knife4j.version}</version>
             </dependency>
 
+            <!-- Zookeeper -->
+            <dependency>
+                <groupId>org.apache.curator</groupId>
+                <artifactId>curator-recipes</artifactId>
+                <version>${curator.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <artifactId>log4j</artifactId>
+                        <groupId>log4j</groupId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
             <!-- Data Hamal -->
             <dependency>
                 <groupId>com.striveonger.study</groupId>
@@ -158,6 +169,8 @@
                 <artifactId>data-hamal-commons-tools</artifactId>
                 <version>${data-hamal.version}</version>
             </dependency>
+
+
 
             <!-- JUnit5 -->
             <dependency>

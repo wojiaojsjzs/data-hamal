@@ -8,7 +8,7 @@ import org.springframework.context.annotation.ComponentScan;
 
 /**
  * @author Mr.Lee
- * @description: 文件管理系统
+ * @description: 文件存储
  * @date 2022-11-06 23:31
  */
 @SpringBootApplication
