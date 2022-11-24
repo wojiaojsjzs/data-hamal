@@ -1,9 +1,8 @@
 create database data_hamal character set utf8mb4;
 use data_hamal;
 
-
 -- ----------------------------
--- 1. 用户表
+-- 1. 用户表(用户鉴权服务)
 -- ----------------------------
 drop table if exists users;
 create table users (
@@ -22,6 +21,9 @@ create table users (
     primary key (id)
 ) engine = innodb comment = '用户表';
 
+-- ----------------------------
+-- 2. 文件表(文件存储服务)
+-- ----------------------------
 drop table if exists files;
 create table files (
     id            varchar(50)    not null       comment '文件ID',
@@ -35,12 +37,16 @@ create table files (
     primary key (id)
 ) engine = innodb comment = '文件表';
 
-select * from files;
+-- ----------------------------
+-- 3. 号段表(ID服务)
+-- ----------------------------
+drop table if exists leaf_alloc;
+create table leaf_alloc (
+    biz_tag       varchar(128)   not null default '',
+    max_id        bigint(20)     not null default '1',
+    step          int(11)        not null,
+    description   varchar(256)   default null,
+    update_time   timestamp      not null default current_timestamp on update current_timestamp,
+    primary key (biz_tag)
+) engine=innodb comment = '号段表';
 
-delete from files;
-
-
-select now();
-set global time_zone='+08:00';
-set time_zone='+08:00';
-flush privileges;

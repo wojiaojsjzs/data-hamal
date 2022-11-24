@@ -5,24 +5,22 @@ import com.google.common.base.Preconditions;
 import com.striveonger.study.leaf.core.IDGen;
 import com.striveonger.study.leaf.core.common.Result;
 import com.striveonger.study.leaf.core.common.Status;
-import com.striveonger.study.leaf.core.common.Utils;
+import com.striveonger.study.leaf.core.common.IPUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Random;
 
-public class SnowflakeIDGenImpl implements IDGen {
+/**
+ * 雪花算法生成ID
+ */
+public class SnowflakeIDGen implements IDGen {
 
-    @Override
-    public boolean init() {
-        return true;
-    }
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(SnowflakeIDGenImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(SnowflakeIDGen.class);
 
     private final long twepoch;
     private final long workerIdBits = 10L;
-    private final long maxWorkerId = ~(-1L << workerIdBits);//最大能够分配的workerid =1023
+    private final long maxWorkerId = ~(-1L << workerIdBits); // 最大能够分配的workerid =1023
     private final long sequenceBits = 12L;
     private final long workerIdShift = sequenceBits;
     private final long timestampLeftShift = sequenceBits + workerIdBits;
@@ -32,26 +30,26 @@ public class SnowflakeIDGenImpl implements IDGen {
     private long lastTimestamp = -1L;
     private static final Random RANDOM = new Random();
 
-    public SnowflakeIDGenImpl(String zkAddress, int port) {
-        //Thu Nov 04 2010 09:42:54 GMT+0800 (中国标准时间) 
-        this(zkAddress, port, 1288834974657L);
+    public SnowflakeIDGen(String zkAddress, int port, String leafName) {
+        // Thu Nov 04 2010 09:42:54 GMT+0800 (中国标准时间)
+        this(zkAddress, port, 1288834974657L, leafName);
     }
 
     /**
-     * @param zkAddress zk地址
-     * @param port      snowflake监听端口
-     * @param twepoch   起始的时间戳
+     * @param zookeeperAddress zk地址
+     * @param port             snowflake监听端口
+     * @param twepoch          起始的时间戳
      */
-    public SnowflakeIDGenImpl(String zkAddress, int port, long twepoch) {
+    public SnowflakeIDGen(String zookeeperAddress, int port, long twepoch, String leafName) {
         this.twepoch = twepoch;
         Preconditions.checkArgument(timeGen() > twepoch, "Snowflake not support twepoch gt currentTime");
-        final String ip = Utils.getIp();
-        SnowflakeZookeeperHolder holder = new SnowflakeZookeeperHolder(ip, String.valueOf(port), zkAddress);
-        LOGGER.info("twepoch:{} ,ip:{} ,zkAddress:{} port:{}", twepoch, ip, zkAddress, port);
+        final String ip = IPUtils.getIp();
+        SnowflakeZookeeperHolder holder = new SnowflakeZookeeperHolder(ip, String.valueOf(port), zookeeperAddress, leafName);
+        log.info("twepoch:{} ,ip:{} ,zookeeperAddress:{} port:{}", twepoch, ip, zookeeperAddress, port);
         boolean initFlag = holder.init();
         if (initFlag) {
             workerId = holder.getWorkerID();
-            LOGGER.info("START SUCCESS USE ZK WORKERID-{}", workerId);
+            log.info("START SUCCESS USE ZK WORKERID-{}", workerId);
         } else {
             Preconditions.checkArgument(initFlag, "Snowflake Id Gen is not init ok");
         }
@@ -59,19 +57,27 @@ public class SnowflakeIDGenImpl implements IDGen {
     }
 
     @Override
+    public boolean init() {
+        return true;
+    }
+
+    @Override
     public synchronized Result get(String key) {
         long timestamp = timeGen();
+        // 防止系统时间回调, 导致ID冲突的情况
         if (timestamp < lastTimestamp) {
             long offset = lastTimestamp - timestamp;
+            // 容忍系统回调上限为5毫秒
             if (offset <= 5) {
                 try {
+                    // 等待
                     wait(offset << 1);
                     timestamp = timeGen();
                     if (timestamp < lastTimestamp) {
                         return new Result(-1, Status.EXCEPTION);
                     }
                 } catch (InterruptedException e) {
-                    LOGGER.error("wait interrupted");
+                    log.error("wait interrupted");
                     return new Result(-2, Status.EXCEPTION);
                 }
             } else {
@@ -92,7 +98,6 @@ public class SnowflakeIDGenImpl implements IDGen {
         lastTimestamp = timestamp;
         long id = ((timestamp - twepoch) << timestampLeftShift) | (workerId << workerIdShift) | sequence;
         return new Result(id, Status.SUCCESS);
-
     }
 
     protected long tilNextMillis(long lastTimestamp) {
@@ -103,6 +108,10 @@ public class SnowflakeIDGenImpl implements IDGen {
         return timestamp;
     }
 
+    /**
+     * 获取系统时间戳
+     * @return
+     */
     protected long timeGen() {
         return System.currentTimeMillis();
     }

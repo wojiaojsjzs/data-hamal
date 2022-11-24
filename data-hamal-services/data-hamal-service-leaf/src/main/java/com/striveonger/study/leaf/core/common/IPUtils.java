@@ -11,15 +11,19 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 
-public class Utils {
-    private static final Logger logger = LoggerFactory.getLogger(Utils.class);
+/**
+ * IP工具类, 用来获取IP
+ *
+ */
+public class IPUtils {
+    private static final Logger logger = LoggerFactory.getLogger(IPUtils.class);
 
     public static String getIp() {
         String ip;
         try {
-            List<String> ipList = getHostAddress(null);
+            List<String> ips = getHostAddress(null);
             // default the first
-            ip = (!ipList.isEmpty()) ? ipList.get(0) : "";
+            ip = (!ips.isEmpty()) ? ips.get(0) : "";
         } catch (Exception ex) {
             ip = "";
             logger.warn("Utils get IP warn", ex);
@@ -27,7 +31,13 @@ public class Utils {
         return ip;
     }
 
-    public static String getIp(String interfaceName) {
+    /**
+     * 获取指定网卡IP
+     * @param interfaceName 网卡名
+     * @return String
+     */
+    @Deprecated
+    private static String getIp(String interfaceName) {
         String ip;
         interfaceName = interfaceName.trim();
         try {
@@ -47,7 +57,7 @@ public class Utils {
      * @return List<String>
      */
     private static List<String> getHostAddress(String interfaceName) throws SocketException {
-        List<String> ipList = new ArrayList<String>(5);
+        List<String> ips = new ArrayList<String>(5);
         Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
         while (interfaces.hasMoreElements()) {
             NetworkInterface ni = interfaces.nextElement();
@@ -64,12 +74,12 @@ public class Utils {
                 }
                 String hostAddress = address.getHostAddress();
                 if (null == interfaceName) {
-                    ipList.add(hostAddress);
+                    ips.add(hostAddress);
                 } else if (interfaceName.equals(ni.getDisplayName())) {
-                    ipList.add(hostAddress);
+                    ips.add(hostAddress);
                 }
             }
         }
-        return ipList;
+        return ips;
     }
 }

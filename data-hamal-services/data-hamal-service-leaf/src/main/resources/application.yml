@@ -24,5 +24,13 @@ spring:
 
 data:
   hamal:
-    file:
-      storage: /Users/striveonger/tmp/storage
+    leaf:
+      # 当启动多个节点时, 节点名不可以重复哦～
+      name: leaf-node-1
+      segment:
+        enabled: false
+      snowflake:
+        enabled: true
+        zk:
+          address: 127.0.0.1
+          port: 21810
