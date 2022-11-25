@@ -1,13 +1,13 @@
 package com.striveonger.study.leaf.core.common;
 
-public class Result {
+public class ID {
     private long id;
     private Status status;
 
-    public Result() {
+    public ID() {
 
     }
-    public Result(long id, Status status) {
+    public ID(long id, Status status) {
         this.id = id;
         this.status = status;
     }

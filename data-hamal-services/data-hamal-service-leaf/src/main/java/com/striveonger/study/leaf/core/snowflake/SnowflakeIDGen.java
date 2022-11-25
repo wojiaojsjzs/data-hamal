@@ -3,7 +3,7 @@ package com.striveonger.study.leaf.core.snowflake;
 
 import com.google.common.base.Preconditions;
 import com.striveonger.study.leaf.core.IDGen;
-import com.striveonger.study.leaf.core.common.Result;
+import com.striveonger.study.leaf.core.common.ID;
 import com.striveonger.study.leaf.core.common.Status;
 import com.striveonger.study.leaf.core.common.IPUtils;
 import org.slf4j.Logger;
@@ -62,7 +62,7 @@ public class SnowflakeIDGen implements IDGen {
     }
 
     @Override
-    public synchronized Result get(String key) {
+    public synchronized ID get(String key) {
         long timestamp = timeGen();
         // 防止系统时间回调, 导致ID冲突的情况
         if (timestamp < lastTimestamp) {
@@ -74,14 +74,14 @@ public class SnowflakeIDGen implements IDGen {
                     wait(offset << 1);
                     timestamp = timeGen();
                     if (timestamp < lastTimestamp) {
-                        return new Result(-1, Status.EXCEPTION);
+                        return new ID(-1, Status.EXCEPTION);
                     }
                 } catch (InterruptedException e) {
                     log.error("wait interrupted");
-                    return new Result(-2, Status.EXCEPTION);
+                    return new ID(-2, Status.EXCEPTION);
                 }
             } else {
-                return new Result(-3, Status.EXCEPTION);
+                return new ID(-3, Status.EXCEPTION);
             }
         }
         if (lastTimestamp == timestamp) {
@@ -97,7 +97,7 @@ public class SnowflakeIDGen implements IDGen {
         }
         lastTimestamp = timestamp;
         long id = ((timestamp - twepoch) << timestampLeftShift) | (workerId << workerIdShift) | sequence;
-        return new Result(id, Status.SUCCESS);
+        return new ID(id, Status.SUCCESS);
     }
 
     protected long tilNextMillis(long lastTimestamp) {

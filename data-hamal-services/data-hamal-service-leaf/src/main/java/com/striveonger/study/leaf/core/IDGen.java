@@ -1,10 +1,10 @@
 package com.striveonger.study.leaf.core;
 
 
-import com.striveonger.study.leaf.core.common.Result;
+import com.striveonger.study.leaf.core.common.ID;
 
 public interface IDGen {
-    Result get(String key);
+    ID get(String key);
 
     boolean init();
 

@@ -2,7 +2,7 @@ package com.striveonger.study.leaf.core.segment;
 
 
 import com.striveonger.study.leaf.core.IDGen;
-import com.striveonger.study.leaf.core.common.Result;
+import com.striveonger.study.leaf.core.common.ID;
 import com.striveonger.study.leaf.core.common.Status;
 import com.striveonger.study.leaf.core.segment.model.Segment;
 import com.striveonger.study.leaf.core.segment.model.SegmentBuffer;
@@ -122,9 +122,9 @@ public class SegmentIDGen implements IDGen {
     }
 
     @Override
-    public Result get(final String key) {
+    public ID get(final String key) {
         if (!initOK) {
-            return new Result(EXCEPTION_ID_IDCACHE_INIT_FALSE, Status.EXCEPTION);
+            return new ID(EXCEPTION_ID_IDCACHE_INIT_FALSE, Status.EXCEPTION);
         }
         if (cache.containsKey(key)) {
             SegmentBuffer buffer = cache.get(key);
@@ -143,7 +143,7 @@ public class SegmentIDGen implements IDGen {
             }
             return getIdFromSegmentBuffer(cache.get(key));
         }
-        return new Result(EXCEPTION_ID_KEY_NOT_EXISTS, Status.EXCEPTION);
+        return new ID(EXCEPTION_ID_KEY_NOT_EXISTS, Status.EXCEPTION);
     }
 
     public void updateSegmentFromDB(String key, Segment segment) {
@@ -190,7 +190,7 @@ public class SegmentIDGen implements IDGen {
         sw.stop("updateSegmentFromDb", key + " " + segment);
     }
 
-    public Result getIdFromSegmentBuffer(final SegmentBuffer buffer) {
+    public ID getIdFromSegmentBuffer(final SegmentBuffer buffer) {
         while (true) {
             buffer.rLock().lock();
             try {
@@ -222,7 +222,7 @@ public class SegmentIDGen implements IDGen {
                 }
                 long value = segment.getValue().getAndIncrement();
                 if (value < segment.getMax()) {
-                    return new Result(value, Status.SUCCESS);
+                    return new ID(value, Status.SUCCESS);
                 }
             } finally {
                 buffer.rLock().unlock();
@@ -233,14 +233,14 @@ public class SegmentIDGen implements IDGen {
                 final Segment segment = buffer.getCurrent();
                 long value = segment.getValue().getAndIncrement();
                 if (value < segment.getMax()) {
-                    return new Result(value, Status.SUCCESS);
+                    return new ID(value, Status.SUCCESS);
                 }
                 if (buffer.isNextReady()) {
                     buffer.switchPos();
                     buffer.setNextReady(false);
                 } else {
                     log.error("Both two segments in {} are not ready!", buffer);
-                    return new Result(EXCEPTION_ID_TWO_SEGMENTS_ARE_NULL, Status.EXCEPTION);
+                    return new ID(EXCEPTION_ID_TWO_SEGMENTS_ARE_NULL, Status.EXCEPTION);
                 }
             } finally {
                 buffer.wLock().unlock();
