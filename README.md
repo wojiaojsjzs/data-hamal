@@ -39,14 +39,13 @@ com.striveonger.study
 
 ## 组件说明
 ### data-hamal-web
-### data-hamal-web
-### data-hamal-web
-### data-hamal-web
-### data-hamal-web
-### data-hamal-web
-### data-hamal-web
-### data-hamal-web
-### data-hamal-web
+### data-hamal-gateway
+### data-hamal-auth
+### data-hamal-leaf
+> 照搬了美团开源的Leaf, 提供分布式的ID服务
+### data-hamal-files
+### data-hamal-contexts
+### data-hamal-tasks
 
 
 
