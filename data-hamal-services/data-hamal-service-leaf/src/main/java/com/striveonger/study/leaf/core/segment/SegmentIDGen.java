@@ -3,7 +3,7 @@ package com.striveonger.study.leaf.core.segment;
 
 import com.striveonger.study.leaf.core.IDGen;
 import com.striveonger.study.leaf.core.common.ID;
-import com.striveonger.study.leaf.core.common.Status;
+import com.striveonger.study.leaf.constants.Status;
 import com.striveonger.study.leaf.core.segment.model.Segment;
 import com.striveonger.study.leaf.core.segment.model.SegmentBuffer;
 import com.striveonger.study.leaf.entity.LeafAlloc;
@@ -153,34 +153,34 @@ public class SegmentIDGen implements IDGen {
         if (!buffer.isInitOk()) {
             leafAlloc = dao.updateMaxIdAndGetLeafAlloc(key);
             buffer.setStep(leafAlloc.getStep());
-            buffer.setMinStep(leafAlloc.getStep());//leafAlloc中的step为DB中的step
+            buffer.setMinStep(leafAlloc.getStep());// leafAlloc中的step为DB中的step
         } else if (buffer.getUpdateTimestamp() == 0) {
             leafAlloc = dao.updateMaxIdAndGetLeafAlloc(key);
             buffer.setUpdateTimestamp(System.currentTimeMillis());
             buffer.setStep(leafAlloc.getStep());
-            buffer.setMinStep(leafAlloc.getStep());//leafAlloc中的step为DB中的step
+            buffer.setMinStep(leafAlloc.getStep());// leafAlloc中的step为DB中的step
         } else {
             long duration = System.currentTimeMillis() - buffer.getUpdateTimestamp();
             int nextStep = buffer.getStep();
             if (duration < SEGMENT_DURATION) {
                 if (nextStep * 2 > MAX_STEP) {
-                    //do nothing
+                    // do nothing
                 } else {
                     nextStep = nextStep * 2;
                 }
             } else if (duration < SEGMENT_DURATION * 2) {
-                //do nothing with nextStep
+                // do nothing with nextStep
             } else {
                 nextStep = nextStep / 2 >= buffer.getMinStep() ? nextStep / 2 : nextStep;
             }
-            log.info("leafKey[{}], step[{}], duration[{}mins], nextStep[{}]", key, buffer.getStep(), String.format("%.2f",((double)duration / (1000 * 60))), nextStep);
+            log.info("leafKey[{}], step[{}], duration[{}mins], nextStep[{}]", key, buffer.getStep(), String.format("%.2f", ((double) duration / (1000 * 60))), nextStep);
             LeafAlloc temp = new LeafAlloc();
             temp.setKey(key);
             temp.setStep(nextStep);
             leafAlloc = dao.updateMaxIdByCustomStepAndGetLeafAlloc(temp);
             buffer.setUpdateTimestamp(System.currentTimeMillis());
             buffer.setStep(nextStep);
-            buffer.setMinStep(leafAlloc.getStep());//leafAlloc的step为DB中的step
+            buffer.setMinStep(leafAlloc.getStep());// leafAlloc的step为DB中的step
         }
         // must set value before set max
         long value = leafAlloc.getMaxId() - buffer.getStep();
@@ -196,26 +196,23 @@ public class SegmentIDGen implements IDGen {
             try {
                 final Segment segment = buffer.getCurrent();
                 if (!buffer.isNextReady() && (segment.getIdle() < 0.9 * segment.getStep()) && buffer.getThreadRunning().compareAndSet(false, true)) {
-                    threadPool.execute(new Runnable() {
-                        @Override
-                        public void run() {
-                            Segment next = buffer.getSegments()[buffer.nextPos()];
-                            boolean updateOk = false;
-                            try {
-                                updateSegmentFromDB(buffer.getKey(), next);
-                                updateOk = true;
-                                log.info("update segment {} from db {}", buffer.getKey(), next);
-                            } catch (Exception e) {
-                                log.warn(buffer.getKey() + " updateSegmentFromDb exception", e);
-                            } finally {
-                                if (updateOk) {
-                                    buffer.wLock().lock();
-                                    buffer.setNextReady(true);
-                                    buffer.getThreadRunning().set(false);
-                                    buffer.wLock().unlock();
-                                } else {
-                                    buffer.getThreadRunning().set(false);
-                                }
+                    threadPool.execute(() -> {
+                        Segment next = buffer.getSegments()[buffer.nextPos()];
+                        boolean updateOk = false;
+                        try {
+                            updateSegmentFromDB(buffer.getKey(), next);
+                            updateOk = true;
+                            log.info("update segment {} from db {}", buffer.getKey(), next);
+                        } catch (Exception e) {
+                            log.warn(buffer.getKey() + " updateSegmentFromDb exception", e);
+                        } finally {
+                            if (updateOk) {
+                                buffer.wLock().lock();
+                                buffer.setNextReady(true);
+                                buffer.getThreadRunning().set(false);
+                                buffer.wLock().unlock();
+                            } else {
+                                buffer.getThreadRunning().set(false);
                             }
                         }
                     });
@@ -252,12 +249,12 @@ public class SegmentIDGen implements IDGen {
         int roll = 0;
         while (buffer.getThreadRunning().get()) {
             roll += 1;
-            if(roll > 10000) {
+            if (roll > 10000) {
                 try {
                     TimeUnit.MILLISECONDS.sleep(10);
                     break;
                 } catch (InterruptedException e) {
-                    log.warn("Thread {} Interrupted",Thread.currentThread().getName());
+                    log.warn("Thread {} Interrupted", Thread.currentThread().getName());
                     break;
                 }
             }

@@ -4,7 +4,7 @@ package com.striveonger.study.leaf.core.snowflake;
 import com.google.common.base.Preconditions;
 import com.striveonger.study.leaf.core.IDGen;
 import com.striveonger.study.leaf.core.common.ID;
-import com.striveonger.study.leaf.core.common.Status;
+import com.striveonger.study.leaf.constants.Status;
 import com.striveonger.study.leaf.core.common.IPUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,6 +39,8 @@ public class SnowflakeIDGen implements IDGen {
      * @param zookeeperAddress zk地址
      * @param port             snowflake监听端口
      * @param twepoch          起始的时间戳
+     * @param leafName         节点名字
+     *
      */
     public SnowflakeIDGen(String zookeeperAddress, int port, long twepoch, String leafName) {
         this.twepoch = twepoch;

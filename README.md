@@ -17,9 +17,9 @@
 ## 系统模块
 
 ~~~
-com.striveonger.study     
-├── data-hamal-web                               // 前端框架 [80]
-├── data-hamal-gateway                           // 网关模块 [8080]
+com.striveonger.study
+├── data-hamal-gateway                           // 网关模块 [80]
+├── data-hamal-web                               // 前端框架 [8080]
 ├── data-hamal-auth                              // 认证中心 [9010]
 ├── data-hamal-commons                           // 通用模块
 │     └── data-hamal-commons-apis                // 全局接口

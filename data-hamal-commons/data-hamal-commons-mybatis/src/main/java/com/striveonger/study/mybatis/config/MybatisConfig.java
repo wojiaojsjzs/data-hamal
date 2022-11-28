@@ -22,7 +22,7 @@ public class MybatisConfig {
     private final Logger log = LoggerFactory.getLogger(MybatisConfig.class);
 
     // 没有解决无法读取父级配置文件的问题，临时用规则限制
-    private String basePackage = "com.striveonger.study.*.mapper";
+    private final String basePackage = "com.striveonger.study.*.mapper";
 
     /**
      * 新的分页插件,一缓和二缓遵循mybatis的规则,需要设置 MybatisConfiguration#useDeprecatedExecutor = false 避免缓存出现问题(该属性会在旧插件移除后一同移除)

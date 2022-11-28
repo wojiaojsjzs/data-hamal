@@ -50,3 +50,10 @@ create table leaf_alloc (
     primary key (biz_tag)
 ) engine=innodb comment = '号段表';
 
+insert into leaf_alloc (biz_tag, max_id, step, description, update_time)
+ value ('test', 1, 1, '测试专用哦～', now());
+
+
+select * from leaf_alloc;
+
+

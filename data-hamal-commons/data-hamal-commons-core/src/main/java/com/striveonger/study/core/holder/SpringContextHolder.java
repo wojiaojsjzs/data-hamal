@@ -1,5 +1,6 @@
 package com.striveonger.study.core.holder;
 
+import com.striveonger.study.core.exception.CustomException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
@@ -8,9 +9,11 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 /**
  * @author Mr.Lee
- * @description:
+ * @description: Spring Context
  * @date 2022-11-05 15:07
  */
 @Component
@@ -44,16 +47,28 @@ public class SpringContextHolder implements ApplicationContextAware {
         return context.getBean(beanName, clazz);
     }
 
-    public static Environment getEnvironment() {
+    public static <T> T getProperties(String key, Class<T> clazz) {
+        Environment env = getEnvironment();
+        return env.getProperty(key, clazz);
+    }
+
+    public static <T> T getProperties(String key, T defaultValue) {
+        Environment env = getEnvironment();
+        return Optional.ofNullable(env.getProperty(key))
+                .filter(x -> x.getClass().isInstance(defaultValue))
+                .map(x -> (T) x).orElse(defaultValue);
+    }
+
+    private static Environment getEnvironment() {
         assertContext();
         return context.getEnvironment();
     }
 
     private static void assertContext() {
         if (SpringContextHolder.context == null) {
-            throw new RuntimeException("applicaitonContext属性为null, 请检查是否注入了SpringContextHolder!");
+            // SpringContext 初始化失败～
+            throw new CustomException("spring context initialization failed...");
         }
     }
-
 
 }

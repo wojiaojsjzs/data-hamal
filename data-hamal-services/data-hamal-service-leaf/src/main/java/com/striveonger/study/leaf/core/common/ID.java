@@ -1,5 +1,7 @@
 package com.striveonger.study.leaf.core.common;
 
+import com.striveonger.study.leaf.constants.Status;
+
 public class ID {
     private long id;
     private Status status;

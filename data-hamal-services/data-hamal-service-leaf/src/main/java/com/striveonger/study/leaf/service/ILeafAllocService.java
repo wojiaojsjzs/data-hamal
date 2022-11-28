@@ -23,4 +23,8 @@ public interface ILeafAllocService extends IService<LeafAlloc> {
 
     List<String> getAllTags();
 
+    int count(String tag);
+
+    @Override
+    boolean save(LeafAlloc leafAlloc);
 }

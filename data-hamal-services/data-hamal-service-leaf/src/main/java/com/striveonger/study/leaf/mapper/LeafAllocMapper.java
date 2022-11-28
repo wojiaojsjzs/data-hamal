@@ -41,4 +41,10 @@ public interface LeafAllocMapper extends BaseMapper<LeafAlloc> {
 
     @Select("SELECT biz_tag FROM leaf_alloc")
     List<String> getAllTags();
+
+    @Select("SELECT COUNT(1) AS num FROM leaf_alloc WHERE biz_tag = #{tag}")
+    int count(@Param("tag") String tag);
+
+    @Insert("INSERT INTO leaf_alloc ( biz_tag, max_id, step )  VALUES  ( #{leafAlloc.key}, #{leafAlloc.maxId}, #{leafAlloc.step} )")
+    boolean save(@Param("leafAlloc") LeafAlloc leafAlloc);
 }

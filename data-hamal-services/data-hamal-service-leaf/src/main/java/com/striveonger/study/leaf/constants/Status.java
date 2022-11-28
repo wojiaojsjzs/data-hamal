@@ -1,4 +1,4 @@
-package com.striveonger.study.leaf.core.common;
+package com.striveonger.study.leaf.constants;
 
 public enum  Status {
     SUCCESS,

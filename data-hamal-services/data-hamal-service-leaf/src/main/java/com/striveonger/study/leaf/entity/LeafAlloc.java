@@ -1,5 +1,10 @@
 package com.striveonger.study.leaf.entity;
 
+
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+
 /**
  * <p>
  * 号段表
@@ -8,8 +13,11 @@ package com.striveonger.study.leaf.entity;
  * @author Mr.Lee
  * @since 2022-11-23
  */
+@TableName("leaf_alloc")
 public class LeafAlloc {
 
+    @TableId
+    @TableField(value = "biz_tag")
     private String key;
     private long maxId;
     private int step;

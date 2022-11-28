@@ -88,6 +88,10 @@ public class Result<T> implements Serializable {
         return new Result<>(status);
     }
 
+    public static <T> Result<T> status(boolean status) {
+        return new Result<>(status ? ResultStatus.SUCCESS : ResultStatus.FAIL);
+    }
+
     public Result<T> message(String message) {
         this.message = message;
         return this;

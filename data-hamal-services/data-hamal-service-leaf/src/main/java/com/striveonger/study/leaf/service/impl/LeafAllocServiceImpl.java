@@ -43,4 +43,16 @@ public class LeafAllocServiceImpl extends ServiceImpl<LeafAllocMapper, LeafAlloc
     public List<String> getAllTags() {
         return this.getBaseMapper().getAllTags();
     }
+
+    @Override
+    public int count(String tag) {
+        return this.getBaseMapper().count(tag);
+    }
+
+    @Override
+    public boolean save(LeafAlloc leafAlloc) {
+        return this.getBaseMapper().save(leafAlloc);
+    }
+
+
 }
