@@ -9,10 +9,9 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>data-hamal-service-leaf</artifactId>
+    <artifactId>data-hamal-service-filestorage</artifactId>
 
     <dependencies>
-        <!-- Data Hamal -->
         <dependency>
             <groupId>com.striveonger.study</groupId>
             <artifactId>data-hamal-commons-core</artifactId>
@@ -29,33 +28,6 @@
             <groupId>com.striveonger.study</groupId>
             <artifactId>data-hamal-commons-tools</artifactId>
         </dependency>
-
-        <!-- Zookeeper -->
-        <dependency>
-            <groupId>org.apache.curator</groupId>
-            <artifactId>curator-recipes</artifactId>
-            <scope>provided</scope>
-        </dependency>
-
-        <!-- Jackson -->
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.perf4j</groupId>
-            <artifactId>perf4j</artifactId>
-            <version>0.9.16</version>
-        </dependency>
-
-        <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-            <version>2.4</version>
-        </dependency>
-
     </dependencies>
 
 </project>

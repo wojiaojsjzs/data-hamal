@@ -29,9 +29,8 @@ com.striveonger.study
 │     └── data-hamal-commons-tools               // 通用工具
 ├── data-hamal-services                          // 开放服务
 │     └── data-hamal-services-leaf               // 叶子服务 [9020]
-│     └── data-hamal-services-files              // 文件服务 [9030]
-│     └── data-hamal-services-contexts           // 对象服务 [9040]
-│     └── data-hamal-services-tasks              // 任务服务 [9050]
+│     └── data-hamal-service-filestorage         // 文件服务 [9030]
+│     └── data-hamal-services-task               // 任务服务 [9050]
 ├──pom.xml                                       // 公共依赖
 ~~~
 
@@ -41,11 +40,22 @@ com.striveonger.study
 ### data-hamal-web
 ### data-hamal-gateway
 ### data-hamal-auth
+
 ### data-hamal-leaf
+
 > 照搬了美团开源的Leaf, 提供分布式的ID服务
-### data-hamal-files
-### data-hamal-contexts
-### data-hamal-tasks
+### data-hamal-service-filestorage
+
+>   提供文件的上传与下载功能
+>
+>   流媒体格式的文件是支持预览的哦~
+
+### data-hamal-task
+
+>   每个任务, 只允许有一个线程池.
+>
+>   线程池: 最多支持4个core
+
 
 
 
