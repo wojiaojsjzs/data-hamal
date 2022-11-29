@@ -13,11 +13,18 @@
     <packaging>pom</packaging>
 
     <modules>
+        <!--核心成员-->
         <module>data-hamal-service-task-core</module>
+        <!--通用工具-->
         <module>data-hamal-service-task-commons</module>
+        <!--上下文工具-->
         <module>data-hamal-service-task-context</module>
+        <!--执行器-->
         <module>data-hamal-service-task-executor</module>
+        <!--插件包-->
         <module>data-hamal-service-task-plugins</module>
+        <!--任务执行者-->
+        <module>data-hamal-service-task-worker</module>
     </modules>
 
     <properties>

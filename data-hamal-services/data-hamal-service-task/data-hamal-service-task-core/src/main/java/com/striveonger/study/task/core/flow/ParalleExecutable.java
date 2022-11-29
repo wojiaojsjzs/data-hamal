@@ -1,4 +1,4 @@
-package com.striveonger.study.task.core.exec.flow;
+package com.striveonger.study.task.core.flow;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,7 +13,7 @@ public class ParalleExecutable extends BasicExecutable {
 
     @Override
     public boolean exec() {
-        if (executables == null || executables.isEmpty()) {
+        if (subtasks == null || subtasks.isEmpty()) {
             return false;
         }
 

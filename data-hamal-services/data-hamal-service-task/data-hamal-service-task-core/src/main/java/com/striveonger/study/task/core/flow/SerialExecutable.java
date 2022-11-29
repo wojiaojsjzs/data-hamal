@@ -1,6 +1,6 @@
-package com.striveonger.study.task.core.exec.flow;
+package com.striveonger.study.task.core.flow;
 
-import com.striveonger.study.task.core.exec.Executable;
+import com.striveonger.study.task.core.Executable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,12 +14,12 @@ public class SerialExecutable extends BasicExecutable {
 
     @Override
     public boolean exec() {
-        if (executables == null || executables.isEmpty()) {
+        if (subtasks == null || subtasks.isEmpty()) {
             return false;
         }
         boolean flag = true;
-        for (int i = 0; i < executables.size() && flag; i++) {
-            Executable executable = executables.get(i);
+        for (int i = 0; i < subtasks.size() && flag; i++) {
+            Executable executable = subtasks.get(i);
             flag = executable.exec();
         }
         return flag;
