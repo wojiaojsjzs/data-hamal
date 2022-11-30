@@ -7,10 +7,5 @@ package com.striveonger.study.task.core;
  */
 public interface Executable extends Runnable {
 
-    boolean exec();
 
-    @Override
-    default void run() {
-        exec();
-    }
 }

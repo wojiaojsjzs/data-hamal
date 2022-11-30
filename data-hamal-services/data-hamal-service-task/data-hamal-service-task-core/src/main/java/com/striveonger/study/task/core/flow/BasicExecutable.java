@@ -11,7 +11,7 @@ import java.util.List;
 
 /**
  * @author Mr.Lee
- * @description:
+ * @description: 基础的执行器
  * @date 2022-11-28 21:23
  */
 public abstract class BasicExecutable implements Executable {
@@ -22,19 +22,25 @@ public abstract class BasicExecutable implements Executable {
      */
     private WorkArea workArea;
 
+    protected abstract void exec();
+
     /**
      * 待执行的子任务
      */
     protected List<Executable> subtasks;
 
-    public void addExecutable(Executable executable) {
+    public void setWorkArea(WorkArea workArea) {
+        this.workArea = workArea;
+    }
+
+    public void addTask(Executable executable) {
         if (subtasks == null) {
             subtasks = new ArrayList<>();
         }
         subtasks.add(executable);
     }
 
-    public void addExecutable(Collection<Executable> executables) {
+    public void addTasks(Collection<Executable> executables) {
         if (this.subtasks == null) {
             this.subtasks = new ArrayList<>(executables);
         } else {
@@ -42,5 +48,14 @@ public abstract class BasicExecutable implements Executable {
         }
     }
 
+    @Override
+    public void run() {
+        if (subtasks != null && !subtasks.isEmpty()) {
+            exec();
+        }
+    }
 
+    public WorkArea getWorkArea() {
+        return workArea;
+    }
 }
