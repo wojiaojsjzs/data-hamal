@@ -48,7 +48,6 @@ public class WorkArea {
 
     private final ExecutorService service = new ThreadPoolExecutor(corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue, threadFactory, handler);
 
-
     public WorkArea(Long taskID) {
         this.taskID = taskID;
         this.status = ExecutionStatus.NONE.getCode();
