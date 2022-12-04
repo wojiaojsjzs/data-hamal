@@ -1,16 +1,16 @@
 package com.striveonger.study.task.core;
 
 
-import cn.hutool.core.date.DateUtil;
 import com.striveonger.study.task.core.flow.ParalleFlow;
-import com.striveonger.study.task.core.flow.SerialFlow;
+import com.striveonger.study.task.core.flow.SerialeFlow;
 import com.striveonger.study.tools.SleepHelper;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.function.Consumer;
+import java.util.function.BiConsumer;
 
 /**
  * @author Mr.Lee
@@ -18,6 +18,8 @@ import java.util.function.Consumer;
  * @date 2022-11-30 11:01
  */
 public class WorkerTest {
+
+    private final static Logger log = LoggerFactory.getLogger(WorkerTest.class);
 
     String json = """
             {
@@ -31,7 +33,7 @@ public class WorkerTest {
             	"H": ["I"],
             	"I": ["J"],
             	"J": ["K"]
-            }
+            }X
             """;
 
     @Test
@@ -41,31 +43,34 @@ public class WorkerTest {
 
     @Test
     public void test() {
-        WorkArea workArea = new WorkArea(1L);
+        WorkArea workArea = WorkArea.builder().taskID(1L).corePoolSize(0).build();
         WorkArea.Worker worker = workArea.getWorker();
 
-        Consumer<String> consumer = new Consumer<String>() {
+        int waitTime = 1;
+
+        BiConsumer<String, Integer> consumer = new BiConsumer<String, Integer>() {
             int waitTime = 1;
+
             @Override
-            public void accept(String s) {
-                System.out.println(s + " start " + DateUtil.now());
+            public void accept(String s, Integer waitTime) {
+                log.info("start {}", s);
                 SleepHelper.sleepSeconds(waitTime);
-                System.out.println(s + " end " + DateUtil.now());
+                log.info("  end {}", s);
             }
         };
 
-        Executable A = () -> consumer.accept("A");
-        Executable B = () -> consumer.accept("B");
-        Executable C = () -> consumer.accept("C");
-        Executable D = () -> consumer.accept("D");
-        Executable E = () -> consumer.accept("E");
-        Executable F = () -> consumer.accept("F");
-        Executable G = () -> consumer.accept("G");
-        Executable H = () -> consumer.accept("H");
-        Executable I = () -> consumer.accept("I");
-        Executable J = () -> consumer.accept("J");
+        Executable A = () -> consumer.accept("A", waitTime);
+        Executable B = () -> consumer.accept("B", waitTime);
+        Executable C = () -> consumer.accept("C", waitTime);
+        Executable D = () -> consumer.accept("D", 30);
+        Executable E = () -> consumer.accept("E", waitTime);
+        Executable F = () -> consumer.accept("F", waitTime);
+        Executable G = () -> consumer.accept("G", waitTime);
+        Executable H = () -> consumer.accept("H", waitTime);
+        Executable I = () -> consumer.accept("I", waitTime);
+        Executable J = () -> consumer.accept("J", waitTime);
 
-        SerialFlow full = new SerialFlow();
+        SerialeFlow full = new SerialeFlow();
         full.setWorkArea(workArea);
 
         ParalleFlow AB_P = new ParalleFlow();
@@ -73,12 +78,12 @@ public class WorkerTest {
         AB_P.addTask(A);
         AB_P.addTask(B);
 
-        SerialFlow ABC_S = new SerialFlow();
+        SerialeFlow ABC_S = new SerialeFlow();
         ABC_S.setWorkArea(workArea);
         ABC_S.addTask(AB_P);
         ABC_S.addTask(C);
 
-        SerialFlow FH_S = new SerialFlow();
+        SerialeFlow FH_S = new SerialeFlow();
         FH_S.setWorkArea(workArea);
         FH_S.addTask(F);
         FH_S.addTask(H);
@@ -88,7 +93,7 @@ public class WorkerTest {
         DE_P.addTask(D);
         DE_P.addTask(E);
 
-        SerialFlow DEG_S = new SerialFlow();
+        SerialeFlow DEG_S = new SerialeFlow();
         DEG_S.setWorkArea(workArea);
         DEG_S.addTask(DE_P);
         DEG_S.addTask(G);
@@ -104,8 +109,8 @@ public class WorkerTest {
         full.addTask(I);
         full.addTask(J);
 
-        ExecutorService service = Executors.newFixedThreadPool(1);
-        service.submit(full);
+        worker.work(full);
+
 
         SleepHelper.sleepSeconds(4000);
     }
@@ -114,9 +119,8 @@ public class WorkerTest {
     public void testPool() {
         ExecutorService service = Executors.newFixedThreadPool(1);
         service.submit(() -> System.out.println("hello"));
-
+        log.info("Thread Pool");
     }
-
 
 
 }

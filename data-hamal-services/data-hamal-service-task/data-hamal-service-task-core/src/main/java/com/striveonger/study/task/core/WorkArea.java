@@ -1,6 +1,7 @@
 package com.striveonger.study.task.core;
 
 import com.striveonger.study.task.core.constant.ExecutionStatus;
+import com.striveonger.study.task.core.exception.BuildTaskException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,21 +39,31 @@ public class WorkArea {
 
     private final Worker worker;
 
-    private final Integer corePoolSize = 4;
-    private final Integer maximumPoolSize = 16;
-    private final Long keepAliveTime = 30L;
-    private final TimeUnit unit = TimeUnit.SECONDS;
-    private final BlockingQueue<Runnable> workQueue = new LinkedBlockingQueue<>(4);
-    private final ThreadFactory threadFactory = new TaskThreadFactory();
-    private final RejectedExecutionHandler handler = new ThreadPoolExecutor.AbortPolicy();
 
-    private final ExecutorService service = new ThreadPoolExecutor(corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue, threadFactory, handler);
-
-    public WorkArea(Long taskID) {
+    /**
+     * 为任务创建工作台
+     *
+     * @param taskID          任务ID
+     * @param status          任务执行状态
+     * @param corePoolSize    常驻线程数
+     * @param maximumPoolSize 最大线程数
+     * @param keepAliveTime   非核心线程空闲时长(销毁)
+     * @param unit            时间单位
+     * @param workQueue       任务的等待队列
+     * @param threadFactory   线程的创建器
+     * @param handler         拒绝策略
+     */
+    public WorkArea(Long taskID, int status,
+                    Integer corePoolSize, Integer maximumPoolSize,
+                    Long keepAliveTime, TimeUnit unit,
+                    BlockingQueue<Runnable> workQueue,
+                    ThreadFactory threadFactory,
+                    RejectedExecutionHandler handler) {
         this.taskID = taskID;
-        this.status = ExecutionStatus.NONE.getCode();
-        this.worker = new Worker(service);
+        this.status = status;
+        this.worker = new Worker(corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue, threadFactory, handler);
     }
+
 
     public Worker getWorker() {
         return worker;
@@ -64,12 +75,16 @@ public class WorkArea {
         }
     }
 
-    private class TaskThreadFactory implements ThreadFactory {
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    private static class TaskThreadFactory implements ThreadFactory {
 
         private final AtomicInteger threadNumber = new AtomicInteger(1);
         private final String namePrefix;
 
-        public TaskThreadFactory() {
+        public TaskThreadFactory(Long taskID) {
             namePrefix = "task-exec-" + taskID + "-thread-";
         }
 
@@ -83,16 +98,89 @@ public class WorkArea {
     }
 
 
+    /**
+     * 工作者
+     */
     public static class Worker {
-        ExecutorService service;
 
-        public Worker(ExecutorService service) {
-            this.service = service;
+        private final Integer corePoolSize;
+        private final Integer maximumPoolSize;
+        private final Long keepAliveTime;
+        private final TimeUnit unit;
+        private final BlockingQueue<Runnable> workQueue;
+        private final ThreadFactory threadFactory;
+        private final RejectedExecutionHandler handler;
+
+        private final ExecutorService taskExecThreadPool;
+
+        public Worker(Integer corePoolSize, Integer maximumPoolSize, Long keepAliveTime, TimeUnit unit, BlockingQueue<Runnable> workQueue, ThreadFactory threadFactory, RejectedExecutionHandler handler) {
+            this.corePoolSize = corePoolSize;
+            this.maximumPoolSize = maximumPoolSize;
+            this.keepAliveTime = keepAliveTime;
+            this.unit = unit;
+            this.workQueue = workQueue;
+            this.threadFactory = threadFactory;
+            this.handler = handler;
+
+            this.taskExecThreadPool = new ThreadPoolExecutor(corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue, threadFactory, handler);
         }
 
         public void work(Runnable runnable) {
-            service.submit(runnable);
+            taskExecThreadPool.submit(runnable);
         }
     }
 
+    public static class Builder {
+        private Long taskID;
+        private Integer status = ExecutionStatus.NONE.getCode();
+        private Integer corePoolSize = 8, maximumPoolSize = 32;
+        private Long keepAliveTime = 30L;
+        private TimeUnit unit = TimeUnit.SECONDS;
+        private BlockingQueue<Runnable> workQueue = new SynchronousQueue<>();
+        private ThreadFactory threadFactory;
+        private RejectedExecutionHandler handler = new ThreadPoolExecutor.AbortPolicy();
+
+        public Builder taskID(long id) {
+            this.taskID = id;
+            this.threadFactory = new TaskThreadFactory(id);
+            return this;
+        }
+
+        public Builder status(int status) {
+            this.status = status;
+            return this;
+        }
+
+        public Builder corePoolSize(int size) {
+            this.corePoolSize = size;
+            return this;
+        }
+
+        public Builder maximumPoolSize(int size) {
+            this.maximumPoolSize = size;
+            return this;
+        }
+
+        public Builder keepAliveTime(long time) {
+            this.keepAliveTime = time;
+            return this;
+        }
+
+        public Builder workQueueSize(int size) {
+            this.workQueue = new LinkedBlockingQueue<>(size);
+            return this;
+        }
+
+        public Builder handler(RejectedExecutionHandler handler ) {
+            this.handler = handler;
+            return this;
+        }
+
+        public WorkArea build() {
+            if (taskID == null) throw new BuildTaskException(BuildTaskException.Type.WORK_AREA);
+            return new WorkArea(taskID, status, corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue, threadFactory, handler);
+        }
+
+
+    }
 }

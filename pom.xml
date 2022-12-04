@@ -169,6 +169,11 @@
                 <artifactId>data-hamal-commons-tools</artifactId>
                 <version>${data-hamal.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.striveonger.study</groupId>
+                <artifactId>data-hamal-commons-logs</artifactId>
+                <version>${data-hamal.version}</version>
+            </dependency>
 
 
 

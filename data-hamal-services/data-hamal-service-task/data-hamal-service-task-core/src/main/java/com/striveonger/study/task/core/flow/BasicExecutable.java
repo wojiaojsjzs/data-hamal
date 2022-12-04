@@ -50,12 +50,24 @@ public abstract class BasicExecutable implements Executable {
 
     @Override
     public void run() {
+        before();
         if (subtasks != null && !subtasks.isEmpty()) {
             exec();
         }
+        after();
     }
 
     public WorkArea getWorkArea() {
         return workArea;
+    }
+
+    @Override
+    public void before() {
+
+    }
+
+    @Override
+    public void after() {
+
     }
 }

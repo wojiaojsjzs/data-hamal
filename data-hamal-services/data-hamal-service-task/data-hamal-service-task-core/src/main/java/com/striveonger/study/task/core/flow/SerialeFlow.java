@@ -9,12 +9,13 @@ import org.slf4j.LoggerFactory;
  * @description: 串行执行器
  * @date 2022-11-28 20:50
  */
-public class SerialFlow extends BasicExecutable {
+public class SerialeFlow extends BasicExecutable {
 
-    private final Logger log = LoggerFactory.getLogger(SerialFlow.class);
+    private final Logger log = LoggerFactory.getLogger(SerialeFlow.class);
 
     @Override
     public void exec() {
+        log.info("Seriale Flow Exec Start...");
         for (Executable task : this.subtasks) {
             // TODO: 执行前要前检查任务状态
             try {
@@ -24,5 +25,6 @@ public class SerialFlow extends BasicExecutable {
 
             }
         }
+        log.info("Seriale Flow Exec End...");
     }
 }

@@ -25,9 +25,9 @@ public class ParalleFlow extends BasicExecutable {
         WorkArea.Worker worker = workArea.getWorker();
         // TODO: 执行前要前检查任务状态
         try {
+            log.info("Paralle Flow Exec Start...");
             List<Executable> tasks = this.subtasks;
             CountDownLatch latch = new CountDownLatch(tasks.size());
-
             for (Executable task : tasks) {
                 worker.work(() -> {
                     try {
@@ -39,7 +39,7 @@ public class ParalleFlow extends BasicExecutable {
                 });
             }
             latch.await(200, TimeUnit.SECONDS);
-            System.out.println("并行任务执行结束。。。");
+            log.info("Paralle Flow Exec Finish...");
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
