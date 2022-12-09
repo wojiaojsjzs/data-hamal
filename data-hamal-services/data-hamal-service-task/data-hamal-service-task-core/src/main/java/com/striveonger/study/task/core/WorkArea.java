@@ -37,6 +37,9 @@ public class WorkArea {
      */
     private volatile int status;
 
+    /**
+     * 天选打工人
+     */
     private final Worker worker;
 
 

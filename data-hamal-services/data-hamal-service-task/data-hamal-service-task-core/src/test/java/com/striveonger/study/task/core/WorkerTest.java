@@ -33,7 +33,7 @@ public class WorkerTest {
             	"H": ["I"],
             	"I": ["J"],
             	"J": ["K"]
-            }X
+            }
             """;
 
     @Test
@@ -46,6 +46,7 @@ public class WorkerTest {
         WorkArea workArea = WorkArea.builder().taskID(1L).corePoolSize(0).build();
         WorkArea.Worker worker = workArea.getWorker();
 
+        // 手动定义 DAG 任务
         int waitTime = 1;
 
         BiConsumer<String, Integer> consumer = new BiConsumer<String, Integer>() {
@@ -75,40 +76,41 @@ public class WorkerTest {
 
         ParalleFlow AB_P = new ParalleFlow();
         AB_P.setWorkArea(workArea);
-        AB_P.addTask(A);
-        AB_P.addTask(B);
+        AB_P.push(A);
+        AB_P.push(B);
 
         SerialeFlow ABC_S = new SerialeFlow();
         ABC_S.setWorkArea(workArea);
-        ABC_S.addTask(AB_P);
-        ABC_S.addTask(C);
+        ABC_S.push(AB_P);
+        ABC_S.push(C);
 
         SerialeFlow FH_S = new SerialeFlow();
         FH_S.setWorkArea(workArea);
-        FH_S.addTask(F);
-        FH_S.addTask(H);
+        FH_S.push(F);
+        FH_S.push(H);
 
         ParalleFlow DE_P = new ParalleFlow();
         DE_P.setWorkArea(workArea);
-        DE_P.addTask(D);
-        DE_P.addTask(E);
+        DE_P.push(D);
+        DE_P.push(E);
 
         SerialeFlow DEG_S = new SerialeFlow();
         DEG_S.setWorkArea(workArea);
-        DEG_S.addTask(DE_P);
-        DEG_S.addTask(G);
+        DEG_S.push(DE_P);
+        DEG_S.push(G);
 
         ParalleFlow DEG_FH_P = new ParalleFlow();
         DEG_FH_P.setWorkArea(workArea);
-        DEG_FH_P.addTask(DEG_S);
-        DEG_FH_P.addTask(FH_S);
+        DEG_FH_P.push(DEG_S);
+        DEG_FH_P.push(FH_S);
 
 
-        full.addTask(ABC_S);
-        full.addTask(DEG_FH_P);
-        full.addTask(I);
-        full.addTask(J);
+        full.push(ABC_S);
+        full.push(DEG_FH_P);
+        full.push(I);
+        full.push(J);
 
+        // 开始工作～
         worker.work(full);
 
 

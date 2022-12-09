@@ -33,23 +33,23 @@ public abstract class BasicExecutable implements Executable {
         this.workArea = workArea;
     }
 
-    public void addTask(Executable executable) {
+    public final void push(Executable task) {
         if (subtasks == null) {
             subtasks = new ArrayList<>();
         }
-        subtasks.add(executable);
+        subtasks.add(task);
     }
 
-    public void addTasks(Collection<Executable> executables) {
+    public final void push(Collection<Executable> tasks) {
         if (this.subtasks == null) {
-            this.subtasks = new ArrayList<>(executables);
+            this.subtasks = new ArrayList<>(tasks);
         } else {
-            this.subtasks.addAll(executables);
+            this.subtasks.addAll(tasks);
         }
     }
 
     @Override
-    public void run() {
+    public final void run() {
         before();
         if (subtasks != null && !subtasks.isEmpty()) {
             exec();
