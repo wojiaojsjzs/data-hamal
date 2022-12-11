@@ -29,7 +29,7 @@ public abstract class BasicExecutable implements Executable {
      */
     protected List<Executable> subtasks;
 
-    public void setWorkArea(Workbench workbench) {
+    public void setWorkbench(Workbench workbench) {
         this.workbench = workbench;
     }
 

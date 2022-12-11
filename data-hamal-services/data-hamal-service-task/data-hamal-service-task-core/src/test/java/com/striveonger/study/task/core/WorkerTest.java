@@ -72,35 +72,35 @@ public class WorkerTest {
         Executable J = () -> consumer.accept("J", waitTime);
 
         SerialeFlow full = new SerialeFlow();
-        full.setWorkArea(workbench);
+        full.setWorkbench(workbench);
 
         ParalleFlow AB_P = new ParalleFlow();
-        AB_P.setWorkArea(workbench);
+        AB_P.setWorkbench(workbench);
         AB_P.push(A);
         AB_P.push(B);
 
         SerialeFlow ABC_S = new SerialeFlow();
-        ABC_S.setWorkArea(workbench);
+        ABC_S.setWorkbench(workbench);
         ABC_S.push(AB_P);
         ABC_S.push(C);
 
         SerialeFlow FH_S = new SerialeFlow();
-        FH_S.setWorkArea(workbench);
+        FH_S.setWorkbench(workbench);
         FH_S.push(F);
         FH_S.push(H);
 
         ParalleFlow DE_P = new ParalleFlow();
-        DE_P.setWorkArea(workbench);
+        DE_P.setWorkbench(workbench);
         DE_P.push(D);
         DE_P.push(E);
 
         SerialeFlow DEG_S = new SerialeFlow();
-        DEG_S.setWorkArea(workbench);
+        DEG_S.setWorkbench(workbench);
         DEG_S.push(DE_P);
         DEG_S.push(G);
 
         ParalleFlow DEG_FH_P = new ParalleFlow();
-        DEG_FH_P.setWorkArea(workbench);
+        DEG_FH_P.setWorkbench(workbench);
         DEG_FH_P.push(DEG_S);
         DEG_FH_P.push(FH_S);
 
