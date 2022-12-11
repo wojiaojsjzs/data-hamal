@@ -1,14 +1,12 @@
 package com.striveonger.study.task.core.flow;
 
 import com.striveonger.study.task.core.Executable;
-import com.striveonger.study.task.core.WorkArea;
+import com.striveonger.study.task.core.Workbench;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
-import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -21,8 +19,8 @@ public class ParalleFlow extends BasicExecutable {
 
     @Override
     public void exec() {
-        WorkArea workArea = this.getWorkArea();
-        WorkArea.Worker worker = workArea.getWorker();
+        Workbench workbench = this.getWorkArea();
+        Workbench.Worker worker = workbench.getWorker();
         // TODO: 执行前要前检查任务状态
         try {
             log.info("Paralle Flow Exec Start...");

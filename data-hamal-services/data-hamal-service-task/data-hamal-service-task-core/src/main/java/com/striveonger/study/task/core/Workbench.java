@@ -10,12 +10,12 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author Mr.Lee
- * @description: 工作区
+ * @description: 工作台
  * @date 2022-11-29 12:01
  */
-public class WorkArea {
+public class Workbench {
 
-    private final Logger log = LoggerFactory.getLogger(WorkArea.class);
+    private final Logger log = LoggerFactory.getLogger(Workbench.class);
 
     /*
      * 任务的工作区
@@ -56,12 +56,12 @@ public class WorkArea {
      * @param threadFactory   线程的创建器
      * @param handler         拒绝策略
      */
-    public WorkArea(Long taskID, int status,
-                    Integer corePoolSize, Integer maximumPoolSize,
-                    Long keepAliveTime, TimeUnit unit,
-                    BlockingQueue<Runnable> workQueue,
-                    ThreadFactory threadFactory,
-                    RejectedExecutionHandler handler) {
+    public Workbench(Long taskID, int status,
+                     Integer corePoolSize, Integer maximumPoolSize,
+                     Long keepAliveTime, TimeUnit unit,
+                     BlockingQueue<Runnable> workQueue,
+                     ThreadFactory threadFactory,
+                     RejectedExecutionHandler handler) {
         this.taskID = taskID;
         this.status = status;
         this.worker = new Worker(corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue, threadFactory, handler);
@@ -149,8 +149,8 @@ public class WorkArea {
             return this;
         }
 
-        public Builder status(int status) {
-            this.status = status;
+        public Builder status(ExecutionStatus status) {
+            this.status = status.getCode();
             return this;
         }
 
@@ -179,9 +179,9 @@ public class WorkArea {
             return this;
         }
 
-        public WorkArea build() {
-            if (taskID == null) throw new BuildTaskException(BuildTaskException.Type.WORK_AREA);
-            return new WorkArea(taskID, status, corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue, threadFactory, handler);
+        public Workbench build() {
+            if (taskID == null) throw new BuildTaskException(BuildTaskException.Type.WORKBENCH);
+            return new Workbench(taskID, status, corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue, threadFactory, handler);
         }
 
 

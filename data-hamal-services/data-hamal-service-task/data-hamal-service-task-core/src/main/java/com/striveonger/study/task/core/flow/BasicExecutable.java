@@ -1,6 +1,6 @@
 package com.striveonger.study.task.core.flow;
 
-import com.striveonger.study.task.core.WorkArea;
+import com.striveonger.study.task.core.Workbench;
 import com.striveonger.study.task.core.Executable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +20,7 @@ public abstract class BasicExecutable implements Executable {
     /**
      * 工作空间
      */
-    private WorkArea workArea;
+    private Workbench workbench;
 
     protected abstract void exec();
 
@@ -29,8 +29,8 @@ public abstract class BasicExecutable implements Executable {
      */
     protected List<Executable> subtasks;
 
-    public void setWorkArea(WorkArea workArea) {
-        this.workArea = workArea;
+    public void setWorkArea(Workbench workbench) {
+        this.workbench = workbench;
     }
 
     public final void push(Executable task) {
@@ -57,8 +57,8 @@ public abstract class BasicExecutable implements Executable {
         after();
     }
 
-    public WorkArea getWorkArea() {
-        return workArea;
+    public Workbench getWorkArea() {
+        return workbench;
     }
 
     @Override
