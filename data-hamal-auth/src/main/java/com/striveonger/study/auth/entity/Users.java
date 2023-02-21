@@ -43,7 +43,7 @@ public class Users implements Serializable {
     private String avatar;
 
     @ApiModelProperty("帐号状态（0正常 1停用）")
-    private Boolean status;
+    private Integer status;
 
     @ApiModelProperty("创建时间")
     private LocalDateTime createTime;
@@ -52,7 +52,7 @@ public class Users implements Serializable {
     private LocalDateTime updateTime;
 
     @ApiModelProperty("删除标志（0否 1是）")
-    private Boolean deleted;
+    private Integer deleted;
 
     public String getId() {
         return id;
@@ -110,13 +110,15 @@ public class Users implements Serializable {
     public void setAvatar(String avatar) {
         this.avatar = avatar;
     }
-    public Boolean getStatus() {
+
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(Boolean status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
+
     public LocalDateTime getCreateTime() {
         return createTime;
     }
@@ -131,11 +133,12 @@ public class Users implements Serializable {
     public void setUpdateTime(LocalDateTime updateTime) {
         this.updateTime = updateTime;
     }
-    public Boolean getDeleted() {
+
+    public Integer getDeleted() {
         return deleted;
     }
 
-    public void setDeleted(Boolean deleted) {
+    public void setDeleted(Integer deleted) {
         this.deleted = deleted;
     }
 

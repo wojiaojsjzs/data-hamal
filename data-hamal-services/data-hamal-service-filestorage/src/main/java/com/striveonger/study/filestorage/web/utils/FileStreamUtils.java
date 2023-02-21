@@ -98,7 +98,6 @@ public class FileStreamUtils {
                     out.close();
                 } catch (IOException e) {
                     log.error("close output stream error...", e);
-                    throw new CustomException("close output stream error");
                 }
             }
         }
