@@ -24,6 +24,7 @@ com.striveonger.study
 ├── data-hamal-commons                           // 通用模块
 │     └── data-hamal-commons-apis                // 全局接口
 │     └── data-hamal-commons-core                // 核心功能
+│     └── data-hamal-commons-web-core            // 核心功能
 │     └── data-hamal-commons-mybatis             // 数据访问
 │     └── data-hamal-commons-swagger             // 接口文档
 │     └── data-hamal-commons-tools               // 通用工具
@@ -40,6 +41,7 @@ com.striveonger.study
 ### data-hamal-web
 ### data-hamal-gateway
 ### data-hamal-auth
+> 认证中心, 目前集成了用户服务, 后面有必要的话再抽出去
 
 ### data-hamal-leaf
 
@@ -47,7 +49,7 @@ com.striveonger.study
 ### data-hamal-service-filestorage
 
 >   提供文件的上传与下载功能
->
+> 
 >   流媒体格式的文件是支持预览的哦~
 
 ### data-hamal-task

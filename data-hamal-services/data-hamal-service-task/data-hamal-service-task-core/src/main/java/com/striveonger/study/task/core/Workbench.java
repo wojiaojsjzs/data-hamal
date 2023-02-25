@@ -68,8 +68,12 @@ public class Workbench {
     }
 
 
-    public Worker getWorker() {
+    public Worker worker() {
         return worker;
+    }
+
+    public int status() {
+        return status;
     }
 
     public void updateStatus(ExecutionStatus status) {
@@ -128,8 +132,8 @@ public class Workbench {
             this.taskExecThreadPool = new ThreadPoolExecutor(corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue, threadFactory, handler);
         }
 
-        public void work(Runnable runnable) {
-            taskExecThreadPool.submit(runnable);
+        public void work(Executable executable) {
+            taskExecThreadPool.submit(executable);
         }
     }
 
@@ -138,7 +142,7 @@ public class Workbench {
         private Integer status = ExecutionStatus.NONE.getCode();
         private Integer corePoolSize = 8, maximumPoolSize = 32;
         private Long keepAliveTime = 30L;
-        private TimeUnit unit = TimeUnit.SECONDS;
+        private final TimeUnit unit = TimeUnit.SECONDS;
         private BlockingQueue<Runnable> workQueue = new SynchronousQueue<>();
         private ThreadFactory threadFactory;
         private RejectedExecutionHandler handler = new ThreadPoolExecutor.AbortPolicy();

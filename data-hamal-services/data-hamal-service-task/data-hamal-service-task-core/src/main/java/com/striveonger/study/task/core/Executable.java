@@ -6,7 +6,19 @@ package com.striveonger.study.task.core;
  * @date 2022-11-28 20:33
  */
 public interface Executable extends Runnable {
-    default void before() {}
 
-    default void after() {}
+    /**
+     * 执行前
+     */
+    default void before() { }
+
+    /**
+     * 执行后
+     */
+    default void after() { }
+
+    /**
+     * 执行出错
+     */
+    default void error() { }
 }

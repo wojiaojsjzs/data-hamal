@@ -17,13 +17,16 @@ import java.util.concurrent.TimeUnit;
 public class ParalleFlow extends BasicExecutable {
     private final Logger log = LoggerFactory.getLogger(ParalleFlow.class);
 
+    public ParalleFlow(String name) {
+        super(name);
+    }
+
     @Override
     public void exec() {
-        Workbench workbench = this.getWorkArea();
-        Workbench.Worker worker = workbench.getWorker();
+        Workbench.Worker worker = workbench.worker();
         // TODO: 执行前要前检查任务状态
         try {
-            log.info("Paralle Flow Exec Start...");
+            log.info("Paralle Flow({}) Exec Start...", name);
             List<Executable> tasks = this.subtasks;
             CountDownLatch latch = new CountDownLatch(tasks.size());
             for (Executable task : tasks) {
@@ -36,8 +39,8 @@ public class ParalleFlow extends BasicExecutable {
                     }
                 });
             }
-            latch.await(200, TimeUnit.SECONDS);
-            log.info("Paralle Flow Exec Finish...");
+            latch.await(60 * 3, TimeUnit.SECONDS);
+            log.info("Paralle Flow({}) Exec Finish...", name);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }

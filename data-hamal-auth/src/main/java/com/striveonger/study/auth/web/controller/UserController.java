@@ -10,6 +10,7 @@ import com.striveonger.study.core.exception.CustomException;
 import io.swagger.annotations.Api;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,11 +26,15 @@ import javax.annotation.Resource;
 @RestController
 @RequestMapping("/user")
 public class UserController {
-    private final Logger log = LoggerFactory.getLogger(UserController.class);
 
+    private final Logger log = LoggerFactory.getLogger(UserController.class);
 
     @Resource
     private IUsersService usersService;
+
+    @Resource
+    private PasswordEncoder encoder;
+
 
     /**
      * 用户注册
@@ -37,7 +42,7 @@ public class UserController {
     @GetMapping("/register")
     public void register(UserRegisterVo vo) {
         synchronized (vo.toString().intern()) {
-            // 1. 验证email格式
+            // 1. 验证email格式 TODO: 后面再说吧～
 
             // 2. 检查用户名和邮箱是否已占用
             LambdaQueryWrapper<Users> wrapper = new QueryWrapper<Users>().lambda()
@@ -49,17 +54,21 @@ public class UserController {
             // 3. 落库
             Users user = new Users();
             user.setUsername(vo.getUsername());
-            user.setPassword(vo.getPassword());
+            // 密码加密存储
+            user.setPassword(encoder.encode(vo.getPassword()));
             user.setEmail(vo.getEmail());
             user.setStatus(1); // 默认停用状态
             usersService.save(user);
-            // 4. 给用户邮箱发送激活邮件
-
-
+            // 4. 给用户邮箱发送激活邮件 TODO: 后面再说吧～
         }
     }
 
+    /**
+     * 激活用户 TODO: 激活链接会发送到用户邮箱
+     */
+    @GetMapping("/activate")
+    public void activate() {
 
-
+    }
 
 }

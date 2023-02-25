@@ -101,15 +101,14 @@ public class FileStorageController {
      */
     @GetMapping("/list")
     @ResponseBody
-    public Result<IPage> list(BasicQueryVo vo) {
+    public Result<IPage<Files>> list(BasicQueryVo vo) {
         IPage<Files> page = new Page<>(vo.getPageNum(), vo.getPageSize());
         LambdaQueryWrapper<Files> wrapper = new LambdaQueryWrapper<>();
         if (StrUtil.isNotBlank(vo.getSearch())) {
             wrapper.like(Files::getFilename, vo.getSearch());
         }
         wrapper.orderByDesc(Files::getCreateTime);
-        page = service.page(page, wrapper);
-        return Result.success(page);
+        return Result.success(service.page(page, wrapper));
     }
 
     @GetMapping("/download")

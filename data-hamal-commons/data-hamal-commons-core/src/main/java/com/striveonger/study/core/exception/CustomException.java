@@ -1,8 +1,6 @@
 package com.striveonger.study.core.exception;
 
 import com.striveonger.study.core.constant.ResultStatus;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * @author Mr.Lee
@@ -10,7 +8,6 @@ import org.slf4j.LoggerFactory;
  * @date 2022-11-12 13:12
  */
 public class CustomException extends RuntimeException {
-    private final Logger log = LoggerFactory.getLogger(CustomException.class);
 
     private final ResultStatus status;
 

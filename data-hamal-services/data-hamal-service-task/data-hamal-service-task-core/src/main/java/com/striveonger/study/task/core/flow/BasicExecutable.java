@@ -17,10 +17,16 @@ import java.util.List;
 public abstract class BasicExecutable implements Executable {
     private final Logger log = LoggerFactory.getLogger(BasicExecutable.class);
 
+    protected final String name;
+
+    public BasicExecutable(String name) {
+        this.name = name;
+    }
+
     /**
      * 工作空间
      */
-    private Workbench workbench;
+    protected Workbench workbench;
 
     protected abstract void exec();
 
@@ -55,10 +61,6 @@ public abstract class BasicExecutable implements Executable {
             exec();
         }
         after();
-    }
-
-    public Workbench getWorkArea() {
-        return workbench;
     }
 
     @Override

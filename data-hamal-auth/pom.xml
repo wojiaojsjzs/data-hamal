@@ -14,7 +14,7 @@
     <dependencies>
         <dependency>
             <groupId>com.striveonger.study</groupId>
-            <artifactId>data-hamal-commons-core</artifactId>
+            <artifactId>data-hamal-commons-web-core</artifactId>
         </dependency>
         <dependency>
             <groupId>com.striveonger.study</groupId>
@@ -28,6 +28,12 @@
             <groupId>com.striveonger.study</groupId>
             <artifactId>data-hamal-commons-tools</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-crypto</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>

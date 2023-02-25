@@ -2,14 +2,14 @@ package com.striveonger.study.core.result;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.striveonger.study.core.constant.ResultStatus;
 
-import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
-import java.util.HashMap;
-import java.util.Objects;
 
 /**
  * @author Mr.Lee
@@ -19,8 +19,6 @@ import java.util.Objects;
 public class Result<T> implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
-    private static final String DATA_KEY = "data";
 
     /**
      * 响应状态

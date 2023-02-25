@@ -15,7 +15,7 @@
         <!-- Data Hamal -->
         <dependency>
             <groupId>com.striveonger.study</groupId>
-            <artifactId>data-hamal-commons-core</artifactId>
+            <artifactId>data-hamal-commons-web-core</artifactId>
         </dependency>
         <dependency>
             <groupId>com.striveonger.study</groupId>
