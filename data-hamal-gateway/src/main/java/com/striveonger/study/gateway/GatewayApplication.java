@@ -1,5 +1,7 @@
 package com.striveonger.study.gateway;
 
+import ch.qos.logback.classic.LoggerContext;
+import org.slf4j.ILoggerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
@@ -24,5 +26,6 @@ public class GatewayApplication {
         // application.run(args);
         SpringApplication.run(GatewayApplication.class, args);
         log.info("(♥◠‿◠)ﾉﾞ  data-hamal-gateway start success  ლ(´ڡ`ლ)ﾞ");
+
     }
 }

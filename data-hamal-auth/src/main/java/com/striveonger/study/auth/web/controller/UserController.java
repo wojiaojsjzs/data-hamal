@@ -7,11 +7,13 @@ import com.striveonger.study.auth.service.IUsersService;
 import com.striveonger.study.auth.web.vo.UserRegisterVo;
 import com.striveonger.study.core.constant.ResultStatus;
 import com.striveonger.study.core.exception.CustomException;
+import com.striveonger.study.core.result.Result;
 import io.swagger.annotations.Api;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -35,12 +37,11 @@ public class UserController {
     @Resource
     private PasswordEncoder encoder;
 
-
     /**
      * 用户注册
      */
-    @GetMapping("/register")
-    public void register(UserRegisterVo vo) {
+    @PostMapping("/register")
+    public Result<Void> register(UserRegisterVo vo) {
         synchronized (vo.toString().intern()) {
             // 1. 验证email格式 TODO: 后面再说吧～
 
@@ -50,7 +51,7 @@ public class UserController {
                     .or()
                     .eq(Users::getEmail, vo.getEmail());
             long count = usersService.count(wrapper);
-            if (count > 0) throw new CustomException(ResultStatus.FAIL);
+            if (count > 0) throw new CustomException(ResultStatus.FAIL, "注册用户失败");
             // 3. 落库
             Users user = new Users();
             user.setUsername(vo.getUsername());
@@ -61,6 +62,8 @@ public class UserController {
             usersService.save(user);
             // 4. 给用户邮箱发送激活邮件 TODO: 后面再说吧～
         }
+
+        return Result.success();
     }
 
     /**

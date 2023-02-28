@@ -37,6 +37,8 @@ sa-token:
   # 是否输出操作日志
   is-log: false
 
+
+
 auth:
   white:
     list:

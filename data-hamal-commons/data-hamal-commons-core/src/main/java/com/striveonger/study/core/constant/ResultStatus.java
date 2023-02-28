@@ -40,6 +40,10 @@ public enum ResultStatus {
         return state;
     }
 
+    public String getCode() {
+        return this.toString();
+    }
+
     public String getMessage() {
         return message;
     }

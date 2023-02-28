@@ -1,8 +1,5 @@
 package com.striveonger.study.gateway.filter;
 
-import cn.dev33.satoken.stp.StpUtil;
-import com.striveonger.study.core.result.Result;
-import com.striveonger.study.core.utils.JacksonUtils;
 import com.striveonger.study.gateway.config.AuthWhiteList;
 import com.striveonger.study.gateway.utils.URLMatch;
 import org.slf4j.Logger;
@@ -10,11 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
-import org.springframework.core.io.buffer.DataBufferFactory;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.server.reactive.ServerHttpRequest;
-import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
@@ -43,7 +36,7 @@ public class AuthFilter implements GlobalFilter, Ordered {
             return chain.filter(exchange);
         }
         // SaToken 检查用户是否登录
-        StpUtil.checkLogin();
+        // StpUtil.checkLogin();
 
         return null;
     }

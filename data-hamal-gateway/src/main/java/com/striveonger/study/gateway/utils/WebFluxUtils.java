@@ -29,7 +29,7 @@ public class WebFluxUtils {
         ServerHttpResponse response = exchange.getResponse();
         response.getHeaders().setContentType(MediaType.APPLICATION_JSON);
         response.setStatusCode(HttpStatus.OK);
-        log.error("鉴权处理异常, 请求路径: {}", exchange.getRequest().getPath());
+        log.error("处理异常, 请求路径: {}", exchange.getRequest().getPath());
         return response.writeWith(Mono.fromSupplier(() -> {
             DataBufferFactory buffer = response.bufferFactory();
             byte[] bytes = JacksonUtils.toJSONBytes(result);

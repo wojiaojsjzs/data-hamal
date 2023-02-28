@@ -26,6 +26,11 @@ public class Result<T> implements Serializable {
     private int state;
 
     /**
+     * 响应码
+     */
+    private String code;
+
+    /**
      * 响应时间
      */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS", timezone = "GMT+8")
@@ -43,11 +48,16 @@ public class Result<T> implements Serializable {
 
     private Result(ResultStatus status) {
         this.state = status.getState();
+        this.code = status.getCode();
         this.message = status.getMessage();
     }
 
     public Integer getState() {
         return state;
+    }
+
+    public String getCode() {
+        return code;
     }
 
     public LocalDateTime getNow() {
