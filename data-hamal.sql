@@ -20,6 +20,8 @@ create table users (
     deleted       tinyint(1)     default 0      comment '删除标志（0否 1是）',
     primary key (id)
 ) engine = innodb comment = '用户表';
+create unique index users_username_index on users (username);
+
 
 -- ----------------------------
 -- 2. 文件表(文件存储服务)

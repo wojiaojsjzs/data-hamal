@@ -100,6 +100,12 @@
                 <version>${sa-token.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>cn.dev33</groupId>
+                <artifactId>sa-token-dao-redis-jackson</artifactId>
+                <version>${sa-token.version}</version>
+            </dependency>
+
             <!-- Mybatis 依赖配置 -->
             <dependency>
                 <groupId>org.mybatis.spring.boot</groupId>

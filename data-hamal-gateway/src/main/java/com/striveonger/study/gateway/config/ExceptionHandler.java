@@ -33,8 +33,9 @@ public class ExceptionHandler implements ErrorWebExceptionHandler {
         if (t instanceof CustomException e) {
              message = Result.status(e.getStatus()).message(e.getMessage());
         } else {
-            message = Result.fail();
+            message = Result.fail().message(t.getMessage());
         }
+        log.error("处理失败的请求. ", t);
         return WebFluxUtils.responseWriter(exchange, message);
     }
 }

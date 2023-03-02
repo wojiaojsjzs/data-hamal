@@ -20,6 +20,7 @@
         <module>data-hamal-commons-swagger</module>
         <module>data-hamal-commons-tools</module>
         <module>data-hamal-commons-logs</module>
+        <module>data-hamal-commons-email</module>
     </modules>
 
 </project>

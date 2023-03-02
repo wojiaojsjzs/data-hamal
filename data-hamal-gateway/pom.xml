@@ -2,15 +2,6 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <parent>
-        <artifactId>data-hamal</artifactId>
-        <groupId>com.striveonger.study</groupId>
-        <version>0.0.1</version>
-    </parent>
-    <modelVersion>4.0.0</modelVersion>
-
-    <artifactId>data-hamal-gateway</artifactId>
-
     <dependencies>
 
         <!-- SpringCloud Gateway -->
@@ -19,10 +10,16 @@
             <artifactId>spring-cloud-starter-gateway</artifactId>
         </dependency>
 
-        <!-- SpringCloud Alibaba Nacos -->
+        <!-- SpringCloud Alibaba Nacos 注册服务 -->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+        </dependency>
+
+        <!-- SpringCloud Loadbalancer 服务发现 & 均衡负载 -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-loadbalancer</artifactId>
         </dependency>
 
 
@@ -30,13 +27,6 @@
         <!--<dependency>-->
         <!--    <groupId>com.alibaba.cloud</groupId>-->
         <!--    <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>-->
-        <!--</dependency>-->
-
-
-        <!-- SpringCloud Loadbalancer -->
-        <!--<dependency>-->
-        <!--    <groupId>org.springframework.cloud</groupId>-->
-        <!--    <artifactId>spring-cloud-starter-loadbalancer</artifactId>-->
         <!--</dependency>-->
 
 
@@ -62,6 +52,16 @@
         </dependency>
 
         <dependency>
+            <groupId>cn.dev33</groupId>
+            <artifactId>sa-token-dao-redis-jackson</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-pool2</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>com.striveonger.study</groupId>
             <artifactId>data-hamal-commons-core</artifactId>
         </dependency>
@@ -79,4 +79,13 @@
         </dependency>
 
     </dependencies>
+    <parent>
+        <artifactId>data-hamal</artifactId>
+        <groupId>com.striveonger.study</groupId>
+        <version>0.0.1</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>data-hamal-gateway</artifactId>
 </project>

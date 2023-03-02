@@ -24,9 +24,15 @@ public enum ResultStatus {
     NOT_FOUND(404, "Not Found"),
 
     /**
+     * 需要用户登录
+     */
+    NEED_USER_LOGIN(401, "Need User Login"),
+
+    /**
      * 系统发生异常的标识
      */
     ACCIDENT(500, "Accident Error");
+
 
     private final int state;
     private final String message;
