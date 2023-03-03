@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration scan="true" scanPeriod="60 seconds" debug="false">
     <!-- 日志存放路径 -->
+    <!--<property name="log.level" value="DEBUG" />-->
+    <property name="log.level" value="debug" />
     <property name="log.path" value="logs" />
-    <property name="log.level" value="DEBUG" />
     <springProperty scope="context" name="app.name" source="spring.application.name" default="DEFAULT_APPLICATION_NAME"/>
 
 

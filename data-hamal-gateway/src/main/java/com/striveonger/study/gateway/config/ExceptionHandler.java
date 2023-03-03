@@ -22,7 +22,6 @@ import reactor.core.publisher.Mono;
 public class ExceptionHandler implements ErrorWebExceptionHandler {
     private final Logger log = LoggerFactory.getLogger(ExceptionHandler.class);
 
-
     @Override
     public Mono<Void> handle(ServerWebExchange exchange, Throwable t) {
         ServerHttpResponse response = exchange.getResponse();
