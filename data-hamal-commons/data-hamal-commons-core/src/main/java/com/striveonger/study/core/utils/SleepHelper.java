@@ -1,4 +1,4 @@
-package com.striveonger.study.tools;
+package com.striveonger.study.core.utils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

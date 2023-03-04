@@ -9,11 +9,11 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.striveonger.study.core.constant.ResultStatus;
 import com.striveonger.study.core.exception.CustomException;
 import com.striveonger.study.core.result.Result;
+import com.striveonger.study.core.utils.FileHash;
 import com.striveonger.study.core.vo.BasicQueryVo;
 import com.striveonger.study.filestorage.entity.Files;
 import com.striveonger.study.filestorage.service.IFilesService;
 import com.striveonger.study.filestorage.web.utils.FileStreamUtils;
-import com.striveonger.study.tools.FileHash;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -56,7 +56,7 @@ public class FileStorageController {
     @ResponseBody
     public Result<Object> upload(MultipartFile[] files) {
         if (files == null || files.length == 0) {
-            new CustomException(ResultStatus.NOT_FOUND);
+            throw new CustomException(ResultStatus.NOT_FOUND);
         }
         for (MultipartFile file : files) {
             String filename = file.getOriginalFilename();

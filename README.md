@@ -27,11 +27,11 @@ com.striveonger.study
 │     └── data-hamal-commons-web-core            // 核心功能
 │     └── data-hamal-commons-mybatis             // 数据访问
 │     └── data-hamal-commons-swagger             // 接口文档
-│     └── data-hamal-commons-tools               // 通用工具
+├── data-hamal-providers                         // 基础服务
+│     └── data-hamal-provider-leaf               // 叶子服务 [9120]
 ├── data-hamal-services                          // 开放服务
-│     └── data-hamal-services-leaf               // 叶子服务 [9020]
 │     └── data-hamal-service-filestorage         // 文件服务 [9030]
-│     └── data-hamal-services-task               // 任务服务 [9050]
+│     └── data-hamal-service-task                // 任务服务 [9050]
 ├──pom.xml                                       // 公共依赖
 ~~~
 

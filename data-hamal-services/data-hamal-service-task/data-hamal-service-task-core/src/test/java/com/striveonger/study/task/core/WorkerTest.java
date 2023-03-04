@@ -1,9 +1,9 @@
 package com.striveonger.study.task.core;
 
 
+import com.striveonger.study.core.utils.SleepHelper;
 import com.striveonger.study.task.core.flow.ParalleFlow;
 import com.striveonger.study.task.core.flow.SerialeFlow;
-import com.striveonger.study.tools.SleepHelper;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

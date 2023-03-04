@@ -14,7 +14,6 @@
     <modules>
         <module>data-hamal-service-filestorage</module>
         <module>data-hamal-service-task</module>
-        <module>data-hamal-service-leaf</module>
     </modules>
 
 </project>

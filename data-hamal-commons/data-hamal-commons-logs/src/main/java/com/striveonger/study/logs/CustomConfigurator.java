@@ -58,8 +58,9 @@ public class CustomConfigurator extends BasicConfigurator {
         TimeBasedRollingPolicy<ILoggingEvent> policy = new TimeBasedRollingPolicy();
         policy.setContext(ctx);
         policy.setFileNamePattern("/Users/striveonger/development/workspace/temp/logs/console.%d{yyyy-MM-dd}.log");
+        policy.setParent(appender);
         policy.setMaxHistory(1);
-        // policy.start();
+        policy.start();
         appender.setRollingPolicy(policy);
 
         ThresholdFilter filter = new ThresholdFilter();

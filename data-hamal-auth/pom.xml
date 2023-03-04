@@ -28,10 +28,6 @@
         </dependency>
         <dependency>
             <groupId>com.striveonger.study</groupId>
-            <artifactId>data-hamal-commons-tools</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.striveonger.study</groupId>
             <artifactId>data-hamal-commons-logs</artifactId>
         </dependency>
 

@@ -24,10 +24,7 @@
             <groupId>com.striveonger.study</groupId>
             <artifactId>data-hamal-commons-swagger</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.striveonger.study</groupId>
-            <artifactId>data-hamal-commons-tools</artifactId>
-        </dependency>
+
     </dependencies>
 
 </project>
