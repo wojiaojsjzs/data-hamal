@@ -68,6 +68,5 @@ sa-token:
 auth:
   white:
     list:
-      - /auth/user/login
-      - /auth/user/register
-      - /logout
+      - /login
+      - /register

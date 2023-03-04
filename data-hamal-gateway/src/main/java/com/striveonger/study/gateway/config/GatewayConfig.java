@@ -68,7 +68,6 @@ public class GatewayConfig {
         routes.route("login_custom_routh", r -> r.path("/login").filters(fn -> fn.rewritePath("/login", "/auth/user/login")).uri("lb://data-hamal-auth"));
         routes.route("logout_custom_routh", r -> r.path("/logout").filters(fn -> fn.rewritePath("/logout", "/auth/user/logout")).uri("lb://data-hamal-auth"));
         routes.route("register_custom_routh", r -> r.path("/register").filters(fn -> fn.rewritePath("/register", "/auth/user/register")).uri("lb://data-hamal-auth"));
-
         return routes.build();
     }
 

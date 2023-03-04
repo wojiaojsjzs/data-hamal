@@ -5,7 +5,6 @@ import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.lang.Dict;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.google.common.collect.Maps;
 import com.striveonger.study.auth.entity.Users;
 import com.striveonger.study.auth.service.IUsersService;
 import com.striveonger.study.auth.web.vo.UserRegisterVo;
@@ -13,7 +12,6 @@ import com.striveonger.study.core.constant.ResultStatus;
 import com.striveonger.study.core.exception.CustomException;
 import com.striveonger.study.core.result.Result;
 import io.swagger.annotations.Api;
-import org.checkerframework.checker.nullness.qual.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,8 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import java.util.HashMap;
-import java.util.Objects;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author Mr.Lee
@@ -96,9 +93,12 @@ public class UserController {
      */
     @GetMapping("/logout")
     public Result<Object> logout() {
-        StpUtil.logout();
-        // 删除Redis中的用户信息 TODO: remove key -> UserID
-        return Result.success().message("登出成功");
+        if (StpUtil.isLogin()) {
+            StpUtil.logout();
+            // 删除Redis中的用户信息 TODO: remove key -> UserID
+            return Result.success().message("登出成功");
+        }
+        return Result.fail().message("无效Token");
     }
 
 }
