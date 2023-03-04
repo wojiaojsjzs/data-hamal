@@ -45,6 +45,7 @@
         <module>data-hamal-commons</module>
         <module>data-hamal-services</module>
         <module>data-hamal-web</module>
+        <module>data-hamal-providers</module>
     </modules>
 
     <dependencyManagement>
