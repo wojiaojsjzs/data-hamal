@@ -15,19 +15,19 @@
         <!-- Data Hamal -->
         <dependency>
             <groupId>com.striveonger.study</groupId>
-            <artifactId>data-hamal-commons-web-core</artifactId>
+            <artifactId>data-hamal-common-web-core</artifactId>
         </dependency>
         <dependency>
             <groupId>com.striveonger.study</groupId>
-            <artifactId>data-hamal-commons-mybatis</artifactId>
+            <artifactId>data-hamal-common-mybatis</artifactId>
         </dependency>
         <dependency>
             <groupId>com.striveonger.study</groupId>
-            <artifactId>data-hamal-commons-swagger</artifactId>
+            <artifactId>data-hamal-common-swagger</artifactId>
         </dependency>
         <dependency>
             <groupId>com.striveonger.study</groupId>
-            <artifactId>data-hamal-commons-logs</artifactId>
+            <artifactId>data-hamal-common-logs</artifactId>
         </dependency>
 
         <!-- Zookeeper -->

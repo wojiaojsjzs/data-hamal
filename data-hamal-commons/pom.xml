@@ -13,13 +13,14 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>data-hamal-commons-apis</module>
-        <module>data-hamal-commons-core</module>
-        <module>data-hamal-commons-web-core</module>
-        <module>data-hamal-commons-mybatis</module>
-        <module>data-hamal-commons-swagger</module>
-        <module>data-hamal-commons-logs</module>
-        <module>data-hamal-commons-email</module>
+        <module>data-hamal-common-apis</module>
+        <module>data-hamal-common-core</module>
+        <module>data-hamal-common-web-core</module>
+        <module>data-hamal-common-redis</module>
+        <module>data-hamal-common-mybatis</module>
+        <module>data-hamal-common-swagger</module>
+        <module>data-hamal-common-logs</module>
+        <module>data-hamal-common-email</module>
     </modules>
 
 </project>

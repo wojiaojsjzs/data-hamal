@@ -4,23 +4,19 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <groupId>com.striveonger.study</groupId>
-        <artifactId>data-hamal-service-task</artifactId>
+        <artifactId>data-hamal-commons</artifactId>
         <version>0.0.1</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>data-hamal-service-task-core</artifactId>
+
+    <artifactId>data-hamal-common-email</artifactId>
 
     <dependencies>
 
         <dependency>
-            <groupId>com.striveonger.study</groupId>
-            <artifactId>data-hamal-common-core</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.striveonger.study</groupId>
-            <artifactId>data-hamal-common-logs</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
         </dependency>
 
         <dependency>
@@ -28,7 +24,5 @@
             <artifactId>junit-jupiter-engine</artifactId>
             <scope>test</scope>
         </dependency>
-
     </dependencies>
-
 </project>

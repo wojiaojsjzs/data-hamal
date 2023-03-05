@@ -7,12 +7,12 @@
         <!-- Data Hamal -->
         <dependency>
             <groupId>com.striveonger.study</groupId>
-            <artifactId>data-hamal-commons-core</artifactId>
+            <artifactId>data-hamal-common-core</artifactId>
         </dependency>
 
         <dependency>
             <groupId>com.striveonger.study</groupId>
-            <artifactId>data-hamal-commons-logs</artifactId>
+            <artifactId>data-hamal-common-logs</artifactId>
         </dependency>
 
 

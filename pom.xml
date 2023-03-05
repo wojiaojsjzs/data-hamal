@@ -170,32 +170,27 @@
             <!-- Data Hamal -->
             <dependency>
                 <groupId>com.striveonger.study</groupId>
-                <artifactId>data-hamal-commons-core</artifactId>
+                <artifactId>data-hamal-common-core</artifactId>
                 <version>${data-hamal.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.striveonger.study</groupId>
-                <artifactId>data-hamal-commons-web-core</artifactId>
+                <artifactId>data-hamal-common-web-core</artifactId>
                 <version>${data-hamal.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.striveonger.study</groupId>
-                <artifactId>data-hamal-commons-mybatis</artifactId>
+                <artifactId>data-hamal-common-mybatis</artifactId>
                 <version>${data-hamal.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.striveonger.study</groupId>
-                <artifactId>data-hamal-commons-swagger</artifactId>
+                <artifactId>data-hamal-common-swagger</artifactId>
                 <version>${data-hamal.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.striveonger.study</groupId>
-                <artifactId>data-hamal-commons-tools</artifactId>
-                <version>${data-hamal.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.striveonger.study</groupId>
-                <artifactId>data-hamal-commons-logs</artifactId>
+                <artifactId>data-hamal-common-logs</artifactId>
                 <version>${data-hamal.version}</version>
             </dependency>
 

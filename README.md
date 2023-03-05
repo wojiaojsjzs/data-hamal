@@ -25,6 +25,7 @@ com.striveonger.study
 │     └── data-hamal-commons-apis                // 全局接口
 │     └── data-hamal-commons-core                // 核心功能
 │     └── data-hamal-commons-web-core            // 核心功能
+│     └── data-hamal-commons-redis               // 内存存储
 │     └── data-hamal-commons-mybatis             // 数据访问
 │     └── data-hamal-commons-swagger             // 接口文档
 ├── data-hamal-providers                         // 基础服务
