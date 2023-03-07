@@ -38,6 +38,7 @@ spring:
     password: 123456
     # 连接超时时间
     timeout: 10s
+    connect-timeout: 30s
     lettuce:
       pool:
         # 连接池最大连接数
