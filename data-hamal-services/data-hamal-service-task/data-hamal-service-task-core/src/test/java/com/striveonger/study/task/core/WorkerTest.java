@@ -47,7 +47,7 @@ public class WorkerTest {
 
         log.info("Test Start...");
 
-        Workbench workbench = Workbench.builder().taskID(1L).corePoolSize(0).build();
+        Workbench workbench = Workbench.builder().taskID(1L).corePoolSize(8).build();
         Workbench.Worker worker = workbench.worker();
 
         // 手动定义 DAG 任务
@@ -62,7 +62,7 @@ public class WorkerTest {
         Executable A = () -> consumer.accept("A", waitTimeConstant);
         Executable B = () -> consumer.accept("B", waitTimeConstant);
         Executable C = () -> consumer.accept("C", waitTimeConstant);
-        Executable D = () -> consumer.accept("D", 30);
+        Executable D = () -> consumer.accept("D", 5);
         Executable E = () -> consumer.accept("E", waitTimeConstant);
         Executable F = () -> consumer.accept("F", waitTimeConstant);
         Executable G = () -> consumer.accept("G", waitTimeConstant);

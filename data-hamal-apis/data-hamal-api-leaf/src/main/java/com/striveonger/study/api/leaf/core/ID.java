@@ -1,8 +1,8 @@
-package com.striveonger.study.leaf.core.common;
+package com.striveonger.study.api.leaf.core;
 
-import com.striveonger.study.leaf.constants.Status;
+import java.io.Serializable;
 
-public class ID {
+public class ID implements Serializable {
     private long id;
     private Status status;
 
@@ -32,10 +32,6 @@ public class ID {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("Result{");
-        sb.append("id=").append(id);
-        sb.append(", status=").append(status);
-        sb.append('}');
-        return sb.toString();
+        return String.valueOf(id);
     }
 }

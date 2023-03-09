@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.striveonger.study.leaf.entity.LeafAlloc;
 import com.striveonger.study.leaf.mapper.LeafAllocMapper;
 import com.striveonger.study.leaf.service.ILeafAllocService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +21,8 @@ import java.util.List;
  */
 @Service
 public class LeafAllocServiceImpl extends ServiceImpl<LeafAllocMapper, LeafAlloc> implements ILeafAllocService {
+
+    private final Logger log = LoggerFactory.getLogger(LeafAllocServiceImpl.class);
 
     @Override
     public List<LeafAlloc> getAllLeafAllocs() {
@@ -35,6 +39,7 @@ public class LeafAllocServiceImpl extends ServiceImpl<LeafAllocMapper, LeafAlloc
     @Override
     @Transactional
     public LeafAlloc updateMaxIdByCustomStepAndGetLeafAlloc(LeafAlloc leafAlloc) {
+        log.info("update leafAlloc {}", leafAlloc);
         this.getBaseMapper().updateMaxIdByCustomStep(leafAlloc);
         return this.getBaseMapper().getLeafAlloc(leafAlloc.getKey());
     }

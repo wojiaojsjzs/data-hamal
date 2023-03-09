@@ -13,6 +13,12 @@
 
     <dependencies>
 
+        <!-- Remote API -->
+        <dependency>
+            <groupId>com.striveonger.study</groupId>
+            <artifactId>data-hamal-api-leaf</artifactId>
+        </dependency>
+
         <!-- Data Hamal -->
         <dependency>
             <groupId>com.striveonger.study</groupId>

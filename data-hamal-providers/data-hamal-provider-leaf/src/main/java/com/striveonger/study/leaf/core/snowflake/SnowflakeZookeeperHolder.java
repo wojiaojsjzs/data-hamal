@@ -1,10 +1,11 @@
 package com.striveonger.study.leaf.core.snowflake;
 
+import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.io.IORuntimeException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Maps;
 import com.striveonger.study.leaf.core.snowflake.exception.CheckLastTimeException;
-import org.apache.commons.io.FileUtils;
 import org.apache.curator.RetryPolicy;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
@@ -17,6 +18,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -197,9 +199,9 @@ public class SnowflakeZookeeperHolder {
         log.info("file exists status is {}", exists);
         if (exists) {
             try {
-                FileUtils.writeStringToFile(leafConfFile, "workerID=" + workerID, false);
+                FileUtil.writeString("workerID=" + workerID, leafConfFile, StandardCharsets.UTF_8);
                 log.info("update file cache workerID is {}", workerID);
-            } catch (IOException e) {
+            } catch (IORuntimeException e) {
                 log.error("update file cache error ", e);
             }
         } else {
@@ -209,13 +211,13 @@ public class SnowflakeZookeeperHolder {
                 log.info("init local file cache create parent dis status is {}, worker id is {}", mkdirs, workerID);
                 if (mkdirs) {
                     if (leafConfFile.createNewFile()) {
-                        FileUtils.writeStringToFile(leafConfFile, "workerID=" + workerID, false);
+                        FileUtil.writeString("workerID=" + workerID, leafConfFile, StandardCharsets.UTF_8);
                         log.info("local file cache workerID is {}", workerID);
                     }
                 } else {
                     log.warn("create parent dir error===");
                 }
-            } catch (IOException e) {
+            } catch (IOException | IORuntimeException e) {
                 log.warn("craete workerID conf file error", e);
             }
         }

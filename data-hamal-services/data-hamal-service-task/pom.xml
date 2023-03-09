@@ -16,7 +16,7 @@
         <!--核心成员-->
         <module>data-hamal-service-task-core</module>
         <!--通用工具-->
-        <module>data-hamal-service-task-commons</module>
+        <module>data-hamal-service-task-common</module>
         <!--上下文工具-->
         <module>data-hamal-service-task-context</module>
         <!--执行器-->

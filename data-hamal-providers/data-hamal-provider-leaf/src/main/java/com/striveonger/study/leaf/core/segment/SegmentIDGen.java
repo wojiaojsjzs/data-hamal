@@ -1,16 +1,14 @@
 package com.striveonger.study.leaf.core.segment;
 
 
+import com.striveonger.study.api.leaf.core.ID;
+import com.striveonger.study.api.leaf.core.Status;
 import com.striveonger.study.leaf.core.IDGen;
-import com.striveonger.study.leaf.core.common.ID;
-import com.striveonger.study.leaf.constants.Status;
 import com.striveonger.study.leaf.core.segment.model.Segment;
 import com.striveonger.study.leaf.core.segment.model.SegmentBuffer;
 import com.striveonger.study.leaf.entity.LeafAlloc;
 import com.striveonger.study.leaf.service.ILeafAllocService;
 import org.jetbrains.annotations.NotNull;
-import org.perf4j.StopWatch;
-import org.perf4j.slf4j.Slf4JStopWatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -83,7 +81,7 @@ public class SegmentIDGen implements IDGen {
     private void updateCacheFromDB() {
         log.info("update cache from db");
         // 计时开始～
-        StopWatch sw = new Slf4JStopWatch();
+        // StopWatch sw = new StopWatch();
         try {
             List<String> dbTags = dao.getAllTags();
             if (dbTags == null || dbTags.isEmpty()) {
@@ -117,7 +115,8 @@ public class SegmentIDGen implements IDGen {
         } catch (Exception e) {
             log.warn("update cache from db exception", e);
         } finally {
-            sw.stop("updateCacheFromDb");
+            // sw.stop();
+            log.info("updateCacheFromDb");
         }
     }
 
@@ -147,7 +146,7 @@ public class SegmentIDGen implements IDGen {
     }
 
     public void updateSegmentFromDB(String key, Segment segment) {
-        StopWatch sw = new Slf4JStopWatch();
+        // StopWatch sw = new StopWatch();
         SegmentBuffer buffer = segment.getBuffer();
         LeafAlloc leafAlloc;
         if (!buffer.isInitOk()) {
@@ -187,10 +186,12 @@ public class SegmentIDGen implements IDGen {
         segment.getValue().set(value);
         segment.setMax(leafAlloc.getMaxId());
         segment.setStep(buffer.getStep());
-        sw.stop("updateSegmentFromDb", key + " " + segment);
+        // sw.stop();
+        log.info("updateSegmentFromDb {}", key + " " + segment);
     }
 
     public ID getIdFromSegmentBuffer(final SegmentBuffer buffer) {
+        int retry = 5;
         while (true) {
             buffer.rLock().lock();
             try {
@@ -237,7 +238,9 @@ public class SegmentIDGen implements IDGen {
                     buffer.setNextReady(false);
                 } else {
                     log.error("Both two segments in {} are not ready!", buffer);
-                    return new ID(EXCEPTION_ID_TWO_SEGMENTS_ARE_NULL, Status.EXCEPTION);
+                    if (retry-- == 0) { // 重试
+                        return new ID(EXCEPTION_ID_TWO_SEGMENTS_ARE_NULL, Status.EXCEPTION);
+                    }
                 }
             } finally {
                 buffer.wLock().unlock();

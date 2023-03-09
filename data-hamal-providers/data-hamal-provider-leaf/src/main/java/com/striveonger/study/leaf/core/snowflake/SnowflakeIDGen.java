@@ -2,9 +2,9 @@ package com.striveonger.study.leaf.core.snowflake;
 
 
 import com.google.common.base.Preconditions;
+import com.striveonger.study.api.leaf.core.ID;
+import com.striveonger.study.api.leaf.core.Status;
 import com.striveonger.study.leaf.core.IDGen;
-import com.striveonger.study.leaf.core.common.ID;
-import com.striveonger.study.leaf.constants.Status;
 import com.striveonger.study.leaf.core.common.IPUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

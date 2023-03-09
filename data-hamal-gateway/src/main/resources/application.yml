@@ -17,12 +17,10 @@ spring:
           enabled: true
           url-expression: uri
       routes:
-#        - id: data-hamal-auth
-#          uri: lb://data-hamal-auth
-#          predicates:
-#            - Path=/login
-#          filters:
-#            - RewritePath=/login, /auth/user/login
+        - id: data-hamal-service-hello
+          uri: lb://data-hamal-service-hello
+          predicates:
+            - Path=/hello/**
 
   # redis配置
   redis:

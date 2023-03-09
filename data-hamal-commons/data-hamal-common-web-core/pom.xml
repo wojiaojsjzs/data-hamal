@@ -32,7 +32,10 @@
             <groupId>com.striveonger.study</groupId>
             <artifactId>data-hamal-common-core</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>com.striveonger.study</groupId>
+            <artifactId>data-hamal-common-logs</artifactId>
+        </dependency>
 
     </dependencies>
 

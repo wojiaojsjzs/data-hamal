@@ -5,6 +5,10 @@ import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.lang.Dict;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.striveonger.study.api.leaf.IDGenRemoteService;
+import com.striveonger.study.api.leaf.constant.Keys;
+import com.striveonger.study.api.leaf.core.ID;
+import com.striveonger.study.api.leaf.core.Status;
 import com.striveonger.study.auth.entity.Users;
 import com.striveonger.study.auth.service.IUsersService;
 import com.striveonger.study.auth.web.vo.UserRegisterVo;
@@ -12,6 +16,7 @@ import com.striveonger.study.core.constant.ResultStatus;
 import com.striveonger.study.core.exception.CustomException;
 import com.striveonger.study.core.result.Result;
 import io.swagger.annotations.Api;
+import org.apache.dubbo.config.annotation.DubboReference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -21,7 +26,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author Mr.Lee
@@ -41,6 +45,9 @@ public class UserController {
     @Resource
     private PasswordEncoder encoder;
 
+    @DubboReference //(version = "1.0.0")
+    private IDGenRemoteService service;
+
     /**
      * 用户注册
      */
@@ -55,7 +62,14 @@ public class UserController {
             long count = usersService.count(wrapper);
             if (count > 0) throw new CustomException(ResultStatus.FAIL, "注册用户失败");
             // 2. 落库
+            ID id = null; int retry = 3;
+            do {
+                id = service.get(Keys.AUTH_USER);
+            } while (retry-- > 0 && Status.exception(id));
+            if (Status.exception(id)) return Result.fail().message("User ID create failure");
+
             Users user = new Users();
+            user.setId(id.toString());
             user.setUsername(vo.getUsername());
             // 3. 密码加密存储
             user.setPassword(encoder.encode(vo.getPassword()));

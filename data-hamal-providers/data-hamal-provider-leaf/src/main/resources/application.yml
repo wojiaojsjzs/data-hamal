@@ -18,9 +18,14 @@ spring:
     pathmatch:
       matching-strategy: ANT_PATH_MATCHER
   application:
-    name: data-hamal-service-leaf
+    name: data-hamal-provider-leaf
   profiles:
     active: dev
+  cloud:
+    nacos:
+      server-addr: 127.0.0.1:8848
+      discovery:
+        group: data-hamal
 
 data:
   hamal:
@@ -29,3 +34,18 @@ data:
       name: DHNI # 当启动多个节点时, 节点名不可以重复哦～
       zookeeper:
         address: 127.0.0.1:21810
+
+dubbo:
+  application:
+    name: ${spring.application.name}
+    metadata-type: remote
+    # 可选值 interface、instance、all，默认是 all，即接口级地址、应用级地址都注册
+    register-mode: instance
+  provider:
+    token: true
+  registry:
+    address: nacos://${nacos.address:localhost}:8848?username=nacos&password=nacos
+    group: data-hamal
+  protocol:
+    name: dubbo
+    port: -1

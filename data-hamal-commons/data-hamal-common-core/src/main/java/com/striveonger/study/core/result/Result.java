@@ -76,7 +76,7 @@ public class Result<T> implements Serializable {
         return new Result<T>(ResultStatus.SUCCESS).data(data);
     }
 
-    public static <T> Result<T> success(String message, T data) {
+    public static <T> Result<T> success(T data, String message) {
         return new Result<T>(ResultStatus.SUCCESS).message(message).data(data);
     }
 

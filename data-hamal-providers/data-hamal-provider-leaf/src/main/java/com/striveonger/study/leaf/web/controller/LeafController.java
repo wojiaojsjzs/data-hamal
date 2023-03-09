@@ -1,12 +1,12 @@
 package com.striveonger.study.leaf.web.controller;
 
 
+import com.striveonger.study.api.leaf.core.ID;
+import com.striveonger.study.api.leaf.core.Status;
 import com.striveonger.study.core.constant.ResultStatus;
 import com.striveonger.study.core.exception.CustomException;
 import com.striveonger.study.core.result.Result;
-import com.striveonger.study.leaf.constants.Status;
 import com.striveonger.study.leaf.core.IDGen;
-import com.striveonger.study.leaf.core.common.ID;
 import com.striveonger.study.leaf.entity.LeafAlloc;
 import com.striveonger.study.leaf.service.ILeafAllocService;
 import org.slf4j.Logger;
@@ -28,11 +28,8 @@ public class LeafController {
 
     private final IDGen gen;
 
-    private final ILeafAllocService service;
-
-    public LeafController(IDGen gen, ILeafAllocService service) {
+    public LeafController(IDGen gen) {
         this.gen = gen;
-        this.service = service;
     }
 
     /**
@@ -41,35 +38,12 @@ public class LeafController {
      * @return Long
      */
     @GetMapping("/gen/{key}")
-    public Result<Long> generateIdByKey(@PathVariable("key") String key) {
+    public Result<Object> generateIdByKey(@PathVariable("key") String key) {
         ID id = gen.get(key);
         if (Status.SUCCESS.equals(id.getStatus())) {
-            return Result.success(id.getId());
+            return Result.success(id);
         }
         throw new CustomException(ResultStatus.FAIL);
     }
-
-    /**
-     * 注册tag
-     * @param key tag
-     * @return result
-     */
-    @PutMapping("/register/{key}")
-    private Result<Object> registerKey(@PathVariable("key") String key) {
-        synchronized (key.intern()) {
-            int count = service.count(key);
-            if (count == 0) {
-                LeafAlloc alloc = new LeafAlloc();
-                alloc.setKey(key);
-                alloc.setStep(1);
-                alloc.setMaxId(1);
-                boolean flag = service.save(alloc);
-                return Result.status(flag);
-            } else {
-                return Result.fail();
-            }
-        }
-    }
-
 
 }

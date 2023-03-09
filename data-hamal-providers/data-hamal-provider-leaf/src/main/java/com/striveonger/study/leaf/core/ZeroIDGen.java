@@ -1,8 +1,8 @@
 package com.striveonger.study.leaf.core;
 
-import com.striveonger.study.leaf.core.common.ID;
-import com.striveonger.study.leaf.constants.Status;
 
+import com.striveonger.study.api.leaf.core.ID;
+import com.striveonger.study.api.leaf.core.Status;
 
 public class ZeroIDGen implements IDGen {
 

@@ -1,9 +1,9 @@
 package com.striveonger.study.leaf.core;
 
 import cn.hutool.core.util.StrUtil;
+import com.striveonger.study.api.leaf.core.ID;
 import com.striveonger.study.core.constant.ResultStatus;
 import com.striveonger.study.core.exception.CustomException;
-import com.striveonger.study.leaf.core.common.ID;
 import com.striveonger.study.leaf.core.segment.SegmentIDGen;
 import com.striveonger.study.leaf.core.snowflake.SnowflakeIDGen;
 import com.striveonger.study.leaf.service.ILeafAllocService;

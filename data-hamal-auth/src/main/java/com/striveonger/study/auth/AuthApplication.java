@@ -1,5 +1,6 @@
 package com.striveonger.study.auth;
 
+import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
@@ -11,6 +12,7 @@ import org.springframework.context.annotation.ComponentScan;
  * @description:
  * @date 2022-11-03 23:20
  */
+@EnableDubbo
 @SpringBootApplication
 @ComponentScan({"com.striveonger.study.*"})
 public class AuthApplication {

@@ -2,7 +2,7 @@
 <configuration scan="true" scanPeriod="60 seconds" debug="false">
     <!-- 日志存放路径 -->
     <!--<property name="log.level" value="DEBUG" />-->
-    <property name="log.level" value="debug" />
+    <property name="log.level" value="info" />
     <property name="log.path" value="logs" />
     <springProperty scope="context" name="app.name" source="spring.application.name" default="DEFAULT_APPLICATION_NAME"/>
 
