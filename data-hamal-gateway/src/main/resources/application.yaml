@@ -1,9 +1,9 @@
 server:
-  port: 8080
+  port: @data-hamal-gateway.port@
 
 spring:
   application:
-    name: data-hamal-gateway
+    name: @project.artifactId@
   profiles:
     active: dev
   cloud:
@@ -60,8 +60,6 @@ sa-token:
   token-style: simple-uuid
   # 是否输出操作日志
   is-log: false
-
-
 
 auth:
   white:

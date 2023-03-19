@@ -1,0 +1,78 @@
+version: '3'
+
+services:
+  # 基础服务
+  mysql:
+    image: mysql:8.0.30
+    container_name: data-hamal-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./mysql.init:/docker-entrypoint-initdb.d
+    networks:
+      moss:
+        ipv4_address: 10.13.145.10
+
+  redis:
+    image: redis:6.2.7
+    container_name: data-hamal-redis
+    restart: always
+    ports:
+      - "6379:6379"
+      - "16379:16379"
+    volumes:
+      - ./redis.init/conf:/etc/redis
+    networks:
+      moss:
+        ipv4_address: 10.13.145.20
+    command: [ "redis-server", "/etc/redis/redis.conf", "--requirepass", "123456" ]
+
+  zookeeper:
+    image: zookeeper:3.8.0
+    container_name: data-hamal-zookeeper
+    restart: always
+    ports:
+      - "2181:2181"
+    networks:
+      moss:
+        ipv4_address: 10.13.145.30
+
+  nacos:
+    image: striveonger/nacos:2.1.2
+    container_name: data-hamal-nacos
+    depends_on:
+      - mysql # 只是控制了容器启动顺序, 但并不保证容器已经完全就绪
+    ports:
+      - "8848:8848"
+    volumes:
+      - ./nacos.init/conf:/usr/local/nacos/conf
+    networks:
+      moss:
+        ipv4_address: 10.13.145.40
+
+  # 应用服务
+  gateway:
+    build: ../data-hamal-gateway
+    container_name: data-hamal-gateway
+    depends_on:
+      - mysql
+      - redis
+      - zookeeper
+      - nacos
+    ports:
+      - "8080:8080"
+    networks:
+      moss:
+        ipv4_address: 10.13.145.100
+
+networks:
+  moss:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.13.145.0/24
+          gateway: 10.13.145.9
+

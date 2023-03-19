@@ -1,11 +1,11 @@
 server:
-  port: 9010
+  port: @data-hamal-auth.port@
   servlet:
     context-path: /auth
 
 spring:
   application:
-    name: data-hamal-auth
+    name: @project.artifactId@
   profiles:
     active: dev
   cloud:

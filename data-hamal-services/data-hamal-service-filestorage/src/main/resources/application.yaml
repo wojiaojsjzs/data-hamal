@@ -1,5 +1,5 @@
 server:
-  port: 9030
+  port: @data-hamal-service-filestorage.port@
   tomcat:
     accept-count: 50
     max-connections: 500
@@ -9,6 +9,13 @@ server:
     context-path: /storage/file
 
 spring:
+  application:
+    name: @project.artifactId@
+  profiles:
+    active: dev
+  mvc:
+    pathmatch:
+      matching-strategy: ANT_PATH_MATCHER
   servlet:
     multipart:
       max-file-size: 200MB
@@ -23,13 +30,6 @@ spring:
       maximum-pool-size: 5
       max-lifetime: 1800000
       idle-timeout: 60000
-  mvc:
-    pathmatch:
-      matching-strategy: ANT_PATH_MATCHER
-  application:
-    name: data-hamal-service-files
-  profiles:
-    active: dev
 
 data:
   hamal:

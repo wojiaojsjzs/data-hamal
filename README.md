@@ -18,50 +18,62 @@
 
 ~~~
 com.striveonger.study
-├── data-hamal-gateway                           // 网关模块 [80]
-├── data-hamal-web                               // 前端框架 [8080]
-├── data-hamal-auth                              // 认证中心 [9010]
+├── data-hamal-gateway                           // 网关模块 [8080]
+├── data-hamal-web                               // 前端框架 [-]
+├── data-hamal-auth                              // 认证中心 [9000]
 ├── data-hamal-commons                           // 通用模块
-│     └── data-hamal-commons-apis                // 全局接口
-│     └── data-hamal-commons-core                // 核心功能
-│     └── data-hamal-commons-web-core            // 核心功能
-│     └── data-hamal-commons-redis               // 内存存储
-│     └── data-hamal-commons-mybatis             // 数据访问
-│     └── data-hamal-commons-swagger             // 接口文档
-├── data-hamal-providers                         // 基础服务
-│     └── data-hamal-provider-leaf               // 叶子服务 [9120]
+│     └── data-hamal-common-apis                 // 全局接口
+│     └── data-hamal-common-core                 // 核心功能
+│     └── data-hamal-common-web-core             // 核心功能
+│     └── data-hamal-common-redis                // 内存存储
+│     └── data-hamal-common-mybatis              // 数据访问
+│     └── data-hamal-common-swagger              // 接口文档
 ├── data-hamal-services                          // 开放服务
-│     └── data-hamal-service-filestorage         // 文件服务 [9030]
-│     └── data-hamal-service-task                // 任务服务 [9050]
+│     └── data-hamal-service-task                // 任务服务 [9010]
+│     └── data-hamal-service-filestorage         // 文件服务 [9020]
+├── data-hamal-providers                         // 基础服务
+│     └── data-hamal-provider-leaf               // 叶子服务 [9100]
 ├──pom.xml                                       // 公共依赖
 ~~~
 
 >   服务碎片化
 
 ## 组件说明
+
 ### data-hamal-web
+
 ### data-hamal-gateway
+
+
 ### data-hamal-auth
 > 认证中心, 目前集成了用户服务, 后面有必要的话再抽出去
 
-### data-hamal-leaf
 
-> 照搬了美团开源的Leaf, 提供分布式的ID服务
-### data-hamal-service-filestorage
-
->   提供文件的上传与下载功能
-> 
->   流媒体格式的文件是支持预览的哦~
-
-### data-hamal-task
-
+### data-hamal-service-task
 >   每个任务, 只允许有一个线程池.
->
 >   线程池: 最多支持4个core
 
+### data-hamal-service-filestorage
+>   提供文件的上传与下载功能
+>   流媒体格式的文件是支持预览的哦~
 
-
+### data-hamal-provider-leaf
+> 照搬了美团开源的Leaf, 提供分布式的ID服务
 
 ## 安装教程
+
+```shell
+# 启动服务
+docker compose -p data-hamal up -d
+
+# 查看服务
+docker compose -p data-hamal ps
+
+# 重启服务
+docker compose -p data-hamal restart
+
+# 停止服务
+docker compose -p data-hamal down
+```
 
 ## 使用说明

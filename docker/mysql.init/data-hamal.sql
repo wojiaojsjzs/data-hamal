@@ -42,8 +42,8 @@ create table files (
 -- ----------------------------
 -- 3. 号段表(ID服务)
 -- ----------------------------
-drop table if exists leaf_alloc;
-create table leaf_alloc (
+drop table if exists alloc;
+create table alloc (
     biz_tag       varchar(128)   not null default '',
     max_id        bigint(20)     not null default '1',
     step          int(11)        not null,
@@ -52,4 +52,4 @@ create table leaf_alloc (
     primary key (biz_tag)
 ) engine=innodb comment = '号段表';
 
-insert into leaf_alloc (biz_tag, max_id, step, description, update_time) value ('test', 1, 1, '测试专用哦～', now());
+insert into alloc (biz_tag, max_id, step, description, update_time) value ('test', 1, 1, 'test case', now());

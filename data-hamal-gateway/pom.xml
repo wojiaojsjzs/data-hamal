@@ -2,8 +2,16 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <dependencies>
+    <modelVersion>4.0.0</modelVersion>
 
+    <parent>
+        <artifactId>data-hamal</artifactId>
+        <groupId>com.striveonger.study</groupId>
+        <version>0.0.1</version>
+    </parent>
+    <artifactId>data-hamal-gateway</artifactId>
+
+    <dependencies>
         <!-- Data Hamal -->
         <dependency>
             <groupId>com.striveonger.study</groupId>
@@ -79,15 +87,72 @@
             <artifactId>junit-jupiter-engine</artifactId>
             <scope>test</scope>
         </dependency>
-
     </dependencies>
-    <parent>
-        <artifactId>data-hamal</artifactId>
-        <groupId>com.striveonger.study</groupId>
-        <version>0.0.1</version>
-    </parent>
 
-    <modelVersion>4.0.0</modelVersion>
+    <build>
+        <finalName>${project.artifactId}</finalName>
+        <plugins>
+            <!-- SpringBoot 打包插件 -->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <!--项目的启动类-->
+                    <mainClass>com.striveonger.study.gateway.GatewayApplication</mainClass>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
 
-    <artifactId>data-hamal-gateway</artifactId>
+            </plugin>
+
+            <!-- Docker 镜像打包插件 -->
+            <!-- https://github.com/GoogleContainerTools/jib/blob/master/jib-maven-plugin/README.md -->
+            <!--
+            <plugin>
+                <groupId>com.google.cloud.tools</groupId>
+                <artifactId>jib-maven-plugin</artifactId>
+                <version>3.3.1</version>
+                <configuration>
+                    <from>
+                        <image>striveonger/java:17</image>
+                    </from>
+                    <container>
+                        <creationTime>${maven.build.timestamp}</creationTime>
+                        <labels>
+                            <maintainer>striveonger@163.com</maintainer>
+                            <version>${project.version}</version>
+                        </labels>
+                        <appRoot>/opt/app</appRoot>
+                        <entrypoint>  </entrypoint>
+                        <ports>
+                            <post>${data-hamal-gateway.port}</post>
+                        </ports>
+                        <jvmFlags>
+                            <jvmFlag>-Xms512m</jvmFlag>
+                            <jvmFlag>-Xmx512m</jvmFlag>
+                            <jvmFlag>-XX:MetaspaceSize=512m</jvmFlag>
+                            <jvmFlag>-XX:MaxMetaspaceSize=1024m</jvmFlag>
+                            <jvmFlag>-XX:ParallelGCThreads=4</jvmFlag>
+                            <jvmFlag>-XX:+HeapDumpOnOutOfMemoryError</jvmFlag>
+                            <jvmFlag>-Dfile.encoding=utf-8</jvmFlag>
+                            <jvmFlag>-Dspring.profiles.active=docker</jvmFlag>
+                        </jvmFlags>
+                    </container>
+                    <to>
+                        <image>${project.artifactId}</image>
+                        <tags>
+                            <tag>${project.version}</tag>
+                        </tags>
+                    </to>
+                </configuration>
+            </plugin>
+            -->
+        </plugins>
+
+    </build>
 </project>

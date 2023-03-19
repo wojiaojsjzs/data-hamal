@@ -13,7 +13,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
  * @author Mr.Lee
  * @since 2022-11-23
  */
-@TableName("leaf_alloc")
+@TableName("alloc")
 public class LeafAlloc {
 
     @TableId

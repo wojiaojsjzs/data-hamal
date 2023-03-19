@@ -1,0 +1,8 @@
+# 适应Docker容器的网络环境(moss)
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 10.13.145.40
+  redis:
+    host: 10.13.145.30

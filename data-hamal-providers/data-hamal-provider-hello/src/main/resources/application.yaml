@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: data-hamal-provider-hello
+    name: @project.artifactId@
 
 --- # nacos 配置
 spring:
