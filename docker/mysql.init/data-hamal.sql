@@ -52,4 +52,4 @@ create table alloc (
     primary key (biz_tag)
 ) engine=innodb comment = '号段表';
 
-insert into alloc (biz_tag, max_id, step, description, update_time) value ('test', 1, 1, 'test case', now());
+# insert into alloc (biz_tag, max_id, step, description, update_time) value ('test', 1, 1, 'test case', now());

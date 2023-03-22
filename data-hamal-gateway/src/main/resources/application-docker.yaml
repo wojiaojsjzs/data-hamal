@@ -3,6 +3,6 @@ spring:
   cloud:
     nacos:
       discovery:
-        server-addr: 10.13.145.40
+        server-addr: 10.13.145.40:8848
   redis:
-    host: 10.13.145.30
+    host: 10.13.145.20

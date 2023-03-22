@@ -64,7 +64,7 @@ com.striveonger.study
 
 ```shell
 # 启动服务
-docker compose -p data-hamal up -d
+docker compose -p data-hamal up -d --no-deps --build
 
 # 查看服务
 docker compose -p data-hamal ps
@@ -74,6 +74,10 @@ docker compose -p data-hamal restart
 
 # 停止服务
 docker compose -p data-hamal down
+
+# 查看镜像
+docker compose -p data-hamal images
+
 ```
 
 ## 使用说明

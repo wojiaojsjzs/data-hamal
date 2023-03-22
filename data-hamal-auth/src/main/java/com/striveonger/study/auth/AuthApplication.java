@@ -20,6 +20,6 @@ public class AuthApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(AuthApplication.class, args);
-        log.info("(♥◠‿◠)ﾉﾞ  data-hamal-user start success  ლ(´ڡ`ლ)ﾞ");
+        log.info("(♥◠‿◠)ﾉﾞ  data-hamal-auth start success  ლ(´ڡ`ლ)ﾞ");
     }
 }

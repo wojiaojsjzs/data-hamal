@@ -60,13 +60,13 @@
     </dependencies>
 
     <build>
+        <finalName>${project.artifactId}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <executable>true</executable>
-                    <mainClass>com.striveonger.study.auth.AuthApplication</mainClass>
                 </configuration>
                 <!--这里需要配置一下，因为采用的是import方式引入的spring boot 而非 parent的方式 ，parent定义了 repackage-->
                 <executions>

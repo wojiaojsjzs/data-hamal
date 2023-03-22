@@ -1,4 +1,4 @@
-version: '3'
+version: '3.9'
 
 services:
   # 基础服务
@@ -10,8 +10,17 @@ services:
       MYSQL_ROOT_PASSWORD: root
     ports:
       - "3306:3306"
+    command: [
+        'mysqld',
+        '--innodb-buffer-pool-size=80M',
+        '--character-set-server=utf8mb4',
+        '--collation-server=utf8mb4_unicode_ci',
+        '--default-time-zone=+8:00',
+        '--lower-case-table-names=1'
+    ]
     volumes:
       - ./mysql.init:/docker-entrypoint-initdb.d
+      - ./mysql.data:/var/lib/mysql
     networks:
       moss:
         ipv4_address: 10.13.145.10
@@ -45,6 +54,11 @@ services:
     container_name: data-hamal-nacos
     depends_on:
       - mysql # 只是控制了容器启动顺序, 但并不保证容器已经完全就绪
+    healthcheck:
+      test: [ "CMD-SHELL", "mysql --user=root --password=root --execute \"SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME='nacos'\" | grep 'nacos'" ]
+      interval: 5s
+      timeout: 3s
+      retries: 5
     ports:
       - "8848:8848"
     volumes:
@@ -57,16 +71,35 @@ services:
   gateway:
     build: ../data-hamal-gateway
     container_name: data-hamal-gateway
-    depends_on:
-      - mysql
-      - redis
-      - zookeeper
-      - nacos
     ports:
       - "8080:8080"
     networks:
       moss:
         ipv4_address: 10.13.145.100
+  auth:
+    build: ../data-hamal-auth
+    container_name: data-hamal-auth
+    networks:
+      moss:
+        ipv4_address: 10.13.145.105
+  provider-hello:
+    build: ../data-hamal-providers/data-hamal-provider-hello
+    container_name: data-hamal-provider-hello
+    networks:
+      moss:
+        ipv4_address: 10.13.145.110
+  provider-leaf:
+    build: ../data-hamal-providers/data-hamal-provider-leaf
+    container_name: data-hamal-provider-leaf
+    networks:
+      moss:
+        ipv4_address: 10.13.145.115
+  service-hello:
+    build: ../data-hamal-services/data-hamal-service-hello
+    container_name: data-hamal-service-hello
+    networks:
+      moss:
+        ipv4_address: 10.13.145.120
 
 networks:
   moss:

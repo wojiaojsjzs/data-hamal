@@ -10,8 +10,8 @@ spring:
     active: dev
   cloud:
     nacos:
-      server-addr: 127.0.0.1:8848
       discovery:
+        server-addr: 127.0.0.1:8848
         group: data-hamal
   mvc:
     pathmatch:
@@ -75,7 +75,7 @@ dubbo:
   provider:
     token: true
   registry:
-    address: nacos://${nacos.address:localhost}:8848?username=nacos&password=nacos
+    address: nacos://${spring.cloud.nacos.discovery.server-addr}?username=nacos&password=nacos
     group: data-hamal
   protocol:
     name: dubbo

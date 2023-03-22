@@ -24,6 +24,9 @@
         <data-hamal-service-filestorage.port>9020</data-hamal-service-filestorage.port>
         <data-hamal-provider-leaf.port>9100</data-hamal-provider-leaf.port>
 
+        <data-hamal-provider-hello.port>11010</data-hamal-provider-hello.port>
+        <data-hamal-service-hello.port>11020</data-hamal-service-hello.port>
+
         <!-- Ground Work -->
         <java.version>17</java.version>
         <maven.compiler.source>17</maven.compiler.source>
@@ -49,7 +52,8 @@
         <junit.platform.version>1.9.1</junit.platform.version>
         <guava.version>31.1-jre</guava.version>
         <mockito.version>4.6.1</mockito.version>
-        <dubbo.version>3.1.7</dubbo.version>
+        <dubbo.version>3.1.8</dubbo.version>
+        <!--<dubbo.version>3.2.0-beta.4</dubbo.version>-->
         <nacos.version>2.2.0</nacos.version>
     </properties>
 

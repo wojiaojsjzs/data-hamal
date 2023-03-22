@@ -16,7 +16,7 @@ import java.util.List;
  */
 public interface LeafAllocMapper extends BaseMapper<LeafAlloc> {
 
-    @Select("SELECT biz_tag, max_id, step, update_time FROM leaf_alloc")
+    @Select("SELECT biz_tag, max_id, step, update_time FROM alloc")
     @Results(value = {
             @Result(column = "biz_tag", property = "key"),
             @Result(column = "max_id", property = "maxId"),
@@ -25,7 +25,7 @@ public interface LeafAllocMapper extends BaseMapper<LeafAlloc> {
     })
     List<LeafAlloc> getAllLeafAllocs();
 
-    @Select("SELECT biz_tag, max_id, step FROM leaf_alloc WHERE biz_tag = #{tag}")
+    @Select("SELECT biz_tag, max_id, step FROM alloc WHERE biz_tag = #{tag}")
     @Results(value = {
             @Result(column = "biz_tag", property = "key"),
             @Result(column = "max_id", property = "maxId"),
@@ -33,18 +33,18 @@ public interface LeafAllocMapper extends BaseMapper<LeafAlloc> {
     })
     LeafAlloc getLeafAlloc(@Param("tag") String tag);
 
-    @Update("UPDATE leaf_alloc SET max_id = max_id + step WHERE biz_tag = #{tag}")
+    @Update("UPDATE alloc SET max_id = max_id + step WHERE biz_tag = #{tag}")
     void updateMaxId(@Param("tag") String tag);
 
-    @Update("UPDATE leaf_alloc SET max_id = max_id + #{leafAlloc.step} WHERE biz_tag = #{leafAlloc.key}")
+    @Update("UPDATE alloc SET max_id = max_id + #{leafAlloc.step} WHERE biz_tag = #{leafAlloc.key}")
     void updateMaxIdByCustomStep(@Param("leafAlloc") LeafAlloc leafAlloc);
 
-    @Select("SELECT biz_tag FROM leaf_alloc")
+    @Select("SELECT biz_tag FROM alloc")
     List<String> getAllTags();
 
-    @Select("SELECT COUNT(1) AS num FROM leaf_alloc WHERE biz_tag = #{tag}")
+    @Select("SELECT COUNT(1) AS num FROM alloc WHERE biz_tag = #{tag}")
     int count(@Param("tag") String tag);
 
-    @Insert("INSERT INTO leaf_alloc ( biz_tag, max_id, step )  VALUES  ( #{leafAlloc.key}, #{leafAlloc.maxId}, #{leafAlloc.step} )")
+    @Insert("INSERT INTO alloc ( biz_tag, max_id, step )  VALUES  ( #{leafAlloc.key}, #{leafAlloc.maxId}, #{leafAlloc.step} )")
     boolean save(@Param("leafAlloc") LeafAlloc leafAlloc);
 }

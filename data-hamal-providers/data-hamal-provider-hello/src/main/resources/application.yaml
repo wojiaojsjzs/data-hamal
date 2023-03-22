@@ -1,5 +1,5 @@
 server:
-  port: 11010
+  port: @data-hamal-provider-hello.port@
 
 spring:
   application:
@@ -9,9 +9,9 @@ spring:
 spring:
   cloud:
     nacos:
-      # nacos 服务地址
-      server-addr: 127.0.0.1:8848
       discovery:
+        # nacos 服务地址
+        server-addr: 127.0.0.1:8848
         # 注册组
         group: data-hamal
 
@@ -24,7 +24,7 @@ dubbo:
   provider:
     token: true
   registry:
-    address: nacos://${nacos.address:localhost}:8848?username=nacos&password=nacos
+    address: nacos://${spring.cloud.nacos.discovery.server-addr}?username=nacos&password=nacos
     group: data-hamal
   protocol:
     name: dubbo

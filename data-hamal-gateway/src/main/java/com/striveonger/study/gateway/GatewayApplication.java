@@ -23,6 +23,5 @@ public class GatewayApplication {
         // application.run(args);
         SpringApplication.run(GatewayApplication.class, args);
         log.info("(♥◠‿◠)ﾉﾞ  data-hamal-gateway start success  ლ(´ڡ`ლ)ﾞ");
-
     }
 }
