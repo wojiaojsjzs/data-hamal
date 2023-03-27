@@ -2,9 +2,11 @@
 <configuration scan="true" scanPeriod="60 seconds" debug="false">
     <!-- 日志存放路径 -->
     <!--<property name="log.level" value="DEBUG" />-->
-    <property name="log.level" value="info" />
-    <property name="log.path" value="logs" />
-    <springProperty scope="context" name="app.name" source="spring.application.name" default="DEFAULT_APPLICATION_NAME"/>
+    <!--<property name="log.level" value="info" />-->
+    <!--<property name="log.path" value="logs" />-->
+    <springProperty scope="context" name="app.name" source="spring.application.name" defaultValue="DEFAULT_APPLICATION_NAME"/>
+    <springProperty scope="context" name="log.level" source="data-hamal.log.level" defaultValue="info" />
+    <springProperty scope="context" name="log.path" source="data-hamal.log.path" defaultValue="logs"/>
 
 
     <conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter" />

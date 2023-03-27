@@ -1,0 +1,12 @@
+server:
+  servlet:
+    context-path: /leaf
+
+data-hamal:
+  leaf:
+    # segment 数据库号段
+    # snowflake 雪花算法
+    type: segment # segment, snowflake
+    name: DHNI # 当启动多个节点时, 节点名不可以重复哦～
+    zookeeper:
+      address: 127.0.0.1:21810

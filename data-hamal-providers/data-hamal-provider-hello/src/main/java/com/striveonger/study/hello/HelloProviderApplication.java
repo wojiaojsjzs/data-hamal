@@ -20,7 +20,6 @@ public class HelloProviderApplication {
     public static void main(String[] args) {
         SpringApplication.run(HelloProviderApplication.class, args);
         log.info("(♥◠‿◠)ﾉﾞ  data-hamal-provider-hello start success  ლ(´ڡ`ლ)ﾞ");
-
     }
 
 }
