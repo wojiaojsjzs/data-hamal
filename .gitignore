@@ -11,3 +11,4 @@ release.properties
 dependency-reduced-pom.xml
 buildNumber.properties
 mysql.data/
+log.path_IS_UNDEFINED/
