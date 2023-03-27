@@ -1,0 +1,6 @@
+# 适应Docker容器的网络环境(moss)
+spring:
+  redis:
+    host: 10.13.145.20
+  datasource:
+    url: jdbc:mysql://10.13.145.10:3306/data_hamal?zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&serverTimezone=Asia/Shanghai

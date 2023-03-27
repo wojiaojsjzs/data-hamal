@@ -7,9 +7,9 @@ spring:
   cloud:
     nacos:
       discovery:
-        group: data-hamal
-        server-addr: 127.0.0.1:8848
-        namespace: 5e617ded-333c-4812-ad28-e9cd3b67512f
+        group: @nacos.group@
+        server-addr: @nacos.server-addr@
+        namespace: @nacos.namespace@
       config:
         group: ${spring.cloud.nacos.discovery.group}
         server-addr: ${spring.cloud.nacos.discovery.server-addr}
