@@ -20,3 +20,4 @@ spring:
       - optional:nacos:application-common.yaml
       - optional:nacos:application-db.yaml
       - optional:nacos:application-dubbo.yaml
+      - optional:nacos:application-docker.yaml

@@ -1,5 +1,7 @@
 # 适应Docker容器的网络环境(moss)
+
 spring:
+  profiles: docker
   redis:
     host: 10.13.145.20
   datasource:

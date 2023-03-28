@@ -20,3 +20,4 @@ spring:
       - optional:nacos:application-common.yaml
       - optional:nacos:application-redis.yaml
       - optional:nacos:application-token.yaml
+      - optional:nacos:application-docker.yaml

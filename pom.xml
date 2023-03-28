@@ -74,8 +74,8 @@
             <id>docker</id>
             <properties>
                 <nacos.group>data-hamal</nacos.group>
-                <nacos.server-addr>127.0.0.1:8848</nacos.server-addr>
-                <nacos.namespace>5e617ded-333c-4812-ad28-e9cd3b67512f</nacos.namespace>
+                <nacos.server-addr>10.13.145.40:8848</nacos.server-addr>
+                <nacos.namespace>0e8cd27b-1cec-4d0d-815e-5530d89263b3</nacos.namespace>
             </properties>
         </profile>
     </profiles>

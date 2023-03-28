@@ -63,6 +63,9 @@ com.striveonger.study
 ## 安装教程
 
 ```shell
+# Build 
+mvn clean install -DskipTests -P docker
+
 # 启动服务
 docker compose -p data-hamal up -d --no-deps --build
 

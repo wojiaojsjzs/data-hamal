@@ -22,3 +22,4 @@ spring:
       - optional:nacos:application-redis.yaml
       - optional:nacos:application-token.yaml
       - optional:nacos:application-dubbo.yaml
+      - optional:nacos:application-docker.yaml
