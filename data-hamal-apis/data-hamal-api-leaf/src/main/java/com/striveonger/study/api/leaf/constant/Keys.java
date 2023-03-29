@@ -11,5 +11,6 @@ public interface Keys {
     // data-hamal-auth
     // TODO: 改动计划:
     //  1. 改为枚举的形式
+    //  2. 用Redis实现一个分布式锁(防止多个Leaf服务同时启动)
     //  2. 启动Leaf服务时, 检查是否为号段模式, 如果是, 检查库中是否已初始化该key, 没有的话, 要初始化
 }
