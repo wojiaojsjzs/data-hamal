@@ -1,6 +1,6 @@
 package com.striveonger.study.redis.config;
 
-import com.striveonger.study.redis.config.holder.RedisHolder;
+import com.striveonger.study.redis.holder.RedisHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;

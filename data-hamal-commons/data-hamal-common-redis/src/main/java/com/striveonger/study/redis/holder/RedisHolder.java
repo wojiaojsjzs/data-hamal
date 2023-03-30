@@ -1,14 +1,15 @@
-package com.striveonger.study.redis.config.holder;
+package com.striveonger.study.redis.holder;
 
 import com.striveonger.study.core.constant.ResultStatus;
 import com.striveonger.study.core.exception.CustomException;
 import com.striveonger.study.core.utils.JacksonUtils;
+import com.striveonger.study.redis.lock.Lock;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.ValueOperations;
 
-import java.util.Locale;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Condition;
 
 /**
  * @author Mr.Lee
@@ -44,33 +45,9 @@ public class RedisHolder {
         return o == null ? null : JacksonUtils.toObject(o.toString(), clazz);
     }
 
-    /**
-     * 获取分布式锁
-     * @param lockKey 锁的key
-     * @param requestId 请求标识
-     * @param expireTime 过期时间
-     * @return 是否获取成功
-     */
-    public boolean tryLock(String lockKey, String requestId, long expireTime) {
-        ValueOperations<String, Object> ops = template.opsForValue();
-        Boolean result = ops.setIfAbsent(lockKey, requestId, expireTime, TimeUnit.MILLISECONDS);
-        return result != null && result;
+    public Lock acquireLock() {
+        return new Lock();
     }
-
-    /**
-     * 释放分布式锁
-     * @param lockKey 锁的key
-     * @param requestId 请求标识
-     * @return 是否释放成功
-     */
-    public boolean releaseLock(String lockKey, String requestId) {
-        String value = ops.get(lockKey).toString();
-        if (requestId.equals(value)) {
-            return template.delete(lockKey);
-        }
-        return false;
-    }
-
 
     public static class Builder {
         private RedisTemplate<String, Object> template;
