@@ -5,12 +5,38 @@ package com.striveonger.study.api.leaf.constant;
  * @description: 模块对应的key(定义新的key时, 也要在数据库中进行同步定义)
  * @date 2023-03-08 15:23
  */
-public interface Keys {
+public enum Keys {
+
     // data-hamal-auth
-    String AUTH_USER = "auth.user";
+    AUTH_USER("auth.user", 1, 1, "用户ID");
     // data-hamal-auth
-    // TODO: 改动计划:
-    //  1. 改为枚举的形式
-    //  2. 用Redis实现一个分布式锁(防止多个Leaf服务同时启动)
-    //  2. 启动Leaf服务时, 检查是否为号段模式, 如果是, 检查库中是否已初始化该key, 没有的话, 要初始化
+
+    private final String key;
+    private final Integer start;
+    private final Integer step;
+    private final String description;
+
+    Keys(String key, Integer start, Integer step, String description) {
+        this.key = key;
+        this.start = start;
+        this.step = step;
+        this.description = description;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public Integer getStart() {
+        return start;
+    }
+
+    public Integer getStep() {
+        return step;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
 }

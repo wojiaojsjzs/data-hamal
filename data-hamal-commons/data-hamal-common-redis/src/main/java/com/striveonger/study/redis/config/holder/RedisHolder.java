@@ -44,6 +44,34 @@ public class RedisHolder {
         return o == null ? null : JacksonUtils.toObject(o.toString(), clazz);
     }
 
+    /**
+     * 获取分布式锁
+     * @param lockKey 锁的key
+     * @param requestId 请求标识
+     * @param expireTime 过期时间
+     * @return 是否获取成功
+     */
+    public boolean tryLock(String lockKey, String requestId, long expireTime) {
+        ValueOperations<String, Object> ops = template.opsForValue();
+        Boolean result = ops.setIfAbsent(lockKey, requestId, expireTime, TimeUnit.MILLISECONDS);
+        return result != null && result;
+    }
+
+    /**
+     * 释放分布式锁
+     * @param lockKey 锁的key
+     * @param requestId 请求标识
+     * @return 是否释放成功
+     */
+    public boolean releaseLock(String lockKey, String requestId) {
+        String value = ops.get(lockKey).toString();
+        if (requestId.equals(value)) {
+            return template.delete(lockKey);
+        }
+        return false;
+    }
+
+
     public static class Builder {
         private RedisTemplate<String, Object> template;
 

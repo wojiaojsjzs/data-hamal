@@ -27,6 +27,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 
+import static com.striveonger.study.api.leaf.constant.Keys.AUTH_USER;
+
 /**
  * @author Mr.Lee
  * @description:
@@ -64,7 +66,7 @@ public class UserController {
             // 2. 落库
             ID id = null; int retry = 3;
             do {
-                id = service.get(Keys.AUTH_USER);
+                id = service.get(AUTH_USER.getKey());
             } while (retry-- > 0 && Status.exception(id));
             if (Status.exception(id)) return Result.fail().message("User ID create failure");
 
