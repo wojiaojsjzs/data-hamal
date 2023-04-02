@@ -22,6 +22,10 @@ public class InitializeKeysRunner implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+        RedisHolder.Lock lock = redis.acquireLock();
+        boolean acquire = lock.lock("");
+        if (acquire) { // 锁定资源
 
+        }
     }
 }

@@ -17,6 +17,7 @@ import static com.striveonger.study.core.constant.ResultStatus.LOCK_ACQUIRE_FAIL
  * @date 2023-03-06 15:00
  */
 public class RedisHolder {
+
     private final Logger log = LoggerFactory.getLogger(RedisHolder.class);
 
     private final RedisTemplate<String, Object> template;
@@ -88,7 +89,6 @@ public class RedisHolder {
 
         private static final int DEFAULT_USETIME = 30 * 1000; // default 30s;
 
-
         /**
          * 获得锁
          * 用此方法, 锁定资源时, 用完一定要记得释放锁(未设置超时机制)
@@ -119,8 +119,6 @@ public class RedisHolder {
         public boolean tryLock(String key, long timeout) {
             return tryLock(key, DEFAULT_USETIME, timeout);
         }
-
-
 
         /**
          * 尝试获得锁
