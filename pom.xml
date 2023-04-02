@@ -253,6 +253,11 @@
             </dependency>
             <dependency>
                 <groupId>com.striveonger.study</groupId>
+                <artifactId>data-hamal-common-redis</artifactId>
+                <version>${data-hamal.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.striveonger.study</groupId>
                 <artifactId>data-hamal-common-swagger</artifactId>
                 <version>${data-hamal.version}</version>
             </dependency>

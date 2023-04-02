@@ -4,8 +4,8 @@ use data_hamal;
 -- ----------------------------
 -- 1. 用户表(用户鉴权服务)
 -- ----------------------------
-drop table if exists users;
-create table users (
+-- drop table if exists users;
+create table if not exists users (
     id            varchar(50)    not null       comment '用户ID',
     username      varchar(30)    not null       comment '用户账号',
     password      varchar(255)   not null       comment '密码',
@@ -26,8 +26,8 @@ create unique index users_username_index on users (username);
 -- ----------------------------
 -- 2. 文件表(文件存储服务)
 -- ----------------------------
-drop table if exists files;
-create table files (
+-- drop table if exists files;
+create table if not exists files (
     id            varchar(50)    not null       comment '文件ID',
     filename      varchar(30)    not null       comment '文件名',
     filepath      varchar(255)   not null       comment '文件路径',
@@ -42,8 +42,8 @@ create table files (
 -- ----------------------------
 -- 3. 号段表(ID服务)
 -- ----------------------------
-drop table if exists alloc;
-create table alloc (
+-- drop table if exists alloc;
+create table if not exists alloc (
     biz_tag       varchar(128)   not null default '',
     max_id        bigint(20)     not null default '1',
     step          int(11)        not null,

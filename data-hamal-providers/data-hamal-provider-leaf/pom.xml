@@ -30,6 +30,10 @@
         </dependency>
         <dependency>
             <groupId>com.striveonger.study</groupId>
+            <artifactId>data-hamal-common-redis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.striveonger.study</groupId>
             <artifactId>data-hamal-common-swagger</artifactId>
         </dependency>
         <dependency>

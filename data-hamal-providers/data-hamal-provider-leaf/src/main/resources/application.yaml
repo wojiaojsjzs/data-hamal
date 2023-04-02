@@ -19,5 +19,6 @@ spring:
       - optional:nacos:data-hamal-provider-leaf.yaml
       - optional:nacos:application-common.yaml
       - optional:nacos:application-db.yaml
+      - optional:nacos:application-redis.yaml
       - optional:nacos:application-dubbo.yaml
       - optional:nacos:application-docker.yaml

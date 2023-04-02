@@ -29,9 +29,9 @@ services:
     image: redis:6.2.7
     container_name: data-hamal-redis
     restart: always
-#    ports:
-#      - "6379:6379"
-#      - "16379:16379"
+    ports:
+      - "6379:6379"
+      - "16379:16379"
     volumes:
       - ./redis.init/conf:/etc/redis
     networks:
@@ -57,7 +57,7 @@ services:
     healthcheck:
       test: [ "CMD-SHELL", "mysql --user=root --password=root --execute \"SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME='nacos'\" | grep 'nacos'" ]
       interval: 5s
-      timeout: 3s
+      timeout: 30s
       retries: 5
     ports:
       - "8848:8848"

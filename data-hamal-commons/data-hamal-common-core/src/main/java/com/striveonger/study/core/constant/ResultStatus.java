@@ -28,10 +28,13 @@ public enum ResultStatus {
      */
     NEED_USER_LOGIN(401, "Need User Login"),
 
+
     /**
      * 系统发生异常的标识
      */
-    ACCIDENT(500, "Accident Error");
+    ACCIDENT(500, "Accident Error"),
+
+    LOCK_ACQUIRE_FAIL(510, "Acquire Lock Fail");
 
 
     private final int state;
