@@ -114,8 +114,6 @@ public class RedisHolderTest {
 
         T1.start(); T2.start();
 
-
-
         ThreadUtil.sleep(100000000);
         System.out.println("finish~");
 
