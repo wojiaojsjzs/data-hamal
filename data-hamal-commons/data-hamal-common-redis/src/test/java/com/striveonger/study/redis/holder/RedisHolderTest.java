@@ -95,9 +95,9 @@ public class RedisHolderTest {
         }, "T1");
 
         Thread T2 = new Thread(() -> {
-            log.error("T2 start...");
-            Thread.yield();
-            SleepHelper.sleepMilliSeconds(300);
+            // log.error("T2 start...");
+            // Thread.yield();
+            // SleepHelper.sleepMilliSeconds(50);
             log.error("T2 start...");
             RedisHolder.Lock lock = holder.acquireLock();
             boolean acquire = lock.tryLock("test", 1000 * 3); // 等待时间 3s
