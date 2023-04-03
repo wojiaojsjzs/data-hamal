@@ -1,7 +1,6 @@
 package com.striveonger.study.redis.holder;
 
 import cn.hutool.core.thread.ThreadUtil;
-import com.striveonger.study.core.utils.SleepHelper;
 import com.striveonger.study.redis.config.RedisConfig;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,7 +12,6 @@ import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 
-import javax.swing.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -79,8 +77,8 @@ public class RedisHolderTest {
         // }
 
         System.out.println("-------------------------------------------------------------");
-        // ExecutorService pool = Executors.newCachedThreadPool();
-        Thread T1 = new Thread(() -> {
+        ExecutorService pool = Executors.newCachedThreadPool();
+        Thread t1 = new Thread(() -> {
             log.error("T1 start...");
             RedisHolder.Lock lock = holder.acquireLock();
             boolean acquire = lock.lock("test");
@@ -94,7 +92,7 @@ public class RedisHolderTest {
             log.error("T1 end...");
         }, "T1");
 
-        Thread T2 = new Thread(() -> {
+        Thread t2 = new Thread(() -> {
             // log.error("T2 start...");
             // Thread.yield();
             // SleepHelper.sleepMilliSeconds(50);
@@ -112,9 +110,9 @@ public class RedisHolderTest {
             log.error("T2 end...");
         }, "T2");
 
-        T1.start(); T2.start();
+        pool.submit(t1); pool.submit(t2);
 
-        ThreadUtil.sleep(100000000);
+        ThreadUtil.sleep(3 * 60 * 1000);
         System.out.println("finish~");
 
     }
