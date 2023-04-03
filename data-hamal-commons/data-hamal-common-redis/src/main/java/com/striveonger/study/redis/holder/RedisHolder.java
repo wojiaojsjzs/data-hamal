@@ -137,16 +137,11 @@ public class RedisHolder {
                 } else {
                     // 获取超时时间
                     long expiretime = Optional.ofNullable(getValue(LOCK_PREFIX + key)).map(Long::valueOf).orElse(0L);
-                    // System.out.println("tryLock expiretime: " + expiretime);
-                    // System.out.println("now: " + now());
-                    // System.out.println("expiretime > now: " + (expiretime > now()));
                     if (expiretime > now()) {
                         // sleep
                         try {
-                            // System.out.println("trylock thread sleep start...");
-                            // log.info("trylock thread sleep...");
+                            log.info("trylock thread sleep...");
                             Thread.sleep(50);
-                            // System.out.println("trylock thread sleep end...");
                         } catch (InterruptedException e) {
                             throw new CustomException(LOCK_ACQUIRE_FAIL, "The thread was interrupted.");
                         }
