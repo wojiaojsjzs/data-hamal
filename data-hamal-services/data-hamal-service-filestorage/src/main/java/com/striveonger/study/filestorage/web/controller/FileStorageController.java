@@ -43,7 +43,7 @@ public class FileStorageController {
     @Resource
     private IFilesService service;
 
-    @Value("${data.hamal.file.storage}")
+    @Value("${data-hamal.file.storage}")
     private String storage;
 
     /**

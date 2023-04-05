@@ -14,10 +14,9 @@ import java.util.Set;
  */
 public class PreviewTypeConstant {
 
-    private static final Set<String> IMAGE_TYPE = new HashSet<>(Arrays.asList("BMP", "JPG", "JPEG", "PNG", "GIF"));
-    private static final Set<String> AUDIO_TYPE = new HashSet<>(Arrays.asList("MP3"));
-    private static final Set<String> VIDEO_TYPE = new HashSet<>(Arrays.asList("MP4"));
-
+    private static final Set<String> IMAGE_TYPE = Set.of("BMP", "JPG", "JPEG", "PNG", "GIF");
+    private static final Set<String> AUDIO_TYPE = Set.of("MP3");
+    private static final Set<String> VIDEO_TYPE = Set.of("MP4");
 
     public static boolean supportPreview(String type) {
         type = type.toUpperCase();
