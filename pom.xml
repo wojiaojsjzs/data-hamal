@@ -75,7 +75,7 @@
             <properties>
                 <nacos.group>data-hamal</nacos.group>
                 <nacos.server-addr>10.13.145.40:8848</nacos.server-addr>
-                <nacos.namespace>0e8cd27b-1cec-4d0d-815e-5530d89263b3</nacos.namespace>
+                <nacos.namespace>acd04a1f-940f-4de5-a921-9bd6dfd63c24</nacos.namespace>
             </properties>
         </profile>
     </profiles>
