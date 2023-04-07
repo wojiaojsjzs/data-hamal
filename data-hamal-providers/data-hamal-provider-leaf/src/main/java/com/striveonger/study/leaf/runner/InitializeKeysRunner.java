@@ -34,7 +34,6 @@ public class InitializeKeysRunner implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         RedisHolder.Lock lock = redis.acquireLock();
-
         try {
             boolean acquire = lock.lock(INITIALIZE_LEAF_KEY.key());
             if (acquire) { // 锁定资源

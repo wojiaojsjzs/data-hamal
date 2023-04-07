@@ -8,7 +8,8 @@ package com.striveonger.study.api.leaf.constant;
 public enum Keys {
 
     // data-hamal-auth
-    AUTH_USER("auth.user", 1, 1, "用户ID");
+    AUTH_USER("auth.user", 1, 1, "用户ID"),
+    FILE_STORAGE("file.storage", 1, 1, "文件ID");
     // data-hamal-auth
 
     private final String key;

@@ -12,12 +12,12 @@ create table if not exists users (
     nickname      varchar(30)    default ''     comment '用户昵称',
     email         varchar(50)    default ''     comment '用户邮箱',
     tel_number    varchar(15)    default ''     comment '手机号码',
-    sex           tinyint(1)     default 0      comment '用户性别（1男 2女 0未知）',
+    sex           tinyint(1)     default 0      comment '用户性别(1男 2女 0未知)',
     avatar        varchar(255)   default ''     comment '头像地址',
-    status        tinyint(1)     default 0      comment '帐号状态（0正常 1停用）',
+    status        tinyint(1)     default 0      comment '帐号状态(0正常 1停用)',
     create_time   datetime       default now()  comment '创建时间',
     update_time   datetime       default now()  comment '更新时间',
-    deleted       tinyint(1)     default 0      comment '删除标志（0否 1是）',
+    deleted       tinyint(1)     default 0      comment '删除标志(0否 1是)',
     primary key (id)
 ) engine = innodb comment = '用户表';
 create unique index users_username_index on users (username);
@@ -35,7 +35,7 @@ create table if not exists files (
     hashcode      varchar(255)   not null       comment '文件Hash',
     create_time   datetime       default now()  comment '创建时间',
     update_time   datetime       default now()  comment '更新时间',
-    deleted       tinyint(1)     default 0      comment '删除标志（0否 1是）',
+    deleted       tinyint(1)     default 0      comment '删除标志(0否 1是)',
     primary key (id)
 ) engine = innodb comment = '文件表';
 
@@ -53,4 +53,5 @@ create table if not exists alloc (
 ) engine=innodb comment = '号段表';
 
 -- insert into alloc (biz_tag, max_id, step, description, update_time) value ('test', 1, 1, 'test case', now());
+
 

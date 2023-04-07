@@ -1,4 +1,4 @@
-FROM striveonger/java:17
+FROM openjdk:17-oracle
 LABEL maintainer="striveonger@163.com"
 LABEL version="0.0.1"
 
@@ -13,5 +13,3 @@ CMD java -Xms512m -Xmx512m -XX:MetaspaceSize=512m -XX:MaxMetaspaceSize=1024m \
          -Dspring.profiles.active=docker \
          -jar /opt/app/data-hamal-provider-hello.jar \
  && tail -f logs/console.log
-
-

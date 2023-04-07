@@ -22,7 +22,6 @@ public class RedisHolder {
 
     private final RedisTemplate<String, Object> template;
 
-
     private RedisHolder(RedisTemplate<String, Object> template) {
         this.template = template;
     }
@@ -59,6 +58,10 @@ public class RedisHolder {
         return Optional.ofNullable(template).map(RedisTemplate::opsForValue).map(ops -> ops.setIfAbsent(key, val)).orElse(false);
     }
 
+    /**
+     * 获取分布式锁
+     * @return
+     */
     public Lock acquireLock() {
         return new Lock();
     }
@@ -84,6 +87,9 @@ public class RedisHolder {
         }
     }
 
+    /**
+     * Redis实现的分布式锁
+     */
     public class Lock {
         private static final String LOCK_PREFIX = "data-hamal:lock:";
 
@@ -152,7 +158,7 @@ public class RedisHolder {
                     }
                 }
             } while (lasttime > now());
-            return acquire;
+            return false;
         }
 
         public void unlock(String key) {

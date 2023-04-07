@@ -23,7 +23,7 @@ public class IDGenRemoteServiceImpl implements IDGenRemoteService {
     private IDGen gen;
 
     @Override
-    public ID get(String key) {
+    public ID acquire(String key) {
         log.info("Remote Create ID by key {}", key);
         return gen.get(key);
     }

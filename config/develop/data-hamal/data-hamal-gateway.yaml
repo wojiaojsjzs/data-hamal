@@ -10,6 +10,10 @@ spring:
           uri: lb://data-hamal-service-hello
           predicates:
             - Path=/hello/**
+        - id: data-hamal-service-filestorage
+          uri: lb://data-hamal-service-filestorage
+          predicates:
+            - Path=/storage/file/**
 
 data-hamal:
   auth:

@@ -1,4 +1,4 @@
-FROM striveonger/java:17
+FROM openjdk:17-oracle
 LABEL maintainer="striveonger@163.com"
 LABEL version="0.0.1"
 

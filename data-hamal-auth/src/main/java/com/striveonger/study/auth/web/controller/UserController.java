@@ -6,7 +6,6 @@ import cn.hutool.core.lang.Dict;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.striveonger.study.api.leaf.IDGenRemoteService;
-import com.striveonger.study.api.leaf.constant.Keys;
 import com.striveonger.study.api.leaf.core.ID;
 import com.striveonger.study.api.leaf.core.Status;
 import com.striveonger.study.auth.entity.Users;
@@ -66,7 +65,7 @@ public class UserController {
             // 2. 落库
             ID id = null; int retry = 3;
             do {
-                id = service.get(AUTH_USER.getKey());
+                id = service.acquire(AUTH_USER.getKey());
             } while (retry-- > 0 && Status.exception(id));
             if (Status.exception(id)) return Result.fail().message("User ID create failure");
 

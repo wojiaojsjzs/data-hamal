@@ -1,0 +1,18 @@
+server:
+  tomcat:
+    accept-count: 50
+    max-connections: 500
+    max-http-form-post-size: 1GB
+    max-swallow-size: 512MB
+  servlet:
+    context-path: /storage/file
+
+spring:
+  servlet:
+    multipart:
+      max-file-size: 200MB
+      max-request-size: 1GB
+
+data-hamal:
+  file:
+    storage: /Users/striveonger/tmp/storage

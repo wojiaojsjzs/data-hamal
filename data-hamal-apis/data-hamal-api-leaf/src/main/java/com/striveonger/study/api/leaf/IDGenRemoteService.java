@@ -9,5 +9,5 @@ import com.striveonger.study.api.leaf.core.ID;
  */
 public interface IDGenRemoteService {
 
-    ID get(String key);
+    ID acquire(String key);
 }

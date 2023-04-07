@@ -1,36 +1,23 @@
 server:
   port: @data-hamal-service-filestorage.port@
-  tomcat:
-    accept-count: 50
-    max-connections: 500
-    max-http-form-post-size: 1GB
-    max-swallow-size: 512MB
-  servlet:
-    context-path: /storage/file
 
 spring:
   application:
     name: @project.artifactId@
-  profiles:
-    active: dev
-  mvc:
-    pathmatch:
-      matching-strategy: ANT_PATH_MATCHER
-  servlet:
-    multipart:
-      max-file-size: 200MB
-      max-request-size: 1GB
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/data_hamal?zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&serverTimezone=Asia/Shanghai
-    username: root
-    password: root
-    hikari:
-      minimum-idle: 1
-      maximum-pool-size: 5
-      max-lifetime: 1800000
-      idle-timeout: 60000
-
-data-hamal:
-  file:
-    storage: /Users/striveonger/tmp/storage
+  cloud:
+    nacos:
+      discovery:
+        group: @nacos.group@
+        server-addr: @nacos.server-addr@
+        namespace: @nacos.namespace@
+      config:
+        group: ${spring.cloud.nacos.discovery.group}
+        server-addr: ${spring.cloud.nacos.discovery.server-addr}
+        namespace: ${spring.cloud.nacos.discovery.namespace}
+  config:
+    import:
+      - optional:nacos:data-hamal-service-filestorage.yaml
+      - optional:nacos:application-common.yaml
+      - optional:nacos:application-db.yaml
+      - optional:nacos:application-dubbo.yaml
+      - optional:nacos:application-docker.yaml

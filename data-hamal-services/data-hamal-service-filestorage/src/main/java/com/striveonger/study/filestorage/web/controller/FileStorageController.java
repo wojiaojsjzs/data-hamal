@@ -6,6 +6,10 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.striveonger.study.api.leaf.IDGenRemoteService;
+import com.striveonger.study.api.leaf.constant.Keys;
+import com.striveonger.study.api.leaf.core.ID;
+import com.striveonger.study.api.leaf.core.Status;
 import com.striveonger.study.core.constant.ResultStatus;
 import com.striveonger.study.core.exception.CustomException;
 import com.striveonger.study.core.result.Result;
@@ -14,6 +18,7 @@ import com.striveonger.study.core.vo.BasicQueryVo;
 import com.striveonger.study.filestorage.entity.Files;
 import com.striveonger.study.filestorage.service.IFilesService;
 import com.striveonger.study.filestorage.web.utils.FileStreamUtils;
+import org.apache.dubbo.config.annotation.DubboReference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -30,6 +35,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
 
+import static com.striveonger.study.api.leaf.constant.Keys.AUTH_USER;
+import static com.striveonger.study.api.leaf.constant.Keys.FILE_STORAGE;
+
 
 /**
  * @author Mr.Lee
@@ -41,10 +49,13 @@ public class FileStorageController {
     private final Logger log = LoggerFactory.getLogger(FileStorageController.class);
 
     @Resource
-    private IFilesService service;
+    private IFilesService filesService;
 
     @Value("${data-hamal.file.storage}")
     private String storage;
+
+    @DubboReference //(version = "1.0.0")
+    private IDGenRemoteService idGenRemoteService;
 
     /**
      * 上传文件
@@ -64,10 +75,15 @@ public class FileStorageController {
             log.info("upload filename: {}", filename);
             try {
                 // TODO: 生成id的方案，后面可以换成 "美团的叶子"
-                String id = IdUtil.simpleUUID();
+                ID id = null; int retry = 3;
+                do {
+                    id = idGenRemoteService.acquire(FILE_STORAGE.getKey());
+                } while (retry-- > 0 && Status.exception(id));
+                if (Status.exception(id)) return Result.fail().message("User ID create failure");
+
                 // 1. generate file info
                 String filetype = StrUtil.subAfter(filename, '.', true);
-                String filepath = String.format("%s%s%s%s.%s", File.separator, DateUtil.today(), File.separator, id, filetype);
+                String filepath = String.format("%s%s%s%s.%s", File.separator, DateUtil.today(), File.separator, id.getId(), filetype);
                 File target = new File(storage + filepath);
                 String hashcode = FileHash.SHA512.code(file.getInputStream());
                 log.info("file hashcode: {}", hashcode);
@@ -75,7 +91,7 @@ public class FileStorageController {
                 if (StrUtil.isBlank(hashcode)) {
                     throw new CustomException("generate file hashcode error...");
                 }
-                Files hold = service.getByHashCode(hashcode);
+                Files hold = filesService.getByHashCode(hashcode);
                 if (Objects.nonNull(hold)) {
                     filepath = hold.getFilepath();
                 } else {
@@ -83,8 +99,8 @@ public class FileStorageController {
                     // save file to disk
                     file.transferTo(target);
                 }
-                Files entity = new Files(id, filename, filepath, filetype, hashcode);
-                service.save(entity);
+                Files entity = new Files(String.valueOf(id.getId()), filename, filepath, filetype, hashcode);
+                filesService.save(entity);
             } catch (IOException e) {
                 log.error("save file error", e);
                 throw new CustomException("save file error");
@@ -108,12 +124,12 @@ public class FileStorageController {
             wrapper.like(Files::getFilename, vo.getSearch());
         }
         wrapper.orderByDesc(Files::getCreateTime);
-        return Result.success(service.page(page, wrapper));
+        return Result.success(filesService.page(page, wrapper));
     }
 
     @GetMapping("/download")
     public void download(HttpServletRequest request, HttpServletResponse response, String id) {
-        Files entity = service.getById(id);
+        Files entity = filesService.getById(id);
         if (Objects.isNull(entity)) {
             throw new CustomException(ResultStatus.NOT_FOUND, "未找到文件");
         }
@@ -127,7 +143,7 @@ public class FileStorageController {
 
     @GetMapping("/preview")
     public void preview(HttpServletRequest request, HttpServletResponse response, String id) {
-        Files entity = service.getById(id);
+        Files entity = filesService.getById(id);
         if (Objects.isNull(entity)) {
             throw new CustomException(ResultStatus.NOT_FOUND, "未找到文件");
         }
