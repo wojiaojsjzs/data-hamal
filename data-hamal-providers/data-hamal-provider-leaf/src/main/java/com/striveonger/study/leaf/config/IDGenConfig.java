@@ -34,14 +34,14 @@ public class IDGenConfig {
     @Value(PropertiesConstants.LEAF_PORT)
     private Integer port;
 
-    @Bean(name = "serialGen")
-    public IDGen serialGen() {
+    @Bean(name = "segmentGen")
+    public IDGen segmentGen() {
         return IDGen.builder().type("segment").service(service).build();
     }
 
     @Primary
-    @Bean(name = "disruptGen")
-    public IDGen disruptGen() {
+    @Bean(name = "snowflakeGen")
+    public IDGen snowflakeGen() {
         return IDGen.builder()
                     .type("snowflake")
                     .nodeName(nodeName)
