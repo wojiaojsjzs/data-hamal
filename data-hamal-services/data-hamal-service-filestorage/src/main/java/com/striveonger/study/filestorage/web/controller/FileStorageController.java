@@ -77,7 +77,7 @@ public class FileStorageController {
                 // TODO: 生成id的方案，后面可以换成 "美团的叶子"
                 ID id = null; int retry = 3;
                 do {
-                    id = idGenRemoteService.acquire(FILE_STORAGE.getKey());
+                    id = idGenRemoteService.acquireDisrupt(FILE_STORAGE.getKey());
                 } while (retry-- > 0 && Status.exception(id));
                 if (Status.exception(id)) return Result.fail().message("User ID create failure");
 

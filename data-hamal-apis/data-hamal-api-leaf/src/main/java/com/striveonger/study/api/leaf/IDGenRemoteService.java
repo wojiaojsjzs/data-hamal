@@ -9,5 +9,18 @@ import com.striveonger.study.api.leaf.core.ID;
  */
 public interface IDGenRemoteService {
 
-    ID acquire(String key);
+    /**
+     * 获取有序的ID
+     * @param key
+     * @return
+     */
+    ID acquireSerial(String key);
+
+
+    /**
+     * 获取分散的ID
+     * @param key
+     * @return
+     */
+    ID acquireDisrupt(String key);
 }

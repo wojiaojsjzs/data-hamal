@@ -65,7 +65,7 @@ public class UserController {
             // 2. 落库
             ID id = null; int retry = 3;
             do {
-                id = service.acquire(AUTH_USER.getKey());
+                id = service.acquireSerial(AUTH_USER.getKey());
             } while (retry-- > 0 && Status.exception(id));
             if (Status.exception(id)) return Result.fail().message("User ID create failure");
 

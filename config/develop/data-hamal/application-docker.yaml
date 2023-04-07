@@ -6,3 +6,8 @@ spring:
     host: 10.13.145.20
   datasource:
     url: jdbc:mysql://10.13.145.10:3306/data_hamal?zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&serverTimezone=Asia/Shanghai
+
+data-hamal:
+  leaf:
+    zookeeper:
+      address: 10.13.145.30:2181

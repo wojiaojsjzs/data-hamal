@@ -14,8 +14,9 @@ public class PropertiesConstants {
 
     /**
      * 启动模式: 数据库号段模式是否开启 or 雪花算法模式是否开启(segment, snowflake)
+     * 弃用 [2023-04-07] By Mr.Lee, 原因: 使用多模式启动
      */
-    public static final String LEAF_TYPE = "${data-hamal.leaf.type}";
+    // public static final String LEAF_TYPE = "${data-hamal.leaf.type}";
 
     /**
      * 雪花算法模式下需要连接的Zookeeper地址

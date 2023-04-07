@@ -20,11 +20,20 @@ public class IDGenRemoteServiceImpl implements IDGenRemoteService {
     private final Logger log = LoggerFactory.getLogger(IDGenRemoteServiceImpl.class);
 
     @Resource
-    private IDGen gen;
+    private IDGen serialGen;
+
+    @Resource
+    private IDGen disruptGen;
 
     @Override
-    public ID acquire(String key) {
-        log.info("Remote Create ID by key {}", key);
-        return gen.get(key);
+    public ID acquireSerial(String key) {
+        log.info("Remote Create Serial ID by key {}", key);
+        return serialGen.get(key);
+    }
+
+    @Override
+    public ID acquireDisrupt(String key) {
+        log.info("Remote Create Disrupt ID by key {}", key);
+        return disruptGen.get(key);
     }
 }

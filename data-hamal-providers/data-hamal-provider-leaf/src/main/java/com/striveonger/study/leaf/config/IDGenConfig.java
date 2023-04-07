@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 
 import javax.annotation.Resource;
 
@@ -24,9 +25,6 @@ public class IDGenConfig {
     @Resource
     private ILeafAllocService service;
 
-    @Value(PropertiesConstants.LEAF_TYPE)
-    private String type;
-
     @Value(PropertiesConstants.LEAF_NODE_NAME)
     private String nodeName;
 
@@ -36,16 +34,20 @@ public class IDGenConfig {
     @Value(PropertiesConstants.LEAF_PORT)
     private Integer port;
 
-    @Bean
-    public IDGen gen() {
-        return IDGen.builder()
-                .type(type)
-                .service(service)
-                .nodeName(nodeName)
-                .zookeeperAddress(zookeeperAddress)
-                .zookeeperPort(port)
-                .build();
+    @Bean(name = "serialGen")
+    public IDGen serialGen() {
+        return IDGen.builder().type("segment").service(service).build();
+    }
 
+    @Primary
+    @Bean(name = "disruptGen")
+    public IDGen disruptGen() {
+        return IDGen.builder()
+                    .type("snowflake")
+                    .nodeName(nodeName)
+                    .zookeeperAddress(zookeeperAddress)
+                    .zookeeperPort(port)
+                    .build();
     }
 
 }

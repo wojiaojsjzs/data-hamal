@@ -83,6 +83,8 @@ services:
     networks:
       moss:
         ipv4_address: 10.13.145.105
+
+  # providers
   provider-hello:
     build: ../data-hamal-providers/data-hamal-provider-hello
     container_name: data-hamal-provider-hello
@@ -95,12 +97,22 @@ services:
     networks:
       moss:
         ipv4_address: 10.13.145.115
+
+  # services
   service-hello:
     build: ../data-hamal-services/data-hamal-service-hello
     container_name: data-hamal-service-hello
     networks:
       moss:
         ipv4_address: 10.13.145.120
+  service-filestorage:
+    build: ../data-hamal-services/data-hamal-service-filestorage
+    container_name: data-hamal-service-filestorage
+    networks:
+      moss:
+        ipv4_address: 10.13.145.125
+
+
 
 networks:
   moss:
