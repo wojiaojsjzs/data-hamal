@@ -30,6 +30,12 @@
             <groupId>com.striveonger.study</groupId>
             <artifactId>data-hamal-api-hello</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.striveonger.study</groupId>
+            <artifactId>data-hamal-common-rabbit</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>

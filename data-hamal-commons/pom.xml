@@ -17,11 +17,11 @@
         <module>data-hamal-common-web-core</module>
         <module>data-hamal-common-redis</module>
         <module>data-hamal-common-mybatis</module>
-        <module>data-hamal-common-swagger</module>
         <module>data-hamal-common-logs</module>
         <module>data-hamal-common-email</module>
         <module>data-hamal-common-remote</module>
-
+        <module>data-hamal-common-rabbit</module>
+        <module>data-hamal-common-swagger</module>
     </modules>
 
 </project>

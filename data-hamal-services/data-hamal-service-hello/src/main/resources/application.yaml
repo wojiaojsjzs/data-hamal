@@ -18,3 +18,4 @@ spring:
     import:
       - optional:nacos:data-hamal-service-hello.yaml
       - optional:nacos:application-dubbo.yaml
+      - optional:nacos:application-rabbit.yaml

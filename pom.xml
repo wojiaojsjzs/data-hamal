@@ -271,6 +271,11 @@
                 <artifactId>data-hamal-common-remote</artifactId>
                 <version>${data-hamal.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.striveonger.study</groupId>
+                <artifactId>data-hamal-common-rabbit</artifactId>
+                <version>${data-hamal.version}</version>
+            </dependency>
 
             <!-- JUnit5 -->
             <dependency>

@@ -18,15 +18,19 @@
 
 ~~~
 com.striveonger.study
-├── data-hamal-gateway                           // 网关模块 [8080]
 ├── data-hamal-web                               // 前端框架 [-]
+├── data-hamal-gateway                           // 网关模块 [8080]
+├── data-hamal-apis                              // 全局接口 [-]
 ├── data-hamal-auth                              // 认证中心 [9000]
 ├── data-hamal-commons                           // 通用模块
-│     └── data-hamal-common-apis                 // 全局接口
 │     └── data-hamal-common-core                 // 核心功能
 │     └── data-hamal-common-web-core             // 核心功能
 │     └── data-hamal-common-redis                // 内存存储
 │     └── data-hamal-common-mybatis              // 数据访问
+│     └── data-hamal-common-logs                 // 日志工具
+│     └── data-hamal-common-email                // 邮件发送
+│     └── data-hamal-common-remote               // 远程调用
+│     └── data-hamal-common-rabbit               // 消息队列
 │     └── data-hamal-common-swagger              // 接口文档
 ├── data-hamal-services                          // 开放服务
 │     └── data-hamal-service-task                // 任务服务 [9010]

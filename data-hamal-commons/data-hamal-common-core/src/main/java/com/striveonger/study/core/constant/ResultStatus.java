@@ -28,13 +28,30 @@ public enum ResultStatus {
      */
     NEED_USER_LOGIN(401, "Need User Login"),
 
-
     /**
      * 系统发生异常的标识
      */
     ACCIDENT(500, "Accident Error"),
 
-    LOCK_ACQUIRE_FAIL(510, "Acquire Lock Fail");
+    /**
+     * 获取分布式锁失败
+     */
+    LOCK_ACQUIRE_FAIL(510, "Acquire Lock Fail"),
+
+    /**
+     * 消息序列化失败
+     */
+    MESSAGE_SERIALIZE_FAIL(511, "Message SERIALIZE Fail"),
+
+    /**
+     * 消息反序列化失败
+     */
+    MESSAGE_DESERIALIZATION_FAIL(512, "Message Deserialization Fail"),
+
+    /**
+     * 消息发送失败
+     */
+    MESSAGE_SEND_FAIL(513, "Message Send Fail");
 
 
     private final int state;
