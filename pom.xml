@@ -92,6 +92,64 @@
 
     <dependencyManagement>
         <dependencies>
+            <!-- Data Hamal -->
+            <dependency>
+                <groupId>com.striveonger.study</groupId>
+                <artifactId>data-hamal-common-core</artifactId>
+                <version>${data-hamal.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.striveonger.study</groupId>
+                <artifactId>data-hamal-common-web-core</artifactId>
+                <version>${data-hamal.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.striveonger.study</groupId>
+                <artifactId>data-hamal-common-mybatis</artifactId>
+                <version>${data-hamal.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.striveonger.study</groupId>
+                <artifactId>data-hamal-common-redis</artifactId>
+                <version>${data-hamal.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.striveonger.study</groupId>
+                <artifactId>data-hamal-common-swagger</artifactId>
+                <version>${data-hamal.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.striveonger.study</groupId>
+                <artifactId>data-hamal-common-logs</artifactId>
+                <version>${data-hamal.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.striveonger.study</groupId>
+                <artifactId>data-hamal-common-remote</artifactId>
+                <version>${data-hamal.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.striveonger.study</groupId>
+                <artifactId>data-hamal-common-rabbit</artifactId>
+                <version>${data-hamal.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.striveonger.study</groupId>
+                <artifactId>data-hamal-service-task-common</artifactId>
+                <version>${data-hamal.version}</version>
+            </dependency>
+
+            <!-- Data Hamal Remote API -->
+            <dependency>
+                <groupId>com.striveonger.study</groupId>
+                <artifactId>data-hamal-api-hello</artifactId>
+                <version>${data-hamal.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.striveonger.study</groupId>
+                <artifactId>data-hamal-api-leaf</artifactId>
+                <version>${data-hamal.version}</version>
+            </dependency>
 
             <!-- SpringCloud 微服务 -->
             <dependency>
@@ -221,60 +279,6 @@
                 <groupId>com.alibaba.nacos</groupId>
                 <artifactId>nacos-client</artifactId>
                 <version>${nacos.version}</version>
-            </dependency>
-
-            <!-- Remote API -->
-            <dependency>
-                <groupId>com.striveonger.study</groupId>
-                <artifactId>data-hamal-api-hello</artifactId>
-                <version>${data-hamal.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.striveonger.study</groupId>
-                <artifactId>data-hamal-api-leaf</artifactId>
-                <version>${data-hamal.version}</version>
-            </dependency>
-
-            <!-- Data Hamal -->
-            <dependency>
-                <groupId>com.striveonger.study</groupId>
-                <artifactId>data-hamal-common-core</artifactId>
-                <version>${data-hamal.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.striveonger.study</groupId>
-                <artifactId>data-hamal-common-web-core</artifactId>
-                <version>${data-hamal.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.striveonger.study</groupId>
-                <artifactId>data-hamal-common-mybatis</artifactId>
-                <version>${data-hamal.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.striveonger.study</groupId>
-                <artifactId>data-hamal-common-redis</artifactId>
-                <version>${data-hamal.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.striveonger.study</groupId>
-                <artifactId>data-hamal-common-swagger</artifactId>
-                <version>${data-hamal.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.striveonger.study</groupId>
-                <artifactId>data-hamal-common-logs</artifactId>
-                <version>${data-hamal.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.striveonger.study</groupId>
-                <artifactId>data-hamal-common-remote</artifactId>
-                <version>${data-hamal.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.striveonger.study</groupId>
-                <artifactId>data-hamal-common-rabbit</artifactId>
-                <version>${data-hamal.version}</version>
             </dependency>
 
             <!-- JUnit5 -->

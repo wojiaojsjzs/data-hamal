@@ -32,10 +32,6 @@
             <groupId>com.striveonger.study</groupId>
             <artifactId>data-hamal-common-swagger</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.striveonger.study</groupId>
-            <artifactId>data-hamal-common-logs</artifactId>
-        </dependency>
 
         <!-- SaToken -->
         <dependency>

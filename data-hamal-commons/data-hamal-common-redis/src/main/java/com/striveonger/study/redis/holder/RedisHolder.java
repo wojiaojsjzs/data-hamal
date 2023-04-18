@@ -5,9 +5,13 @@ import com.striveonger.study.core.exception.CustomException;
 import com.striveonger.study.core.utils.JacksonUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.core.RedisTemplate;
 
+import javax.print.DocFlavor;
+import java.nio.charset.StandardCharsets;
 import java.util.Optional;
+import java.util.Set;
 
 import static com.striveonger.study.core.constant.ResultStatus.LOCK_ACQUIRE_FAIL;
 
@@ -58,8 +62,26 @@ public class RedisHolder {
         return Optional.ofNullable(template).map(RedisTemplate::opsForValue).map(ops -> ops.setIfAbsent(key, val)).orElse(false);
     }
 
+    /* 放弃原生的bitmap, 使用自定义的数据结构吧
+    public void setbit(String key, long offset, boolean value) {
+        RedisConnection connection = template.getConnectionFactory().getConnection();
+        byte[] bytes = key.getBytes(StandardCharsets.UTF_8);
+        connection.setBit(bytes, offset, value);
+        connection.close();
+    }
+
+    public boolean getbit(String key, long offset) {
+        RedisConnection connection = template.getConnectionFactory().getConnection();
+        byte[] bytes = key.getBytes(StandardCharsets.UTF_8);
+        boolean result = connection.getBit(bytes, offset);
+        connection.close();
+        return result;
+    }
+    */
+
     /**
      * 获取分布式锁
+     *
      * @return
      */
     public Lock acquireLock() {
@@ -98,7 +120,8 @@ public class RedisHolder {
         /**
          * 获得锁
          * 用此方法, 锁定资源时, 用完一定要记得释放锁(未设置超时机制)
-         * @param key      锁标识
+         *
+         * @param key 锁标识
          * @return
          */
         public boolean lock(String key) {
@@ -108,8 +131,9 @@ public class RedisHolder {
         /**
          * 获得锁
          * 用此方法, 锁定资源时, 用完一定要记得释放锁(未设置超时机制)
-         * @param key      锁标识
-         * @param usetime  最长使用时间(毫秒)
+         *
+         * @param key     锁标识
+         * @param usetime 最长使用时间(毫秒)
          * @return
          */
         public boolean lock(String key, long usetime) {
@@ -118,8 +142,9 @@ public class RedisHolder {
 
         /**
          * 尝试获得锁
-         * @param key      锁标识
-         * @param timeout  最长等待时间(毫秒)
+         *
+         * @param key     锁标识
+         * @param timeout 最长等待时间(毫秒)
          * @return
          */
         public boolean tryLock(String key, long timeout) {
@@ -128,9 +153,10 @@ public class RedisHolder {
 
         /**
          * 尝试获得锁
-         * @param key      锁标识
-         * @param usetime  最大使用时长(毫秒)
-         * @param timeout  最大等待时长(毫秒)
+         *
+         * @param key     锁标识
+         * @param usetime 最大使用时长(毫秒)
+         * @param timeout 最大等待时长(毫秒)
          * @return
          */
         public boolean tryLock(String key, long usetime, long timeout) {

@@ -25,11 +25,6 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-pool2</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.striveonger.study</groupId>
-            <artifactId>data-hamal-common-logs</artifactId>
-        </dependency>
-
 
         <!-- JUnit5 Test -->
         <dependency>

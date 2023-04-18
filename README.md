@@ -66,6 +66,15 @@ com.striveonger.study
 
 ## 安装教程
 
+### 关于ProtoBuf
+
+```shell
+protoc --java_out=./ MessageBody.proto 
+```
+> 根据ProtoBuf文件, 编译输出java的类文件
+
+### Docker 启动
+
 ```shell
 # Build 
 mvn clean install -DskipTests -P docker
@@ -84,7 +93,6 @@ docker compose -p data-hamal down
 
 # 查看镜像
 docker compose -p data-hamal images
-
 ```
 
 ## 使用说明

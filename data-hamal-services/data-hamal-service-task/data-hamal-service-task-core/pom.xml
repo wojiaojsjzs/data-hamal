@@ -12,16 +12,11 @@
     <artifactId>data-hamal-service-task-core</artifactId>
 
     <dependencies>
-
         <dependency>
             <groupId>com.striveonger.study</groupId>
-            <artifactId>data-hamal-common-core</artifactId>
+            <artifactId>data-hamal-service-task-common</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>com.striveonger.study</groupId>
-            <artifactId>data-hamal-common-logs</artifactId>
-        </dependency>
 
         <dependency>
             <groupId>org.junit.jupiter</groupId>

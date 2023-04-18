@@ -1,6 +1,6 @@
 package com.striveonger.study.task.core;
 
-import com.striveonger.study.task.core.constant.ExecutionStatus;
+import com.striveonger.study.task.common.constant.TaskStatus;
 import com.striveonger.study.task.core.exception.BuildTaskException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,12 +30,7 @@ public class Workbench {
     /**
      * 任务ID
      */
-    private final Long taskID;
-
-    /**
-     * 任务执行状态
-     */
-    private volatile int status;
+    private final long taskID;
 
     /**
      * 天选打工人
@@ -56,30 +51,19 @@ public class Workbench {
      * @param threadFactory   线程的创建器
      * @param handler         拒绝策略
      */
-    public Workbench(Long taskID, int status,
+    public Workbench(long taskID, int status,
                      Integer corePoolSize, Integer maximumPoolSize,
                      Long keepAliveTime, TimeUnit unit,
                      BlockingQueue<Runnable> workQueue,
                      ThreadFactory threadFactory,
                      RejectedExecutionHandler handler) {
         this.taskID = taskID;
-        this.status = status;
         this.worker = new Worker(corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue, threadFactory, handler);
     }
 
 
     public Worker worker() {
         return worker;
-    }
-
-    public int status() {
-        return status;
-    }
-
-    public void updateStatus(ExecutionStatus status) {
-        synchronized (taskID.toString().intern()) {
-            this.status = status.getCode();
-        }
     }
 
     public static Builder builder() {
@@ -91,7 +75,7 @@ public class Workbench {
         private final AtomicInteger threadNumber = new AtomicInteger(1);
         private final String namePrefix;
 
-        public TaskThreadFactory(Long taskID) {
+        public TaskThreadFactory(long taskID) {
             namePrefix = "task-exec-" + taskID + "-thread-";
         }
 
@@ -139,7 +123,7 @@ public class Workbench {
 
     public static class Builder {
         private Long taskID;
-        private Integer status = ExecutionStatus.NONE.getCode();
+        private Integer status = TaskStatus.NONE.getCode();
         private Integer corePoolSize = 8, maximumPoolSize = 32;
         private Long keepAliveTime = 30L;
         private final TimeUnit unit = TimeUnit.SECONDS;
@@ -153,7 +137,7 @@ public class Workbench {
             return this;
         }
 
-        public Builder status(ExecutionStatus status) {
+        public Builder status(TaskStatus status) {
             this.status = status.getCode();
             return this;
         }

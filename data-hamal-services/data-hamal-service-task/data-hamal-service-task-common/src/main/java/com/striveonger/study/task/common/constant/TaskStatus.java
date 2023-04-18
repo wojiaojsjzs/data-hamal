@@ -1,11 +1,11 @@
-package com.striveonger.study.task.core.constant;
+package com.striveonger.study.task.common.constant;
 
 /**
  * @author Mr.Lee
- * @description: 执行状态
+ * @description: 任务执行状态
  * @date 2022-11-30 09:29
  */
-public enum ExecutionStatus {
+public enum TaskStatus implements Status {
     /**
      * 尚未开始
      */
@@ -15,21 +15,21 @@ public enum ExecutionStatus {
      */
     RUNNING(1),
     /**
-     * 暂停状态（只针对于任务，步骤在执行中，不会暂停的）
-     */
-    SUSPEND(2),
-    /**
      * 执行完成
      */
     COMPLETE(3),
     /**
      * 执行失败
      */
-    FAIL(4);
+    FAIL(2),
+    /**
+     * 暂停状态（只针对于任务，步骤在执行中，不会暂停的）
+     */
+    SUSPEND(4);
 
     private final int code;
 
-    ExecutionStatus(int code) {
+    TaskStatus(int code) {
         this.code = code;
     }
 

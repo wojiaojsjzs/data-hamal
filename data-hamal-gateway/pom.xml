@@ -23,7 +23,6 @@
             <artifactId>data-hamal-common-logs</artifactId>
         </dependency>
 
-
         <!-- SpringCloud Gateway -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>

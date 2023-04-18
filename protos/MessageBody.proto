@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package com.striveonger.study.task.context;
+
+option java_package = "com.striveonger.study.task.context";
+
+message MessageBody {
+  /**
+   * 列数据
+   */
+  message ColumnData {
+    repeated string entry = 1; // 可重复的 repeated
+  }
+
+  map<string, ColumnData> data = 1;
+}

@@ -12,6 +12,16 @@
     <artifactId>data-hamal-service-task-context</artifactId>
 
     <dependencies>
+        <dependency>
+            <groupId>com.striveonger.study</groupId>
+            <artifactId>data-hamal-common-redis</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.striveonger.study</groupId>
+            <artifactId>data-hamal-service-task-common</artifactId>
+        </dependency>
+
 
     </dependencies>
 
