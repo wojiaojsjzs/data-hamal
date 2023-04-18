@@ -26,11 +26,5 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.striveonger.study</groupId>
-            <artifactId>data-hamal-commons-beans</artifactId>
-            <version>${data-hamal.version}</version>
-        </dependency>
-
     </dependencies>
 </project>
