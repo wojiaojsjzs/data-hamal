@@ -13,12 +13,9 @@
     <artifactId>data-hamal-service-task-common</artifactId>
 
     <dependencies>
-
         <dependency>
             <groupId>com.striveonger.study</groupId>
             <artifactId>data-hamal-common-core</artifactId>
         </dependency>
-
     </dependencies>
-
 </project>

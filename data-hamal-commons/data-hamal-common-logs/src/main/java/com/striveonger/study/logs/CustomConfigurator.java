@@ -42,37 +42,6 @@ public class CustomConfigurator extends BasicConfigurator {
         return appender;
     }
 
-    private Appender<ILoggingEvent> fileConsoleAppender(LoggerContext ctx) {
-        RollingFileAppender<ILoggingEvent> appender = new RollingFileAppender<>();
-        appender.setContext(ctx);
-        appender.setName("FILE_CONSOLE");
-
-        // 这个路径是要计算的
-        String filePath = "/Users/striveonger/development/workspace/temp/logs/console.log";
-        appender.setFile(filePath);
-        System.out.println(appender.rawFileProperty());
-
-        Encoder<ILoggingEvent> encoder = buildEncoder(ctx);
-        appender.setEncoder(encoder);
-
-        TimeBasedRollingPolicy<ILoggingEvent> policy = new TimeBasedRollingPolicy();
-        policy.setContext(ctx);
-        policy.setFileNamePattern("/Users/striveonger/development/workspace/temp/logs/console.%d{yyyy-MM-dd}.log");
-        policy.setParent(appender);
-        policy.setMaxHistory(1);
-        policy.start();
-        appender.setRollingPolicy(policy);
-
-        ThresholdFilter filter = new ThresholdFilter();
-        filter.setContext(ctx);
-        filter.setLevel(level.toString());
-        filter.start();
-        appender.addFilter(filter);
-
-        appender.start();
-        return appender;
-    }
-
     private Encoder<ILoggingEvent> buildEncoder(LoggerContext ctx) {
         PatternLayout layout = new PatternLayout();
         layout.setPattern("%d{yyyy-MM-dd HH:mm:ss.SSS} %level [%thread] %logger{36}:%line %msg%n");

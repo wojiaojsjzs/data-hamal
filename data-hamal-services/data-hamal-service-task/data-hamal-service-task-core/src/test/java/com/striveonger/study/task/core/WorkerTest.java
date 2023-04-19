@@ -71,8 +71,8 @@ public class WorkerTest {
         Executable J = () -> consumer.accept("J", waitTimeConstant);
         Executable K = () -> consumer.accept("K", waitTimeConstant);
 
-        SerialeFlow full = new SerialeFlow("full");
-        full.setWorkbench(workbench);
+        SerialeFlow master = new SerialeFlow("master");
+        master.setWorkbench(workbench);
 
         ParalleFlow AB_P = new ParalleFlow("AB_P");
         AB_P.setWorkbench(workbench);
@@ -104,14 +104,14 @@ public class WorkerTest {
         DEG_FH_P.push(DEG_S);
         DEG_FH_P.push(FH_S);
 
-        full.push(ABC_S);
-        full.push(DEG_FH_P);
-        full.push(I);
-        full.push(J);
-        full.push(K);
+        master.push(ABC_S);
+        master.push(DEG_FH_P);
+        master.push(I);
+        master.push(J);
+        master.push(K);
 
         // 开始工作～
-        worker.work(full);
+        worker.work(master);
 
         SleepHelper.sleepSeconds(60);
         log.info("Test End...");

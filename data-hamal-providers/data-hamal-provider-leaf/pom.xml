@@ -41,7 +41,6 @@
             <artifactId>data-hamal-common-remote</artifactId>
         </dependency>
 
-
         <!-- Zookeeper -->
         <dependency>
             <groupId>org.apache.curator</groupId>

@@ -20,10 +20,10 @@
         <!--上下文工具-->
         <module>data-hamal-service-task-context</module>
         <!--执行器-->
-        <module>data-hamal-service-task-executor</module>
+        <module>data-hamal-service-task-actuator</module>
         <!--插件包-->
         <module>data-hamal-service-task-plugins</module>
-        <!--任务执行者-->
+        <!--任务服务提供者-->
         <module>data-hamal-service-task-worker</module>
     </modules>
 

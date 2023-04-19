@@ -138,6 +138,11 @@
                 <artifactId>data-hamal-service-task-common</artifactId>
                 <version>${data-hamal.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.striveonger.study</groupId>
+                <artifactId>data-hamal-service-task-core</artifactId>
+                <version>${data-hamal.version}</version>
+            </dependency>
 
             <!-- Data Hamal Remote API -->
             <dependency>
