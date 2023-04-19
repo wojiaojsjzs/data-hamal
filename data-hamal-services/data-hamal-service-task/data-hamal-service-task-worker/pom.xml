@@ -12,6 +12,10 @@
     <artifactId>data-hamal-service-task-worker</artifactId>
 
     <dependencies>
+        <dependency>
+            <groupId>com.striveonger.study</groupId>
+            <artifactId>data-hamal-common-web-core</artifactId>
+        </dependency>
 
     </dependencies>
 
