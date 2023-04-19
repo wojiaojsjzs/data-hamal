@@ -1,5 +1,5 @@
 server:
-  port: @data-hamal-service-task.port@
+  port: @data-hamal-service-task-worker.port@
 
 spring:
   application:
@@ -16,7 +16,7 @@ spring:
         namespace: ${spring.cloud.nacos.discovery.namespace}
   config:
     import:
-      - optional:nacos:data-hamal-auth.yaml
+      - optional:nacos:data-hamal-service-task-worker.yaml
       - optional:nacos:application-common.yaml
       - optional:nacos:application-db.yaml
       - optional:nacos:application-redis.yaml

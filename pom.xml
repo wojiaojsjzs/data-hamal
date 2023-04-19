@@ -21,7 +21,7 @@
         <data-hamal-gateway.port>8080</data-hamal-gateway.port>
         <!-- services -->
         <data-hamal-auth.port>9000</data-hamal-auth.port>
-        <data-hamal-service-task.port>9010</data-hamal-service-task.port>
+        <data-hamal-service-task-worker.port>9010</data-hamal-service-task-worker.port>
         <data-hamal-service-filestorage.port>9020</data-hamal-service-filestorage.port>
         <!-- providers -->
         <data-hamal-provider-leaf.port>9100</data-hamal-provider-leaf.port>
