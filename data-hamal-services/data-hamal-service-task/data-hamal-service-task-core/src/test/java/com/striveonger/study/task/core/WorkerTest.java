@@ -55,7 +55,7 @@ public class WorkerTest {
     public void test() {
 
         log.info("Test Start...");
-        Workbench workbench = Workbench.builder().taskID(1L).corePoolSize(16).maximumPoolSize(64).build();
+        Workbench workbench = Workbench.builder().taskID(1L).corePoolSize(1).maximumPoolSize(64).build();
         Workbench.Worker worker = workbench.worker();
 
         // 手动定义 DAG 任务
@@ -124,9 +124,12 @@ public class WorkerTest {
         master.push(K);
 
         // 开始工作～
-        worker.work(master);
-
-        SleepHelper.sleepSeconds(60);
+        Thread current = Thread.currentThread();
+        String oldName = current.getName();
+        String taskMasterThreadName = "";
+        current.setName(taskMasterThreadName);
+        master.execute();
+        current.setName(oldName);
         log.info("Test End...");
     }
 

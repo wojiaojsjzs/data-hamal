@@ -122,9 +122,10 @@ public class Workbench {
         private Long taskID;
         private Integer corePoolSize = 8, maximumPoolSize = 32;
         private Long keepAliveTime = 30L;
-        private final TimeUnit unit = TimeUnit.SECONDS;
+        private final TimeUnit unit = TimeUnit.MILLISECONDS;
+        // 核心线程满了, 任务会进入等待队列(workQueue). 当等待队列满了之后, 创建非核心线程来该执行任务.
         // private BlockingQueue<Runnable> workQueue = new SynchronousQueue<>();
-        private BlockingQueue<Runnable> workQueue = new LinkedBlockingDeque<>();
+        private BlockingQueue<Runnable> workQueue = new LinkedBlockingDeque<>(1);
         private ThreadFactory threadFactory;
         private RejectedExecutionHandler handler = new ThreadPoolExecutor.AbortPolicy();
 
@@ -144,12 +145,13 @@ public class Workbench {
             return this;
         }
 
-        public Builder keepAliveTime(long time) {
-            this.keepAliveTime = time;
+        public Builder keepAliveTime(long mills) {
+            this.keepAliveTime = mills;
             return this;
         }
 
         public Builder workQueueSize(int size) {
+            // 设置等待队列大小时, 一定要小心. 填不满队列的情况下, 有可能造成任务的整体阻塞
             this.workQueue = new LinkedBlockingQueue<>(size);
             return this;
         }
