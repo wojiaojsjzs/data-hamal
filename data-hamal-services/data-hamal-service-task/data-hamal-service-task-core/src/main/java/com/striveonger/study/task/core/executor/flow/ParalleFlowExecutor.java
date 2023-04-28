@@ -3,17 +3,12 @@ package com.striveonger.study.task.core.executor.flow;
 import com.striveonger.study.core.constant.ResultStatus;
 import com.striveonger.study.core.exception.CustomException;
 import com.striveonger.study.task.core.executor.Executable;
-import com.striveonger.study.task.core.listener.Listener;
 import com.striveonger.study.task.core.scope.Workbench;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.Semaphore;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author Mr.Lee
@@ -25,7 +20,7 @@ public class ParalleFlowExecutor extends FlowExecutor {
 
     @Override
     public void execute() {
-        Workbench.Worker worker = workbench.worker();
+        Workbench.Worker worker = workbench.getWorker();
         try {
             log.info("Paralle Flow Exec Start...");
             List<Executable> tasks = this.subtasks;

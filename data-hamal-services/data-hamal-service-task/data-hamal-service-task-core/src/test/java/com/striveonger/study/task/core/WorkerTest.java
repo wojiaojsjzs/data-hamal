@@ -3,7 +3,6 @@ package com.striveonger.study.task.core;
 
 import cn.hutool.core.thread.ThreadUtil;
 import com.striveonger.study.core.utils.SleepHelper;
-import com.striveonger.study.task.core.executor.Executable;
 import com.striveonger.study.task.core.executor.Executor;
 import com.striveonger.study.task.core.executor.flow.ParalleFlowExecutor;
 import com.striveonger.study.task.core.executor.flow.SerialeFlowExecutor;
@@ -19,7 +18,6 @@ import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.function.BiConsumer;
 
 /**
  * @author Mr.Lee
@@ -55,8 +53,8 @@ public class WorkerTest {
     public void test() {
 
         log.info("Test Start...");
-        Workbench workbench = Workbench.builder().taskID(1L).corePoolSize(16).maximumPoolSize(64).build();
-        Workbench.Worker worker = workbench.worker();
+        Workbench workbench = Workbench.builder().taskID(1L).corePoolSize(0).maximumPoolSize(64).build();
+        Workbench.Worker worker = workbench.getWorker();
 
         // 手动定义 DAG 任务
         int waitTimeConstant = 1;
@@ -124,9 +122,11 @@ public class WorkerTest {
         master.push(K);
 
         // 开始工作～
-        worker.work(master);
-
-        SleepHelper.sleepSeconds(60);
+        String oldName = Thread.currentThread().getName();
+        String taskMasterThreadName = String.format("task-exec-%d-master", workbench.getTaskID());
+        Thread.currentThread().setName(taskMasterThreadName);
+        master.execute();
+        Thread.currentThread().setName(oldName);
         log.info("Test End...");
     }
 
@@ -150,7 +150,7 @@ public class WorkerTest {
     @Test
     public void testWorker() throws Exception {
         Workbench workbench = Workbench.builder().taskID(1024L).corePoolSize(0).maximumPoolSize(Integer.MAX_VALUE).build();
-        Workbench.Worker worker = workbench.worker();
+        Workbench.Worker worker = workbench.getWorker();
         int[] i = new int[1];
         CountDownLatch latch = new CountDownLatch(20);
         for (i[0] = 0; i[0] < 20; i[0]++) {
