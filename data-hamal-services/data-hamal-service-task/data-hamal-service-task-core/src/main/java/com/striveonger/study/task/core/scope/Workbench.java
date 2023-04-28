@@ -130,6 +130,7 @@ public class Workbench {
         // private BlockingQueue<Runnable> workQueue = new SynchronousQueue<>();
         private BlockingQueue<Runnable> workQueue = new LinkedBlockingDeque<>(1);
         private ThreadFactory threadFactory;
+        // 线程池满了, 直接抛异常
         private RejectedExecutionHandler handler = new ThreadPoolExecutor.AbortPolicy();
 
         public Builder taskID(long id) {
