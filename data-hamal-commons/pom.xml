@@ -21,6 +21,7 @@
         <module>data-hamal-common-email</module>
         <module>data-hamal-common-remote</module>
         <module>data-hamal-common-rabbit</module>
+        <module>data-hamal-common-test</module>
         <module>data-hamal-common-swagger</module>
     </modules>
 

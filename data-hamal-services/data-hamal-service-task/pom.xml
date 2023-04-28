@@ -17,14 +17,14 @@
         <module>data-hamal-service-task-core</module>
         <!--通用工具-->
         <module>data-hamal-service-task-common</module>
-        <!--上下文工具-->
-        <module>data-hamal-service-task-context</module>
         <!--执行器-->
-        <module>data-hamal-service-task-actuator</module>
+        <module>data-hamal-service-task-executor</module>
         <!--插件包-->
         <module>data-hamal-service-task-plugins</module>
-        <!--任务服务提供者-->
+        <!--任务服务-->
         <module>data-hamal-service-task-worker</module>
+        <!--任务调度-->
+
     </modules>
 
 </project>

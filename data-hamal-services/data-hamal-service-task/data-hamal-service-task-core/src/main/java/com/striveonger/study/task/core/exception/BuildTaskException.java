@@ -31,12 +31,17 @@ public class BuildTaskException extends RuntimeException {
         /**
          * Task构建失败
          */
-        TASK("Task Build Fail..."),
+        TASK("Task build failure..."),
+
+        /**
+         * Step构建失败
+         */
+        STEP("Step build failure..."),
 
         /**
          * 工作台构建失败
          */
-        WORKBENCH("Workbench Build Fail...");
+        WORKBENCH("Workbench build failure...");
 
 
         private final String message;

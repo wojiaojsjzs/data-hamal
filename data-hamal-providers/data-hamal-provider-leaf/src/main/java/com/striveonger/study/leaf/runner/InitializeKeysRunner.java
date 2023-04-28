@@ -40,17 +40,14 @@ public class InitializeKeysRunner implements CommandLineRunner {
                 // 同一时间, 只能有一个线程进行初始化操作
                 for (Keys item : Keys.values()) {
                     // 只会初始化号段模式的Key
-                    if (Keys.Type.SEGMENT.equals(item.getType())) {
-                        int x = db.count(item.getKey());
-                        if (x == 0) {
-                            LeafAlloc alloc = new LeafAlloc();
-                            alloc.setKey(item.getKey());
-                            alloc.setStep(item.getStep());
-                            alloc.setMaxId(item.getStart());
-                            alloc.setDescription(item.getDescription());
-                            alloc.setUpdateTime(DateUtil.now());
-                            db.save(alloc);
-                        }
+                    if (Keys.Type.SEGMENT.equals(item.getType()) && db.count(item.getKey()) == 0) {
+                        LeafAlloc alloc = new LeafAlloc();
+                        alloc.setKey(item.getKey());
+                        alloc.setStep(item.getStep());
+                        alloc.setMaxId(item.getStart());
+                        alloc.setDescription(item.getDescription());
+                        alloc.setUpdateTime(DateUtil.now());
+                        db.save(alloc);
                     }
                 }
             }

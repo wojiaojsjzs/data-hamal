@@ -1,17 +1,14 @@
 package com.striveonger.study.redis.holder;
 
+import cn.hutool.core.util.SerializeUtil;
 import com.striveonger.study.core.constant.ResultStatus;
 import com.striveonger.study.core.exception.CustomException;
-import com.striveonger.study.core.utils.JacksonUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.core.RedisTemplate;
 
-import javax.print.DocFlavor;
-import java.nio.charset.StandardCharsets;
+import java.io.Serializable;
 import java.util.Optional;
-import java.util.Set;
 
 import static com.striveonger.study.core.constant.ResultStatus.LOCK_ACQUIRE_FAIL;
 
@@ -24,60 +21,43 @@ public class RedisHolder {
 
     private final Logger log = LoggerFactory.getLogger(RedisHolder.class);
 
-    private final RedisTemplate<String, Object> template;
+    private final RedisTemplate<String, byte[]> template;
 
-    private RedisHolder(RedisTemplate<String, Object> template) {
+    private RedisHolder(RedisTemplate<String, byte[]> template) {
         this.template = template;
     }
 
-    public void putValue(String key, String val) {
-        template.opsForValue().set(key, val);
+    public <T extends Serializable> void putValue(String key, T val) {
+        byte[] bytes = SerializeUtil.serialize(val);
+        setBytes(key, bytes);
     }
 
-    public <T> void putValue(String key, T obj) {
-        String val = JacksonUtils.toJSONString(obj);
-        putValue(key, val);
-    }
-
-    public String getValue(String key) {
-        Object o = template.opsForValue().get(key);
-        return o == null ? null : o.toString();
-    }
-
-    public <T> T getValue(String key, Class<T> clazz) {
-        Object o = template.opsForValue().get(key);
-        return o == null ? null : JacksonUtils.toObject(o.toString(), clazz);
+    public <T extends Serializable> T getValue(String key) {
+        byte[] bytes = getBytes(key);
+        return bytes == null ? null : SerializeUtil.deserialize(bytes);
     }
 
     public void removeValue(String key) {
         template.opsForValue().getAndDelete(key);
     }
 
-    public <T> T removeValue(String key, Class<T> clazz) {
-        Object o = template.opsForValue().getAndDelete(key);
-        return o == null ? null : JacksonUtils.toObject(o.toString(), clazz);
+    public <T> T getValueAndRemove(String key) {
+        byte[] bytes = template.opsForValue().getAndDelete(key);
+        return bytes == null ? null : SerializeUtil.deserialize(bytes);
     }
 
     public <T> boolean setnx(String key, T val) {
-        return Optional.ofNullable(template).map(RedisTemplate::opsForValue).map(ops -> ops.setIfAbsent(key, val)).orElse(false);
+        byte[] bytes = SerializeUtil.serialize(val);
+        return Optional.ofNullable(template).map(RedisTemplate::opsForValue).map(ops -> ops.setIfAbsent(key, bytes)).orElse(false);
     }
 
-    /* 放弃原生的bitmap, 使用自定义的数据结构吧
-    public void setbit(String key, long offset, boolean value) {
-        RedisConnection connection = template.getConnectionFactory().getConnection();
-        byte[] bytes = key.getBytes(StandardCharsets.UTF_8);
-        connection.setBit(bytes, offset, value);
-        connection.close();
+    public void setBytes(String key, byte[] bytes) {
+        template.opsForValue().set(key, bytes);
     }
 
-    public boolean getbit(String key, long offset) {
-        RedisConnection connection = template.getConnectionFactory().getConnection();
-        byte[] bytes = key.getBytes(StandardCharsets.UTF_8);
-        boolean result = connection.getBit(bytes, offset);
-        connection.close();
-        return result;
+    public byte[] getBytes(String key) {
+        return template.opsForValue().get(key);
     }
-    */
 
     /**
      * 获取分布式锁
@@ -86,27 +66,6 @@ public class RedisHolder {
      */
     public Lock acquireLock() {
         return new Lock();
-    }
-
-    public static class Builder {
-        private RedisTemplate<String, Object> template;
-
-        private Builder() {
-        }
-
-        public static Builder builder() {
-            return new Builder();
-        }
-
-        public Builder template(RedisTemplate<String, Object> template) {
-            this.template = template;
-            return this;
-        }
-
-        public RedisHolder build() {
-            if (template == null) throw new CustomException(ResultStatus.ACCIDENT, "RedisTemplate is NULL");
-            return new RedisHolder(this.template);
-        }
     }
 
     /**
@@ -160,7 +119,7 @@ public class RedisHolder {
          * @return
          */
         public boolean tryLock(String key, long usetime, long timeout) {
-            long lasttime = System.currentTimeMillis() + timeout + 1;
+            long lastTime = System.currentTimeMillis() + timeout + 1;
             boolean acquire;
             do {
                 acquire = setnx(LOCK_PREFIX + key, expireTime(usetime));
@@ -168,8 +127,9 @@ public class RedisHolder {
                     return true;
                 } else {
                     // 获取超时时间
-                    long expiretime = Optional.ofNullable(getValue(LOCK_PREFIX + key)).map(Long::valueOf).orElse(0L);
-                    if (expiretime > now()) {
+                    Long expireTime = getValue(LOCK_PREFIX + key);
+                    // expireTime = expireTime == null ? 0L : expireTime;
+                    if (expireTime > now()) {
                         // sleep
                         try {
                             log.info("trylock thread sleep...");
@@ -183,7 +143,7 @@ public class RedisHolder {
                         System.out.println("tryLock remove key: " + key);
                     }
                 }
-            } while (lasttime > now());
+            } while (lastTime > now());
             return false;
         }
 
@@ -197,6 +157,27 @@ public class RedisHolder {
 
         private long now() {
             return System.currentTimeMillis();
+        }
+    }
+
+    public static class Builder {
+        private RedisTemplate<String, byte[]> template;
+
+        private Builder() { }
+
+        public static Builder builder() {
+            return new Builder();
+        }
+
+        public Builder template(RedisTemplate<String, byte[]> template) {
+            this.template = template;
+            return this;
+        }
+
+
+        public RedisHolder build() {
+            if (template == null) throw new CustomException(ResultStatus.ACCIDENT, "RedisTemplate is NULL");
+            return new RedisHolder(template);
         }
     }
 }

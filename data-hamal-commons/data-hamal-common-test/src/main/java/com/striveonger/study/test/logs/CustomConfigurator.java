@@ -1,4 +1,4 @@
-package com.striveonger.study.logs;
+package com.striveonger.study.test.logs;
 
 import ch.qos.logback.classic.*;
 import ch.qos.logback.classic.spi.ILoggingEvent;
@@ -9,6 +9,7 @@ import ch.qos.logback.core.encoder.LayoutWrappingEncoder;
 
 import java.nio.charset.StandardCharsets;
 
+
 /**
  * @author Mr.Lee
  * @description: 自定义Logger配置, 代替logback.xml文件
@@ -16,7 +17,7 @@ import java.nio.charset.StandardCharsets;
  */
 public class CustomConfigurator extends BasicConfigurator {
 
-    private final Level level = Level.DEBUG;
+    private final Level level = Level.INFO;
 
     @Override
     public void configure(LoggerContext ctx) {

@@ -1,13 +1,22 @@
 package com.striveonger.study.task.core;
 
 
+import cn.hutool.core.thread.ThreadUtil;
 import com.striveonger.study.core.utils.SleepHelper;
-import com.striveonger.study.task.core.flow.ParalleFlow;
-import com.striveonger.study.task.core.flow.SerialeFlow;
+import com.striveonger.study.task.core.executor.Executable;
+import com.striveonger.study.task.core.executor.Executor;
+import com.striveonger.study.task.core.executor.flow.ParalleFlowExecutor;
+import com.striveonger.study.task.core.executor.flow.SerialeFlowExecutor;
+import com.striveonger.study.task.core.listener.Listener;
+import com.striveonger.study.task.core.listener.StepLogListener;
+import com.striveonger.study.task.core.scope.Workbench;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.function.BiConsumer;
@@ -46,60 +55,64 @@ public class WorkerTest {
     public void test() {
 
         log.info("Test Start...");
-
-        Workbench workbench = Workbench.builder().taskID(1L).corePoolSize(8).build();
+        Workbench workbench = Workbench.builder().taskID(1L).corePoolSize(16).maximumPoolSize(64).build();
         Workbench.Worker worker = workbench.worker();
 
         // 手动定义 DAG 任务
         int waitTimeConstant = 1;
+        Listener listener = new StepLogListener();
+        Executor A = new TestExecutor("A", waitTimeConstant);
+        A.setListener(listener);
+        Executor B = new TestExecutor("B", waitTimeConstant);
+        B.setListener(listener);
+        Executor C = new TestExecutor("C", waitTimeConstant);
+        C.setListener(listener);
+        Executor D = new TestExecutor("D", 5);
+        D.setListener(listener);
+        Executor E = new TestExecutor("E", waitTimeConstant);
+        E.setListener(listener);
+        Executor F = new TestExecutor("F", waitTimeConstant);
+        F.setListener(listener);
+        Executor G = new TestExecutor("G", waitTimeConstant);
+        G.setListener(listener);
+        Executor H = new TestExecutor("H", waitTimeConstant);
+        H.setListener(listener);
+        Executor I = new TestExecutor("I", waitTimeConstant);
+        I.setListener(listener);
+        Executor J = new TestExecutor("J", waitTimeConstant);
+        J.setListener(listener);
+        Executor K = new TestExecutor("K", waitTimeConstant);
+        K.setListener(listener);
 
-        BiConsumer<String, Integer> consumer = (s, waitTime) -> {
-            log.info("start {}", s);
-            SleepHelper.sleepSeconds(waitTime);
-            log.info("  end {}", s);
-        };
-
-        Executable A = () -> consumer.accept("A", waitTimeConstant);
-        Executable B = () -> consumer.accept("B", waitTimeConstant);
-        Executable C = () -> consumer.accept("C", waitTimeConstant);
-        Executable D = () -> consumer.accept("D", 5);
-        Executable E = () -> consumer.accept("E", waitTimeConstant);
-        Executable F = () -> consumer.accept("F", waitTimeConstant);
-        Executable G = () -> consumer.accept("G", waitTimeConstant);
-        Executable H = () -> consumer.accept("H", waitTimeConstant);
-        Executable I = () -> consumer.accept("I", waitTimeConstant);
-        Executable J = () -> consumer.accept("J", waitTimeConstant);
-        Executable K = () -> consumer.accept("K", waitTimeConstant);
-
-        SerialeFlow master = new SerialeFlow("master");
+        SerialeFlowExecutor master = new SerialeFlowExecutor();
         master.setWorkbench(workbench);
 
-        ParalleFlow AB_P = new ParalleFlow("AB_P");
+        ParalleFlowExecutor AB_P = new ParalleFlowExecutor();
         AB_P.setWorkbench(workbench);
         AB_P.push(A);
         AB_P.push(B);
 
-        SerialeFlow ABC_S = new SerialeFlow("ABC_S");
+        SerialeFlowExecutor ABC_S = new SerialeFlowExecutor();
         ABC_S.setWorkbench(workbench);
         ABC_S.push(AB_P);
         ABC_S.push(C);
 
-        SerialeFlow FH_S = new SerialeFlow("FH_S");
+        SerialeFlowExecutor FH_S = new SerialeFlowExecutor();
         FH_S.setWorkbench(workbench);
         FH_S.push(F);
         FH_S.push(H);
 
-        ParalleFlow DE_P = new ParalleFlow("DE_P");
+        ParalleFlowExecutor DE_P = new ParalleFlowExecutor();
         DE_P.setWorkbench(workbench);
         DE_P.push(D);
         DE_P.push(E);
 
-        SerialeFlow DEG_S = new SerialeFlow("DEG_S");
+        SerialeFlowExecutor DEG_S = new SerialeFlowExecutor();
         DEG_S.setWorkbench(workbench);
         DEG_S.push(DE_P);
         DEG_S.push(G);
 
-        ParalleFlow DEG_FH_P = new ParalleFlow("DEG_FH_P");
+        ParalleFlowExecutor DEG_FH_P = new ParalleFlowExecutor();
         DEG_FH_P.setWorkbench(workbench);
         DEG_FH_P.push(DEG_S);
         DEG_FH_P.push(FH_S);
@@ -118,11 +131,67 @@ public class WorkerTest {
     }
 
     @Test
-    public void testPool() {
-        ExecutorService service = Executors.newFixedThreadPool(1);
-        service.submit(() -> System.out.println("hello"));
+    public void testPool() throws Exception {
+        ExecutorService service = Executors.newCachedThreadPool();
+        int[] i = new int[1];
+        CountDownLatch latch = new CountDownLatch(20);
+        for (i[0] = 0; i[0] < 20; i[0]++) {
+            service.execute(() -> {
+                int x = i[0];
+                ThreadUtil.sleep(400);
+                log.info("hello {}", x);
+                latch.countDown();
+            });
+        }
         log.info("Thread Pool");
+        latch.await();
     }
 
+    @Test
+    public void testWorker() throws Exception {
+        Workbench workbench = Workbench.builder().taskID(1024L).corePoolSize(0).maximumPoolSize(Integer.MAX_VALUE).build();
+        Workbench.Worker worker = workbench.worker();
+        int[] i = new int[1];
+        CountDownLatch latch = new CountDownLatch(20);
+        for (i[0] = 0; i[0] < 20; i[0]++) {
+            worker.work(() -> {
+                int x = i[0];
+                ThreadUtil.sleep(400);
+                log.info("hello {}", x);
+                latch.countDown();
+            });
+        }
+        log.info("Thread Pool");
+        latch.await();
+    }
+
+    @Test
+    public void testMap() {
+        Map<Long, String> map = new HashMap<>();
+        map.put(1L, "A");
+        map.put(2L, "B");
+        map.put(3L, "C");
+        map.put(4L, "D");
+        long x = 2;
+        System.out.println(map.get(x));
+    }
+
+    private static class TestExecutor extends Executor {
+
+        private final String name;
+        private final int waitTime;
+
+        public TestExecutor(String name, int waitTime) {
+            this.name = name;
+            this.waitTime = waitTime;
+        }
+
+        @Override
+        public void execute() throws Exception {
+            log.info("start {}", name);
+            SleepHelper.sleepSeconds(waitTime);
+            log.info("  end {}", name);
+        }
+    }
 
 }

@@ -2,7 +2,7 @@
 
 ## 介绍
 
-数据的搬运工, 一个 ETL 工具.
+数据的搬运工, 一个 `ETL` 工具.
 
 近期的工作, 也是在为公司, 开发商业的ETL工具. 
 
@@ -15,13 +15,6 @@
 软件架构说明
 
 ## 系统模块
-
-
-
-
-
-
-
 
 
 ~~~
@@ -42,16 +35,15 @@ com.striveonger.study
 │   └── data-hamal-common-swagger                // 接口文档
 ├── data-hamal-services                          // 开放服务
 │   └── data-hamal-service-task                  // 任务模块
-│       └── data-hamal-service-task-actuator     // 任务执行
-│       └── data-hamal-service-task-common       // 公共内容
-│       └── data-hamal-service-task-context      // 运行环境
 │       └── data-hamal-service-task-core         // 任务核心
+│       └── data-hamal-service-task-common       // 公共内容
+│       └── data-hamal-service-task-executor     // 任务执行
 │       └── data-hamal-service-task-plugins      // 任务插件
 │       └── data-hamal-service-task-worker       // 任务服务 [9010]
 │   └── data-hamal-service-filestorage           // 文件服务 [9020]
 ├── data-hamal-providers                         // 基础服务
 │   └── data-hamal-provider-leaf                 // 叶子服务 [9100]
-├──pom.xml                                       // 公共依赖
+├── pom.xml                                      // 公共依赖
 ~~~
 
 >   服务碎片化
