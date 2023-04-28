@@ -39,7 +39,6 @@ public class Workbench {
      */
     private final Worker worker;
 
-
     /**
      * 为任务创建工作台
      *
@@ -63,8 +62,12 @@ public class Workbench {
     }
 
 
-    public Worker worker() {
+    public Worker getWorker() {
         return worker;
+    }
+
+    public long getTaskID() {
+        return taskID;
     }
 
     public static Builder builder() {

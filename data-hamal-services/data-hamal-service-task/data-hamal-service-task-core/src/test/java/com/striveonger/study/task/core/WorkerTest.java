@@ -3,7 +3,6 @@ package com.striveonger.study.task.core;
 
 import cn.hutool.core.thread.ThreadUtil;
 import com.striveonger.study.core.utils.SleepHelper;
-import com.striveonger.study.task.core.executor.Executable;
 import com.striveonger.study.task.core.executor.Executor;
 import com.striveonger.study.task.core.executor.flow.ParalleFlowExecutor;
 import com.striveonger.study.task.core.executor.flow.SerialeFlowExecutor;
@@ -19,7 +18,6 @@ import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.function.BiConsumer;
 
 /**
  * @author Mr.Lee
@@ -126,7 +124,7 @@ public class WorkerTest {
         // 开始工作～
         Thread current = Thread.currentThread();
         String oldName = current.getName();
-        String taskMasterThreadName = "";
+        String taskMasterThreadName = String.format("task-exec-%d-master", workbench.getTaskID());
         current.setName(taskMasterThreadName);
         master.execute();
         current.setName(oldName);
