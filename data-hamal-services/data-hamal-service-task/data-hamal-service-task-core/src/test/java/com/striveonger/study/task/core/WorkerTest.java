@@ -54,7 +54,7 @@ public class WorkerTest {
 
         log.info("Test Start...");
         Workbench workbench = Workbench.builder().taskID(1L).corePoolSize(1).maximumPoolSize(64).build();
-        Workbench.Worker worker = workbench.worker();
+        Workbench.Worker worker = workbench.getWorker();
 
         // 手动定义 DAG 任务
         int waitTimeConstant = 1;
@@ -151,7 +151,7 @@ public class WorkerTest {
     @Test
     public void testWorker() throws Exception {
         Workbench workbench = Workbench.builder().taskID(1024L).corePoolSize(0).maximumPoolSize(Integer.MAX_VALUE).build();
-        Workbench.Worker worker = workbench.worker();
+        Workbench.Worker worker = workbench.getWorker();
         int[] i = new int[1];
         CountDownLatch latch = new CountDownLatch(20);
         for (i[0] = 0; i[0] < 20; i[0]++) {
