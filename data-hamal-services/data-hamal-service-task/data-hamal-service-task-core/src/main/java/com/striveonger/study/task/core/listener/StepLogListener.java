@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
  * @description:
  * @date 2023-04-24 10:01
  */
-@ExecuteListener
+@ExecuteListener(type = Listener.Type.STEP)
 public class StepLogListener implements Listener {
     private final Logger log = LoggerFactory.getLogger(StepLogListener.class);
 
@@ -37,6 +37,4 @@ public class StepLogListener implements Listener {
     public Listener next() {
         return next;
     }
-
-
 }
