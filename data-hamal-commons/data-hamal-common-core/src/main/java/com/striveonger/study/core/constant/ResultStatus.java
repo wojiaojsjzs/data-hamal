@@ -29,6 +29,11 @@ public enum ResultStatus {
     NEED_USER_LOGIN(401, "Need User Login"),
 
     /**
+     * 暂时不支持的功能
+     */
+    NON_SUPPORT(405, "Non Support"),
+
+    /**
      * 系统发生异常的标识
      */
     ACCIDENT(500, "Accident Error"),

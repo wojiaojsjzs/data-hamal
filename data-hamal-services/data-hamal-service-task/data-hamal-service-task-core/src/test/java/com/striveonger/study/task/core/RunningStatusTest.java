@@ -23,9 +23,7 @@ public class RunningStatusTest {
         System.out.println("==========逐步执行完成=====");
         for (int i = 0; i < total; i++) {
             System.out.println("Step Status: " + status.stepStatus(i));
-            if (i == 20) {
-                status.pause();
-            } else if (i % 7 == 1) {
+            if (i % 7 == 1) {
                 status.update(i, StepStatus.FAIL);
             } else {
                 status.update(i, StepStatus.COMPLETE);
@@ -33,7 +31,6 @@ public class RunningStatusTest {
             System.out.println("Step Status: " + status.stepStatus(i));
             System.out.println("Task Status: " + status.taskStatus());
         }
-
     }
 
     public static void debug(long x) {

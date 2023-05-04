@@ -82,9 +82,6 @@ public class WorkerTest {
         Executor K = new TestExecutor("K", waitTimeConstant);
         K.setListener(listener);
 
-        SerialeFlowExecutor master = new SerialeFlowExecutor();
-        master.setWorkbench(workbench);
-
         ParalleFlowExecutor AB_P = new ParalleFlowExecutor();
         AB_P.setWorkbench(workbench);
         AB_P.push(A);
@@ -115,6 +112,8 @@ public class WorkerTest {
         DEG_FH_P.push(DEG_S);
         DEG_FH_P.push(FH_S);
 
+        SerialeFlowExecutor master = new SerialeFlowExecutor();
+        master.setWorkbench(workbench);
         master.push(ABC_S);
         master.push(DEG_FH_P);
         master.push(I);
@@ -127,8 +126,8 @@ public class WorkerTest {
         String taskMasterThreadName = String.format("task-exec-%d-master", workbench.getTaskID());
         current.setName(taskMasterThreadName);
         master.execute();
-        current.setName(oldName);
         log.info("Test End...");
+        current.setName(oldName);
     }
 
     @Test

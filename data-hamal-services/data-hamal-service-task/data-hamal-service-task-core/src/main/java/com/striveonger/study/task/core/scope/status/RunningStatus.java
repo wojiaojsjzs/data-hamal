@@ -86,15 +86,19 @@ public class RunningStatus {
     /**
      * 暂停任务
      */
+    @Deprecated
     public void pause() {
-        this.suspend = true;
+        throw new CustomException(ResultStatus.NON_SUPPORT, "Not support task pause...");
+        // this.suspend = true;
     }
 
     /**
      * 中止任务
      */
+    @Deprecated
     public void abort() {
-        this.aborted = true;
+        throw new CustomException(ResultStatus.NON_SUPPORT, "Not support task abort...");
+        // this.aborted = true;
     }
 
 }
