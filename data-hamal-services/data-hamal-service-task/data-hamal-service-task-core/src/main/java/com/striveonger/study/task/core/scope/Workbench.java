@@ -101,21 +101,11 @@ public class Workbench {
      * 工作者
      */
     public static class Worker {
-        // private final Integer corePoolSize;
-        // private final Integer maximumPoolSize;
-        // private final Long keepAliveTime;
-        // private final TimeUnit unit;
-        // private final BlockingQueue<Runnable> workQueue;
-        // private final ThreadFactory threadFactory;
-        // private final RejectedExecutionHandler handler;
-
         private final ExecutorService taskExecThreadPool;
-
         public Worker(Integer corePoolSize, Integer maximumPoolSize, Long keepAliveTime, TimeUnit unit,
                       BlockingQueue<Runnable> workQueue, ThreadFactory threadFactory, RejectedExecutionHandler handler) {
             this.taskExecThreadPool = new ThreadPoolExecutor(corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue, threadFactory, handler);
         }
-
         public void work(Runnable runnable) {
             taskExecThreadPool.execute(runnable);
         }
