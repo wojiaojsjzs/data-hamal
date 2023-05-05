@@ -35,6 +35,4 @@ public class StepExecutor<I, O> extends Executor {
         O out = processor.process(in);
         writer.write(out);
     }
-
-
 }

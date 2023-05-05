@@ -34,21 +34,4 @@ public class RuntimeContext {
         }
         return stepContexts[idx];
     }
-
-    /**
-     * Task运行时环境
-     */
-    public static class TaskContext {
-        private long taskID;
-        private Map<String, PerformParam> param = new ConcurrentHashMap<>();
-
-    }
-
-    /**
-     * Step运行时环境
-     */
-    public static class StepContext {
-        private long stepID;
-            private String displayName;
-    }
 }

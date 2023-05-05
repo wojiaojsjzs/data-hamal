@@ -28,10 +28,6 @@ public abstract class Listener {
      */
     public final void before(RuntimeContext context) {
         this.execBefore(context);
-        Listener next = getNext();
-        if (next != null) {
-            next.before(context);
-        }
     }
 
     protected abstract void execBefore(RuntimeContext context);
@@ -41,10 +37,6 @@ public abstract class Listener {
      */
     public final void after(RuntimeContext context) {
         this.execAfter(context);
-        Listener next = getNext();
-        if (next != null) {
-            next.after(context);
-        }
     }
 
     protected abstract void execAfter(RuntimeContext context);
@@ -54,15 +46,9 @@ public abstract class Listener {
      */
     public final void error(RuntimeContext context) {
         this.execError(context);
-        Listener next = getNext();
-        if (next != null) {
-            next.error(context);
-        }
     }
 
     protected abstract void execError(RuntimeContext context);
-
-    public abstract Listener getNext();
 
     public enum Type { ALL, TASK, STEP; }
 }

@@ -4,13 +4,9 @@ import com.striveonger.study.core.constant.ResultStatus;
 import com.striveonger.study.core.exception.CustomException;
 import com.striveonger.study.task.core.listener.Listener;
 import com.striveonger.study.task.core.scope.Workbench;
-import com.striveonger.study.task.core.scope.context.RuntimeContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -26,10 +22,10 @@ public abstract class Executor implements Executable {
      */
     protected Workbench workbench;
 
-    private Listener listener = null;
+    private Listener[] listeners = null;
 
-    public void setListener(Listener listener) {
-        this.listener = listener;
+    public void setListeners(Listener[] listeners) {
+        this.listeners = listeners;
     }
 
     public Executor() { }
@@ -55,20 +51,20 @@ public abstract class Executor implements Executable {
     }
 
     private void doBefore() {
-        if (Objects.nonNull(listener)) {
-            listener.before(workbench.getContext());
+        if (Objects.nonNull(listeners)) {
+            // listener.before(workbench.getContext());
         }
     }
 
     private void doAfter() {
-        if (Objects.nonNull(listener)) {
-            listener.after(workbench.getContext());
+        if (Objects.nonNull(listeners)) {
+            // listener.after(workbench.getContext());
         }
     }
 
     private void doError() {
-        if (Objects.nonNull(listener)) {
-            listener.error(workbench.getContext());
+        if (Objects.nonNull(listeners)) {
+            // listener.error(workbench.getContext());
         }
     }
 

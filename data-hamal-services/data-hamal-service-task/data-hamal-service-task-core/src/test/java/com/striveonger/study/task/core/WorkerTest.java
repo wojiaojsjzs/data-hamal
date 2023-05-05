@@ -58,29 +58,29 @@ public class WorkerTest {
 
         // 手动定义 DAG 任务
         int waitTimeConstant = 1;
-        Listener listener = new StepLogListener();
+        Listener[] listeners = new Listener[]{new StepLogListener()};
         Executor A = new TestExecutor("A", waitTimeConstant);
-        A.setListener(listener);
+        A.setListeners(listeners);
         Executor B = new TestExecutor("B", waitTimeConstant);
-        B.setListener(listener);
+        B.setListeners(listeners);
         Executor C = new TestExecutor("C", waitTimeConstant);
-        C.setListener(listener);
+        C.setListeners(listeners);
         Executor D = new TestExecutor("D", 5);
-        D.setListener(listener);
+        D.setListeners(listeners);
         Executor E = new TestExecutor("E", waitTimeConstant);
-        E.setListener(listener);
+        E.setListeners(listeners);
         Executor F = new TestExecutor("F", waitTimeConstant);
-        F.setListener(listener);
+        F.setListeners(listeners);
         Executor G = new TestExecutor("G", waitTimeConstant);
-        G.setListener(listener);
+        G.setListeners(listeners);
         Executor H = new TestExecutor("H", waitTimeConstant);
-        H.setListener(listener);
+        H.setListeners(listeners);
         Executor I = new TestExecutor("I", waitTimeConstant);
-        I.setListener(listener);
+        I.setListeners(listeners);
         Executor J = new TestExecutor("J", waitTimeConstant);
-        J.setListener(listener);
+        J.setListeners(listeners);
         Executor K = new TestExecutor("K", waitTimeConstant);
-        K.setListener(listener);
+        K.setListeners(listeners);
 
         ParalleFlowExecutor AB_P = new ParalleFlowExecutor();
         AB_P.setWorkbench(workbench);
