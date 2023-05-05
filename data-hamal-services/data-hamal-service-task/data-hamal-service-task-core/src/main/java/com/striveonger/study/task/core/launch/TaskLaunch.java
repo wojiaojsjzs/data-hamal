@@ -14,12 +14,23 @@ import java.util.List;
 public class TaskLaunch {
     private final Logger log = LoggerFactory.getLogger(TaskLaunch.class);
 
+    // TODO: 后面可以考虑把 launch包, 移入 data-hamal-service-task-executor 模块中
+
     /**
      * 启动任务
      * @return 任务执行结果
      */
     public TaskStatus start() {
+        // 1. 初始化工作空间
+        // 2. 初始化listener
+        // 3. 初始化运行时环境
+        // 4. 初始化 StepExecutor(设置 "运行时环境", "listener", "工作空间" )
+        // 5. 生成 FlowExecutor
+        // 6. 启动 MasterExecutor
+
         return null;
     }
+
+
 
 }

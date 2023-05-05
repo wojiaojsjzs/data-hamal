@@ -8,6 +8,7 @@ import com.striveonger.study.task.core.constant.TaskStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.Serializable;
 import java.util.Arrays;
 
 
@@ -16,8 +17,8 @@ import java.util.Arrays;
  * @description: 运行时状态(bitmap)
  * @date 2023-04-17 14:41
  */
-public class RunningStatus {
-    private final Logger log = LoggerFactory.getLogger(RunningStatus.class);
+public class RuntimeStatus implements Serializable {
+    private final Logger log = LoggerFactory.getLogger(RuntimeStatus.class);
 
     private int total;
 
@@ -27,9 +28,9 @@ public class RunningStatus {
 
     private volatile boolean aborted = false;
 
-    public RunningStatus() { }
+    public RuntimeStatus() { }
 
-    public RunningStatus(int total) {
+    public RuntimeStatus(int total) {
         this.total = total;
         this.states = new long[(total >> 5) + 1];
     }

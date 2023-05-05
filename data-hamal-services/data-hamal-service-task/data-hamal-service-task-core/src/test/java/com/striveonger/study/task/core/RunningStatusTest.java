@@ -1,13 +1,13 @@
 package com.striveonger.study.task.core;
 
 import com.striveonger.study.task.core.constant.StepStatus;
-import com.striveonger.study.task.core.scope.status.RunningStatus;
+import com.striveonger.study.task.core.scope.status.RuntimeStatus;
 
 public class RunningStatusTest {
 
     public static void main(String[] args) {
         int total = 40;
-        RunningStatus status = new RunningStatus(total);
+        RuntimeStatus status = new RuntimeStatus(total);
 
         System.out.println("==========初始化=====");
         System.out.println("Task Status: " + status.taskStatus());

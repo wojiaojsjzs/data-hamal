@@ -4,6 +4,7 @@ import com.striveonger.study.task.core.exception.BuildTaskException;
 import com.striveonger.study.task.core.executor.Executable;
 import com.striveonger.study.task.core.executor.Executor;
 import com.striveonger.study.task.core.executor.flow.FlowExecutor;
+import com.striveonger.study.task.core.scope.context.RuntimeContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,10 +30,13 @@ public class Workbench {
      */
 
 
+
     /**
      * 任务ID
      */
     private final long taskID;
+
+    private final RuntimeContext context;
 
     /**
      * 天选打工人 & 职业经理人
@@ -51,14 +55,16 @@ public class Workbench {
      * @param threadFactory   线程的创建器
      * @param handler         拒绝策略
      */
-    private Workbench(long taskID,
+    private Workbench(long taskID, RuntimeContext context,
                       Integer corePoolSize, Integer maximumPoolSize,
                       Long keepAliveTime, TimeUnit unit,
                       BlockingQueue<Runnable> workQueue,
                       ThreadFactory threadFactory,
                       RejectedExecutionHandler handler) {
         this.taskID = taskID;
+        this.context = context;
         this.worker = new Worker(corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue, threadFactory, handler);
+
     }
 
 
@@ -68,6 +74,10 @@ public class Workbench {
 
     public long getTaskID() {
         return taskID;
+    }
+
+    public RuntimeContext getContext() {
+        return context;
     }
 
     public static Builder builder() {
@@ -113,6 +123,7 @@ public class Workbench {
 
     public static class Builder {
         private Long taskID;
+        private RuntimeContext context;
         private Integer corePoolSize = 8, maximumPoolSize = 32;
         private Long keepAliveTime = 30L;
         private final TimeUnit unit = TimeUnit.MILLISECONDS;
@@ -126,6 +137,11 @@ public class Workbench {
         public Builder taskID(long id) {
             this.taskID = id;
             this.threadFactory = new TaskThreadFactory(id);
+            return this;
+        }
+
+        public Builder context(RuntimeContext context) {
+            this.context = context;
             return this;
         }
 
@@ -156,8 +172,8 @@ public class Workbench {
         }
 
         public Workbench build() {
-            if (taskID == null) throw new BuildTaskException(BuildTaskException.Type.WORKBENCH);
-            return new Workbench(taskID, corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue, threadFactory, handler);
+            if (taskID == null || context == null) throw new BuildTaskException(BuildTaskException.Type.WORKBENCH);
+            return new Workbench(taskID, context, corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue, threadFactory, handler);
         }
     }
 }

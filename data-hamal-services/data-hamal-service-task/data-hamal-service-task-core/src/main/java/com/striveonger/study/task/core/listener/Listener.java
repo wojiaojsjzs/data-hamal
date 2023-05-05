@@ -1,11 +1,14 @@
 package com.striveonger.study.task.core.listener;
 
+import com.striveonger.study.task.core.scope.context.RuntimeContext;
+import com.sun.source.tree.IfTree;
+
 /**
  * @author Mr.Lee
  * @description:
  * @date 2023-04-23 16:11
  */
-public interface Listener {
+public abstract class Listener {
 
     /*
      * TODO: 现在呢想到的
@@ -23,19 +26,43 @@ public interface Listener {
     /**
      * 执行前
      */
-    default void before() { }
+    public final void before(RuntimeContext context) {
+        this.execBefore(context);
+        Listener next = getNext();
+        if (next != null) {
+            next.before(context);
+        }
+    }
+
+    protected abstract void execBefore(RuntimeContext context);
 
     /**
      * 执行后
      */
-    default void after() { }
+    public final void after(RuntimeContext context) {
+        this.execAfter(context);
+        Listener next = getNext();
+        if (next != null) {
+            next.after(context);
+        }
+    }
+
+    protected abstract void execAfter(RuntimeContext context);
 
     /**
      * 执行出错
      */
-    default void error() { }
+    public final void error(RuntimeContext context) {
+        this.execError(context);
+        Listener next = getNext();
+        if (next != null) {
+            next.error(context);
+        }
+    }
 
-    Listener next();
+    protected abstract void execError(RuntimeContext context);
 
-    enum Type { ALL, TASK, STEP; }
+    public abstract Listener getNext();
+
+    public enum Type { ALL, TASK, STEP; }
 }
