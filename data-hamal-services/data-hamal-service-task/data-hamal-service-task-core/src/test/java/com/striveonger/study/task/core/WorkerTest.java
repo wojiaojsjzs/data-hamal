@@ -8,7 +8,9 @@ import com.striveonger.study.task.core.executor.flow.ParalleFlowExecutor;
 import com.striveonger.study.task.core.executor.flow.SerialeFlowExecutor;
 import com.striveonger.study.task.core.listener.Listener;
 import com.striveonger.study.task.core.listener.step.StepLogListener;
+import com.striveonger.study.task.core.listener.task.TaskThreadNameListener;
 import com.striveonger.study.task.core.scope.Workbench;
+import com.striveonger.study.task.core.scope.context.RuntimeContext;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,13 +54,28 @@ public class WorkerTest {
     @Test
     public void test() {
 
+        // 1. 初始化运行时环境
+        // 2. 初始化listener
+        // 3. 初始化工作空间
+        // 4. 初始化 StepExecutor(设置 "运行时环境", "listener", "工作空间" )
+        // 5. 生成 FlowExecutor
+        // 6. 启动 MasterExecutor
+
+
+
         log.info("Test Start...");
-        Workbench workbench = Workbench.builder().taskID(1L).corePoolSize(1).maximumPoolSize(64).build();
-        Workbench.Worker worker = workbench.getWorker();
+
+        // 1. 初始化运行时环境
+        RuntimeContext cxt = new RuntimeContext(1L, 11, null);
+        // 2. 初始化工作空间
+        Workbench workbench = Workbench.builder().taskID(1L).corePoolSize(1).maximumPoolSize(64).context(cxt).build();
+        // Workbench.Worker worker = workbench.getWorker();
+        // 3. 初始化listener
+        Listener[] listeners = new Listener[]{new StepLogListener()};
 
         // 手动定义 DAG 任务
         int waitTimeConstant = 1;
-        Listener[] listeners = new Listener[]{new StepLogListener()};
+
         Executor A = new TestExecutor("A", waitTimeConstant);
         A.setListeners(listeners);
         Executor B = new TestExecutor("B", waitTimeConstant);
@@ -114,6 +131,7 @@ public class WorkerTest {
 
         SerialeFlowExecutor master = new SerialeFlowExecutor();
         master.setWorkbench(workbench);
+        master.setListeners(new Listener[]{new TaskThreadNameListener(), new StepLogListener()});
         master.push(ABC_S);
         master.push(DEG_FH_P);
         master.push(I);

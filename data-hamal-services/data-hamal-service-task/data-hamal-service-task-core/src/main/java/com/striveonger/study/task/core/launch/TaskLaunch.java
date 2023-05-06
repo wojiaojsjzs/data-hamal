@@ -21,9 +21,9 @@ public class TaskLaunch {
      * @return 任务执行结果
      */
     public TaskStatus start() {
-        // 1. 初始化工作空间
+        // 1. 初始化运行时环境
         // 2. 初始化listener
-        // 3. 初始化运行时环境
+        // 3. 初始化工作空间
         // 4. 初始化 StepExecutor(设置 "运行时环境", "listener", "工作空间" )
         // 5. 生成 FlowExecutor
         // 6. 启动 MasterExecutor

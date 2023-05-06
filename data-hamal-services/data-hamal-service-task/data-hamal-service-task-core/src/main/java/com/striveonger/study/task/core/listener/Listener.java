@@ -1,14 +1,13 @@
 package com.striveonger.study.task.core.listener;
 
-import com.striveonger.study.task.core.scope.context.RuntimeContext;
-import com.sun.source.tree.IfTree;
+import com.striveonger.study.task.core.scope.context.StepContext;
 
 /**
  * @author Mr.Lee
  * @description:
  * @date 2023-04-23 16:11
  */
-public abstract class Listener {
+public interface Listener {
 
     /*
      * TODO: 现在呢想到的
@@ -26,29 +25,17 @@ public abstract class Listener {
     /**
      * 执行前
      */
-    public final void before(RuntimeContext context) {
-        this.execBefore(context);
-    }
-
-    protected abstract void execBefore(RuntimeContext context);
+    void before(StepContext context);
 
     /**
      * 执行后
      */
-    public final void after(RuntimeContext context) {
-        this.execAfter(context);
-    }
-
-    protected abstract void execAfter(RuntimeContext context);
+    void after(StepContext context);
 
     /**
      * 执行出错
      */
-    public final void error(RuntimeContext context) {
-        this.execError(context);
-    }
+    void error(StepContext context);
 
-    protected abstract void execError(RuntimeContext context);
-
-    public enum Type { ALL, TASK, STEP; }
+    enum Type { ALL, TASK, STEP }
 }

@@ -13,21 +13,21 @@ import org.slf4j.LoggerFactory;
  * @date 2023-04-24 10:01
  */
 @ExecuteListener(type = Listener.Type.STEP)
-public class StepLogListener extends Listener {
+public class StepLogListener implements Listener {
     private final Logger log = LoggerFactory.getLogger(StepLogListener.class);
 
     @Override
-    protected void execBefore(StepContext context) {
-        log.info("Step {} execute start", "#");
+    public void before(StepContext context) {
+        log.info("Step [{}] execute start...", context.getDisplayName());
     }
 
     @Override
-    protected void execAfter(RuntimeContext context) {
-        log.info("Step {} execute finish", "#");
+    public void after(StepContext context) {
+        log.info("Step [{}] execute finish...", context.getDisplayName());
     }
 
     @Override
-    protected void execError(RuntimeContext context) {
-        log.info("Step {} execute error", "#");
+    public void error(StepContext context) {
+        log.info("Step [{}] execute an error occurs...", context.getDisplayName());
     }
 }

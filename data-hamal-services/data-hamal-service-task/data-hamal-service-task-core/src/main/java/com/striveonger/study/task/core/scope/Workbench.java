@@ -4,6 +4,7 @@ import com.striveonger.study.task.core.exception.BuildTaskException;
 import com.striveonger.study.task.core.executor.Executable;
 import com.striveonger.study.task.core.executor.Executor;
 import com.striveonger.study.task.core.executor.flow.FlowExecutor;
+import com.striveonger.study.task.core.listener.Listener;
 import com.striveonger.study.task.core.scope.context.RuntimeContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,6 +57,7 @@ public class Workbench {
      * @param handler         拒绝策略
      */
     private Workbench(long taskID, RuntimeContext context,
+
                       Integer corePoolSize, Integer maximumPoolSize,
                       Long keepAliveTime, TimeUnit unit,
                       BlockingQueue<Runnable> workQueue,

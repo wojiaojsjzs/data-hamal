@@ -24,14 +24,14 @@ public abstract class Executor implements Executable {
 
     private Listener[] listeners = null;
 
-    public void setListeners(Listener[] listeners) {
-        this.listeners = listeners;
-    }
-
     public Executor() { }
 
     public void setWorkbench(Workbench workbench) {
         this.workbench = workbench;
+    }
+
+    public void setListeners(Listener[] listeners) {
+        this.listeners = listeners;
     }
 
     @Override
@@ -52,12 +52,14 @@ public abstract class Executor implements Executable {
 
     private void doBefore() {
         if (Objects.nonNull(listeners)) {
+            // TODO: 压栈&执行
             // listener.before(workbench.getContext());
         }
     }
 
     private void doAfter() {
         if (Objects.nonNull(listeners)) {
+            // TODO: 弹栈&执行
             // listener.after(workbench.getContext());
         }
     }

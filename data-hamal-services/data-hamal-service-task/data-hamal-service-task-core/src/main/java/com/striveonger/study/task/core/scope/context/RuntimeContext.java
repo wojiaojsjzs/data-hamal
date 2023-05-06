@@ -2,11 +2,7 @@ package com.striveonger.study.task.core.scope.context;
 
 import com.striveonger.study.core.constant.ResultStatus;
 import com.striveonger.study.core.exception.CustomException;
-import com.striveonger.study.task.core.scope.trigger.PerformParam;
 import com.striveonger.study.task.core.scope.trigger.TaskTrigger;
-
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author Mr.Lee
