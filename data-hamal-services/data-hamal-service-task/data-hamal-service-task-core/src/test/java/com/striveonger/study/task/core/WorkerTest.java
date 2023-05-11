@@ -11,6 +11,7 @@ import com.striveonger.study.task.core.listener.step.StepLogListener;
 import com.striveonger.study.task.core.listener.task.TaskThreadNameListener;
 import com.striveonger.study.task.core.scope.Workbench;
 import com.striveonger.study.task.core.scope.context.RuntimeContext;
+import com.striveonger.study.task.core.scope.trigger.TaskTrigger;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -66,7 +67,11 @@ public class WorkerTest {
         log.info("Test Start...");
 
         // 1. 初始化运行时环境
-        RuntimeContext cxt = new RuntimeContext(1L, 11, null);
+        TaskTrigger trigger = new TaskTrigger();
+        trigger.setTaskID(1L);
+
+        RuntimeContext cxt = new RuntimeContext(trigger);
+
         // 2. 初始化工作空间
         Workbench workbench = Workbench.builder().taskID(1L).corePoolSize(1).maximumPoolSize(64).context(cxt).build();
         // Workbench.Worker worker = workbench.getWorker();
@@ -144,8 +149,8 @@ public class WorkerTest {
         String taskMasterThreadName = String.format("task-exec-%d-master", workbench.getTaskID());
         current.setName(taskMasterThreadName);
         master.execute();
-        log.info("Test End...");
         current.setName(oldName);
+        log.info("Test End...");
     }
 
     @Test

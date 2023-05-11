@@ -6,12 +6,14 @@ package com.striveonger.study.task.core.scope.trigger;
  * @date 2023-05-04 16:00
  */
 public class PerformParam {
+
     /**
      * 参数名
      */
     private String name;
+
     /**
-     * 参数值
+     * 参数值 TODO: 后期是考虑支持SpringEL表达式 (少年, 未来可期~, 我再提一嘴呀...表达式的话 alterable 一定为false了)
      */
     private String value;
 

@@ -1,7 +1,5 @@
 package com.striveonger.study.task.core.scope.context;
 
-import com.striveonger.study.task.core.constant.TaskStatus;
-
 /**
  * @author Mr.Lee
  * @description: Step运行时环境
@@ -10,7 +8,9 @@ import com.striveonger.study.task.core.constant.TaskStatus;
 public class StepContext {
 
     private long stepID;
+
     private String displayName;
+
     private TaskContext taskContext;
 
     public long getStepID() {

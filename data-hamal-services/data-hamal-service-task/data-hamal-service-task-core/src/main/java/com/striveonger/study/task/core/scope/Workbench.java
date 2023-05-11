@@ -57,7 +57,6 @@ public class Workbench {
      * @param handler         拒绝策略
      */
     private Workbench(long taskID, RuntimeContext context,
-
                       Integer corePoolSize, Integer maximumPoolSize,
                       Long keepAliveTime, TimeUnit unit,
                       BlockingQueue<Runnable> workQueue,
@@ -66,7 +65,6 @@ public class Workbench {
         this.taskID = taskID;
         this.context = context;
         this.worker = new Worker(corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue, threadFactory, handler);
-
     }
 
 
