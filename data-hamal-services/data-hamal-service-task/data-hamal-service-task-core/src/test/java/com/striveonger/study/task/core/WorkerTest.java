@@ -69,6 +69,7 @@ public class WorkerTest {
         // 1. 初始化运行时环境
         TaskTrigger trigger = new TaskTrigger();
         trigger.setTaskID(1L);
+        // todo: 稍后完成 触发器"初始化"的工作
 
         RuntimeContext cxt = new RuntimeContext(trigger);
 
