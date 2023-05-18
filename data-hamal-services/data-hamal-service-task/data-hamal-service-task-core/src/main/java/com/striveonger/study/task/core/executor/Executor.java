@@ -51,7 +51,7 @@ public abstract class Executor implements Executable {
             if (e instanceof CustomException ce) {
                 throw ce;
             }
-            throw new CustomException(ResultStatus.TASK_EXECUTE_FAIL);
+            throw new CustomException(ResultStatus.TASK_EXECUTE_FAIL, e.getMessage());
         }
     }
 
@@ -71,6 +71,7 @@ public abstract class Executor implements Executable {
 
     private void doError() {
         if (Objects.nonNull(listeners)) {
+            // TODO: 弹栈&执行
             // listener.error(workbench.getContext());
         }
     }

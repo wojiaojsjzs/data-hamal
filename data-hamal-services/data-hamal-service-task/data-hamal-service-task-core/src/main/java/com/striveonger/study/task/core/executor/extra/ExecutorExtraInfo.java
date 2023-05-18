@@ -9,17 +9,17 @@ import com.striveonger.study.task.core.executor.Executor;
  */
 public class ExecutorExtraInfo {
     // 扩展内容 start...
-    private long stepID;
+    private String stepID;
     private String displayName;
     // 扩展内容 end...
 
     private Executor executor;
 
-    public long getStepID() {
+    public String getStepID() {
         return stepID;
     }
 
-    public void setStepID(long stepID) {
+    public void setStepID(String stepID) {
         this.stepID = stepID;
     }
 

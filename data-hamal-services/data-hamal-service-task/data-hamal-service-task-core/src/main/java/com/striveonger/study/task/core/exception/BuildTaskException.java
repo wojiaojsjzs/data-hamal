@@ -22,6 +22,10 @@ public class BuildTaskException extends RuntimeException {
         super(type.message);
         this.type = type;
     }
+    public BuildTaskException(Type type, String message) {
+        super(message);
+        this.type = type;
+    }
 
     public Type getType() {
         return type;

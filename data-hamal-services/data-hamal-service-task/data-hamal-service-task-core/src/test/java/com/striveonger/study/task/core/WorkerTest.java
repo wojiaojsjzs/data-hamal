@@ -2,15 +2,15 @@ package com.striveonger.study.task.core;
 
 
 import cn.hutool.core.thread.ThreadUtil;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.striveonger.study.core.utils.JacksonUtils;
 import com.striveonger.study.core.utils.SleepHelper;
+import com.striveonger.study.task.core.constant.TaskStatus;
 import com.striveonger.study.task.core.executor.Executor;
-import com.striveonger.study.task.core.executor.flow.ParalleFlowExecutor;
-import com.striveonger.study.task.core.executor.flow.SerialeFlowExecutor;
-import com.striveonger.study.task.core.listener.Listener;
-import com.striveonger.study.task.core.listener.step.StepLogListener;
-import com.striveonger.study.task.core.listener.task.TaskThreadNameListener;
+import com.striveonger.study.task.core.executor.extra.ExecutorExtraInfo;
+import com.striveonger.study.task.core.launch.TaskLaunch;
 import com.striveonger.study.task.core.scope.Workbench;
-import com.striveonger.study.task.core.scope.context.RuntimeContext;
+import com.striveonger.study.task.core.scope.trigger.PerformParam;
 import com.striveonger.study.task.core.scope.trigger.TaskTrigger;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
@@ -18,6 +18,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -55,103 +56,115 @@ public class WorkerTest {
     @Test
     public void test() {
 
-        // 1. 初始化运行时环境
+        // 1.
         // 2. 初始化listener
         // 3. 初始化工作空间
         // 4. 初始化 StepExecutor(设置 "运行时环境", "listener", "工作空间" )
         // 5. 生成 FlowExecutor
         // 6. 启动 MasterExecutor
 
-
-
         log.info("Test Start...");
 
-        // 1. 初始化运行时环境
+        // 1. 初始化任务触发器
         TaskTrigger trigger = new TaskTrigger();
         trigger.setTaskID(1L);
-        // todo: 稍后完成 触发器"初始化"的工作
 
-        RuntimeContext cxt = new RuntimeContext(trigger);
-
-        // 2. 初始化工作空间
-        Workbench workbench = Workbench.builder().taskID(1L).corePoolSize(1).maximumPoolSize(64).context(cxt).build();
-        // Workbench.Worker worker = workbench.getWorker();
-        // 3. 初始化listener
-        Listener[] listeners = new Listener[]{new StepLogListener()};
-
-        // 手动定义 DAG 任务
+        // 2. 定义 DAG 任务
         int waitTimeConstant = 1;
-
+        // 2.1 初始化任务列表
         Executor A = new TestExecutor("A", waitTimeConstant);
-        A.setListeners(listeners);
+        ExecutorExtraInfo Ae = new ExecutorExtraInfo();
+        Ae.setStepID("A");
+        Ae.setDisplayName("A");
+        Ae.setExecutor(A);
+        trigger.putExtra(Ae);
         Executor B = new TestExecutor("B", waitTimeConstant);
-        B.setListeners(listeners);
+        ExecutorExtraInfo Be = new ExecutorExtraInfo();
+        Be.setStepID("B");
+        Be.setDisplayName("B");
+        Be.setExecutor(B);
+        trigger.putExtra(Be);
         Executor C = new TestExecutor("C", waitTimeConstant);
-        C.setListeners(listeners);
+        ExecutorExtraInfo Ce = new ExecutorExtraInfo();
+        Ce.setStepID("C");
+        Ce.setDisplayName("C");
+        Ce.setExecutor(C);
+        trigger.putExtra(Ce);
         Executor D = new TestExecutor("D", 5);
-        D.setListeners(listeners);
+        ExecutorExtraInfo De = new ExecutorExtraInfo();
+        De.setStepID("D");
+        De.setDisplayName("D");
+        De.setExecutor(D);
+        trigger.putExtra(De);
         Executor E = new TestExecutor("E", waitTimeConstant);
-        E.setListeners(listeners);
+        ExecutorExtraInfo Ee = new ExecutorExtraInfo();
+        Ee.setStepID("E");
+        Ee.setDisplayName("E");
+        Ee.setExecutor(E);
+        trigger.putExtra(Ee);
         Executor F = new TestExecutor("F", waitTimeConstant);
-        F.setListeners(listeners);
+        ExecutorExtraInfo Fe = new ExecutorExtraInfo();
+        Fe.setStepID("F");
+        Fe.setDisplayName("F");
+        Fe.setExecutor(F);
+        trigger.putExtra(Fe);
         Executor G = new TestExecutor("G", waitTimeConstant);
-        G.setListeners(listeners);
+        ExecutorExtraInfo Ge = new ExecutorExtraInfo();
+        Ge.setStepID("G");
+        Ge.setDisplayName("G");
+        Ge.setExecutor(G);
+        trigger.putExtra(Ge);
         Executor H = new TestExecutor("H", waitTimeConstant);
-        H.setListeners(listeners);
+        ExecutorExtraInfo He = new ExecutorExtraInfo();
+        He.setStepID("H");
+        He.setDisplayName("H");
+        He.setExecutor(H);
+        trigger.putExtra(He);
         Executor I = new TestExecutor("I", waitTimeConstant);
-        I.setListeners(listeners);
+        ExecutorExtraInfo Ie = new ExecutorExtraInfo();
+        Ie.setStepID("I");
+        Ie.setDisplayName("I");
+        Ie.setExecutor(I);
+        trigger.putExtra(Ie);
         Executor J = new TestExecutor("J", waitTimeConstant);
-        J.setListeners(listeners);
+        ExecutorExtraInfo Je = new ExecutorExtraInfo();
+        Je.setStepID("J");
+        Je.setDisplayName("J");
+        Je.setExecutor(J);
+        trigger.putExtra(Je);
         Executor K = new TestExecutor("K", waitTimeConstant);
-        K.setListeners(listeners);
+        ExecutorExtraInfo Ke = new ExecutorExtraInfo();
+        Ke.setStepID("K");
+        Ke.setDisplayName("K");
+        Ke.setExecutor(K);
+        trigger.putExtra(Ke);
 
-        ParalleFlowExecutor AB_P = new ParalleFlowExecutor();
-        AB_P.setWorkbench(workbench);
-        AB_P.push(A);
-        AB_P.push(B);
+        // 2.2 定义任务的拓扑序
+        // Map<String, Set<String>> topology = new HashMap<>();
+        // topology.put("A", Set.of("C"));
+        // topology.put("B", Set.of("C"));
+        // topology.put("C", Set.of("D", "E", "F"));
+        // topology.put("D", Set.of("G"));
+        // topology.put("E", Set.of("G"));
+        // topology.put("F", Set.of("H"));
+        // topology.put("G", Set.of("I"));
+        // topology.put("H", Set.of("I"));
+        // topology.put("I", Set.of("J"));
+        // topology.put("J", Set.of("K"));
+        // topology.put("K", Set.of());
+        Map<String, Set<String>> topology = JacksonUtils.toObject(json, new TypeReference<Map<String, Set<String>>>() {});
+        trigger.setTopology(topology);
 
-        SerialeFlowExecutor ABC_S = new SerialeFlowExecutor();
-        ABC_S.setWorkbench(workbench);
-        ABC_S.push(AB_P);
-        ABC_S.push(C);
+        // 3. 定义任务参数
+        trigger.putParam(new PerformParam("a", "1", true));
+        trigger.putParam(new PerformParam("b", "2", true));
+        trigger.putParam(new PerformParam("c", "3"));
 
-        SerialeFlowExecutor FH_S = new SerialeFlowExecutor();
-        FH_S.setWorkbench(workbench);
-        FH_S.push(F);
-        FH_S.push(H);
 
-        ParalleFlowExecutor DE_P = new ParalleFlowExecutor();
-        DE_P.setWorkbench(workbench);
-        DE_P.push(D);
-        DE_P.push(E);
-
-        SerialeFlowExecutor DEG_S = new SerialeFlowExecutor();
-        DEG_S.setWorkbench(workbench);
-        DEG_S.push(DE_P);
-        DEG_S.push(G);
-
-        ParalleFlowExecutor DEG_FH_P = new ParalleFlowExecutor();
-        DEG_FH_P.setWorkbench(workbench);
-        DEG_FH_P.push(DEG_S);
-        DEG_FH_P.push(FH_S);
-
-        SerialeFlowExecutor master = new SerialeFlowExecutor();
-        master.setWorkbench(workbench);
-        master.setListeners(new Listener[]{new TaskThreadNameListener(), new StepLogListener()});
-        master.push(ABC_S);
-        master.push(DEG_FH_P);
-        master.push(I);
-        master.push(J);
-        master.push(K);
-
-        // 开始工作～
-        Thread current = Thread.currentThread();
-        String oldName = current.getName();
-        String taskMasterThreadName = String.format("task-exec-%d-master", workbench.getTaskID());
-        current.setName(taskMasterThreadName);
-        master.execute();
-        current.setName(oldName);
-        log.info("Test End...");
+        // 4. 定义任务启动器, 并启动
+        TaskLaunch launch = new TaskLaunch(trigger);
+        TaskStatus status = launch.start();
+        log.info("task execute stauts " + status);
     }
 
     @Test

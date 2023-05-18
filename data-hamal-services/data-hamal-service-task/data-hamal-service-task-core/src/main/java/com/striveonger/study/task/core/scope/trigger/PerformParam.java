@@ -20,14 +20,25 @@ public class PerformParam {
     /**
      * 运行时是否可变
      */
-    private boolean alterable;
+    private final boolean alterable;
+
+    /**
+     * 默认为定义常量
+     * @param name
+     * @param value
+     */
+    public PerformParam(String name, String value) {
+        this(name, value, false);
+    }
+
+    public PerformParam(String name, String value, boolean alterable) {
+        this.name = name;
+        this.value = value;
+        this.alterable = alterable;
+    }
 
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getValue() {
@@ -35,15 +46,8 @@ public class PerformParam {
     }
 
     public void setValue(String value) {
-        this.value = value;
+        if (alterable) {
+            this.value = value;
+        }
     }
-
-    public boolean isAlterable() {
-        return alterable;
-    }
-
-    public void setAlterable(boolean alterable) {
-        this.alterable = alterable;
-    }
-
 }

@@ -7,17 +7,21 @@ package com.striveonger.study.task.core.scope.context;
  */
 public class StepContext {
 
-    private long stepID;
+    private String stepID;
 
     private String displayName;
 
     private TaskContext taskContext;
 
-    public long getStepID() {
+    public long getTaskID() {
+        return taskContext.getTaskID();
+    }
+
+    public String getStepID() {
         return stepID;
     }
 
-    public void setStepID(long stepID) {
+    public void setStepID(String stepID) {
         this.stepID = stepID;
     }
 

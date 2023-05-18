@@ -24,14 +24,14 @@ public abstract class FlowExecutor extends Executor {
 
     public FlowExecutor() { }
 
-    public final void push(Executable task) {
+    public final <T extends Executable> void push(T task) {
         if (subtasks == null) {
             subtasks = new ArrayList<>();
         }
         subtasks.add(task);
     }
 
-    public final void push(Collection<Executable> tasks) {
+    public final void push(Collection<? extends Executable> tasks) {
         if (this.subtasks == null) {
             this.subtasks = new ArrayList<>(tasks);
         } else {

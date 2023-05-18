@@ -37,5 +37,5 @@ public interface Listener {
      */
     void error(StepContext context);
 
-    enum Type { ALL, TASK, STEP }
+    enum Type { TASK, STEP }
 }

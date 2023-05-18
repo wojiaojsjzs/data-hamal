@@ -61,6 +61,15 @@ public class JacksonUtils {
         return null;
     }
 
+    public static <T> T toObject(String s, TypeReference<T> type) {
+        try {
+            return mapper.readValue(s, type);
+        } catch (JsonProcessingException e) {
+            log.error("Jackson Convert Object error ", e);
+        }
+        return null;
+    }
+
     public static byte[] toJSONBytes(Object o) {
         String str = toJSONString(o);
         return str == null ? null : str.getBytes(StandardCharsets.UTF_8);

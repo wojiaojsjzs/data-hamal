@@ -1,10 +1,9 @@
 package com.striveonger.study.task.core.scope.trigger;
 
 import com.striveonger.study.task.core.executor.extra.ExecutorExtraInfo;
-import com.striveonger.study.task.core.listener.Listener;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author Mr.Lee
@@ -25,18 +24,13 @@ public class TaskTrigger {
     /**
      * task 执行列表 (包含扩展信息)
      */
-    private final List<ExecutorExtraInfo> extras = new ArrayList<>();
+    private final Map<String, ExecutorExtraInfo> extras = new ConcurrentHashMap<>();
 
     /**
-     * task 执行监听
+     * task 执行顺序 (用邻接表表示的拓扑序)
+     * stepID -> [nextStepID...]
      */
-    private final List<Listener> listeners = new ArrayList<>();
-
-    /**
-     * task 执行结构 (用邻接表表示) TODO: 后面再定义结构吧...
-     */
-    // private List<Object> adjacencyList;
-
+    private Map<String, Set<String>> topology;
 
     public long getTaskID() {
         return taskID;
@@ -50,38 +44,25 @@ public class TaskTrigger {
         return params;
     }
 
-    public void setParams(List<PerformParam> params) {
-        this.params.addAll(params);
-    }
-
-    public void setParam(PerformParam param) {
+    public void putParam(PerformParam param) {
         params.add(param);
     }
 
-    public List<ExecutorExtraInfo> getExtras() {
-        return extras;
+    public ExecutorExtraInfo getExtra(String key) { return extras.get(key); }
+
+    public Collection<ExecutorExtraInfo> getExtras() {
+        return extras.values();
     }
 
-    public void setExtras(List<ExecutorExtraInfo> extras) {
-        this.extras.addAll(extras);
+    public void putExtra(ExecutorExtraInfo extra) {
+        this.extras.put(String.valueOf(extra.getStepID()), extra);
     }
 
-    public void setExtra(ExecutorExtraInfo extra) {
-        this.extras.add(extra);
+    public Map<String, Set<String>> getTopology() {
+        return topology;
     }
 
-    public List<Listener> getListeners() {
-        return listeners;
+    public void setTopology(Map<String, Set<String>> topology) {
+        this.topology = topology;
     }
-
-    public void setListeners(List<Listener> listeners) {
-        this.listeners.addAll(listeners);
-    }
-
-    public void setListener(Listener listener) {
-        this.listeners.add(listener);
-    }
-
-
-
 }

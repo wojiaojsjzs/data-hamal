@@ -28,7 +28,12 @@ public class RuntimeContext {
         this.taskContext = new TaskContext(trigger.getTaskID(), trigger.getParams());
         this.stepContexts = new ConcurrentHashMap<>();
         for (ExecutorExtraInfo extra : trigger.getExtras()) {
-
+            StepContext context = new StepContext();
+            context.setTaskContext(this.taskContext);
+            // todo: 后面有新的属性, 可以在这加...这也就是先打个样...
+            context.setStepID(extra.getStepID());
+            context.setDisplayName(extra.getDisplayName());
+            this.stepContexts.put(extra.getExecutor(), context);
         }
     }
 

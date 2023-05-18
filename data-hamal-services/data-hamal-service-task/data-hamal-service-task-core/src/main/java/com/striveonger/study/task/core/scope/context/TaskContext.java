@@ -35,6 +35,12 @@ public class TaskContext {
         return null;
     }
 
-
-
+    public void putParam(String key, String val) {
+        synchronized (key.intern()) {
+            PerformParam param = params.get(key);
+            if (Objects.nonNull(param)) {
+                param.setValue(val);
+            }
+        }
+    }
 }

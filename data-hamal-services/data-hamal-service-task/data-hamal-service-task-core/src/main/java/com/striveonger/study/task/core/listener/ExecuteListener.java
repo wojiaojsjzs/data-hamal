@@ -16,7 +16,7 @@ public @interface ExecuteListener {
     /**
      * 监听类型(监听的作用域)
      */
-    Listener.Type type() default Listener.Type.ALL;
+    Listener.Type type();
 
     /**
      * 监听顺序

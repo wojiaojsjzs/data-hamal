@@ -18,16 +18,16 @@ public class StepLogListener implements Listener {
 
     @Override
     public void before(StepContext context) {
-        log.info("Step [{}] execute start...", context.getDisplayName());
+        log.info("Step '{}' execute start...", context.getDisplayName());
     }
 
     @Override
     public void after(StepContext context) {
-        log.info("Step [{}] execute finish...", context.getDisplayName());
+        log.info("Step '{}' execute finish...", context.getDisplayName());
     }
 
     @Override
     public void error(StepContext context) {
-        log.info("Step [{}] execute an error occurs...", context.getDisplayName());
+        log.info("Step '{}' execute an error occurs...", context.getDisplayName());
     }
 }
