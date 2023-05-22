@@ -1,9 +1,12 @@
 package com.striveonger.study.task.core;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.striveonger.study.core.utils.JacksonUtils;
 import com.striveonger.study.task.core.executor.assembly.graph.Adapter;
 import com.striveonger.study.task.core.executor.assembly.graph.Graph;
 import com.striveonger.study.task.core.executor.assembly.graph.Node;
 
+import java.lang.reflect.Type;
 import java.util.*;
 
 /**
@@ -16,19 +19,24 @@ public class CustomTopologySort {
     public static void main(String[] args) {
         // 准备图数据
         Adapter adapter = new Adapter();
-        Map<String, Set<String>> map = new HashMap<>();
-        map.put("A", Set.of("C"));
-        map.put("B", Set.of("C"));
-        map.put("C", Set.of("D", "E", "F"));
-        map.put("D", Set.of("G"));
-        map.put("E", Set.of("G"));
-        map.put("F", Set.of("H"));
-        map.put("G", Set.of("I"));
-        map.put("H", Set.of("I"));
-        map.put("I", Set.of("J"));
-        map.put("J", Set.of("K"));
-        map.put("K", Set.of());
-
+        String json = """
+            {
+                "A1" : ["A2"],
+            	"A2" : ["C"],
+            	"B"  : ["C"],
+            	"C"  : ["D", "E1", "F"],
+            	"D"  : ["G"],
+            	"E1" : ["E2"],
+            	"E2" : ["G"],
+            	"F"  : ["H"],
+            	"G"  : ["I"],
+            	"H"  : ["I"],
+            	"I"  : ["J"],
+            	"J"  : ["K"],
+            	"K"  : []
+            }
+            """;
+        Map<String, Set<String>> map = JacksonUtils.toObject(json, new TypeReference<Map<String, Set<String>>>() {});
         Graph<String> graph = adapter.createGraph(map);
         sort(graph);
     }
@@ -84,6 +92,7 @@ public class CustomTopologySort {
                 }
             }
         }
+        System.out.println(list);
     }
 
     private static Map<Object, Object> bfs(Node<String> node, Set<Node<String>> register, Map<Node<String>, Integer> nodeInMpa) {

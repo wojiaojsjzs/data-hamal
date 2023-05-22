@@ -1,12 +1,13 @@
 package com.striveonger.study.task.core.launch;
 
+import com.striveonger.study.core.constant.ResultStatus;
+import com.striveonger.study.core.exception.CustomException;
 import com.striveonger.study.task.core.constant.TaskStatus;
 import com.striveonger.study.task.core.exception.BuildTaskException;
+import com.striveonger.study.task.core.exception.BuildTaskException.Type;
 import com.striveonger.study.task.core.executor.Executor;
 import com.striveonger.study.task.core.executor.assembly.ExecutorAssembly;
 import com.striveonger.study.task.core.executor.extra.ExecutorExtraInfo;
-import com.striveonger.study.task.core.executor.assembly.graph.Adapter;
-import com.striveonger.study.task.core.executor.assembly.graph.Graph;
 import com.striveonger.study.task.core.listener.Listener;
 import com.striveonger.study.task.core.listener.step.StepExecuteTimerListener;
 import com.striveonger.study.task.core.listener.step.StepLogListener;
@@ -17,8 +18,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.*;
-
-import com.striveonger.study.task.core.exception.BuildTaskException.Type;
 
 /**
  * @author Mr.Lee
@@ -92,16 +91,17 @@ public class TaskLaunch {
             doAfter();
         } catch (Exception e) {
             doError();
-            e.printStackTrace();
+            log.error("oops, task execute an error occurs...", e);
+            throw new CustomException(ResultStatus.TASK_EXECUTE_FAIL, e.getMessage());
         }
-        
+
         // 8.
 
         return TaskStatus.FAIL;
     }
 
     private void doBefore() {
-        log.info("task start: {}", trigger.getTaskID());
+        log.info("task start, taskID: {}", trigger.getTaskID());
     }
 
     private void doAfter() {

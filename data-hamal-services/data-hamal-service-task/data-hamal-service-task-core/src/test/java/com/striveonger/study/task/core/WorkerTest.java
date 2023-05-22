@@ -34,17 +34,19 @@ public class WorkerTest {
 
     String json = """
             {
-            	"A": ["C"],
-            	"B": ["C"],
-            	"C": ["D", "E", "F"],
-            	"D": ["G"],
-            	"E": ["G"],
-            	"F": ["H"],
-            	"G": ["I"],
-            	"H": ["I"],
-            	"I": ["J"],
-            	"J": ["K"],
-            	"K": []
+                "A1" : ["A2"],
+            	"A2" : ["C"],
+            	"B"  : ["C"],
+            	"C"  : ["D", "E1", "F"],
+            	"D"  : ["G"],
+            	"E1" : ["E2"],
+            	"E2" : ["G"],
+            	"F"  : ["H"],
+            	"G"  : ["I"],
+            	"H"  : ["I"],
+            	"I"  : ["J"],
+            	"J"  : ["K"],
+            	"K"  : []
             }
             """;
 
@@ -55,14 +57,6 @@ public class WorkerTest {
 
     @Test
     public void test() {
-
-        // 1.
-        // 2. 初始化listener
-        // 3. 初始化工作空间
-        // 4. 初始化 StepExecutor(设置 "运行时环境", "listener", "工作空间" )
-        // 5. 生成 FlowExecutor
-        // 6. 启动 MasterExecutor
-
         log.info("Test Start...");
 
         // 1. 初始化任务触发器
@@ -72,12 +66,18 @@ public class WorkerTest {
         // 2. 定义 DAG 任务
         int waitTimeConstant = 1;
         // 2.1 初始化任务列表
-        Executor A = new TestExecutor("A", waitTimeConstant);
-        ExecutorExtraInfo Ae = new ExecutorExtraInfo();
-        Ae.setStepID("A");
-        Ae.setDisplayName("A");
-        Ae.setExecutor(A);
-        trigger.putExtra(Ae);
+        Executor A1 = new TestExecutor("A1", waitTimeConstant);
+        ExecutorExtraInfo A1e = new ExecutorExtraInfo();
+        A1e.setStepID("A1");
+        A1e.setDisplayName("A1");
+        A1e.setExecutor(A1);
+        trigger.putExtra(A1e);
+        Executor A2 = new TestExecutor("A2", waitTimeConstant);
+        ExecutorExtraInfo A2e = new ExecutorExtraInfo();
+        A2e.setStepID("A2");
+        A2e.setDisplayName("A2");
+        A2e.setExecutor(A2);
+        trigger.putExtra(A2e);
         Executor B = new TestExecutor("B", waitTimeConstant);
         ExecutorExtraInfo Be = new ExecutorExtraInfo();
         Be.setStepID("B");
@@ -96,12 +96,18 @@ public class WorkerTest {
         De.setDisplayName("D");
         De.setExecutor(D);
         trigger.putExtra(De);
-        Executor E = new TestExecutor("E", waitTimeConstant);
-        ExecutorExtraInfo Ee = new ExecutorExtraInfo();
-        Ee.setStepID("E");
-        Ee.setDisplayName("E");
-        Ee.setExecutor(E);
-        trigger.putExtra(Ee);
+        Executor E1 = new TestExecutor("E1", waitTimeConstant);
+        ExecutorExtraInfo E1e = new ExecutorExtraInfo();
+        E1e.setStepID("E1");
+        E1e.setDisplayName("E1");
+        E1e.setExecutor(E1);
+        trigger.putExtra(E1e);
+        Executor E2 = new TestExecutor("E2", waitTimeConstant);
+        ExecutorExtraInfo E2e = new ExecutorExtraInfo();
+        E2e.setStepID("E2");
+        E2e.setDisplayName("E2");
+        E2e.setExecutor(E2);
+        trigger.putExtra(E2e);
         Executor F = new TestExecutor("F", waitTimeConstant);
         ExecutorExtraInfo Fe = new ExecutorExtraInfo();
         Fe.setStepID("F");
@@ -140,18 +146,6 @@ public class WorkerTest {
         trigger.putExtra(Ke);
 
         // 2.2 定义任务的拓扑序
-        // Map<String, Set<String>> topology = new HashMap<>();
-        // topology.put("A", Set.of("C"));
-        // topology.put("B", Set.of("C"));
-        // topology.put("C", Set.of("D", "E", "F"));
-        // topology.put("D", Set.of("G"));
-        // topology.put("E", Set.of("G"));
-        // topology.put("F", Set.of("H"));
-        // topology.put("G", Set.of("I"));
-        // topology.put("H", Set.of("I"));
-        // topology.put("I", Set.of("J"));
-        // topology.put("J", Set.of("K"));
-        // topology.put("K", Set.of());
         Map<String, Set<String>> topology = JacksonUtils.toObject(json, new TypeReference<Map<String, Set<String>>>() {});
         trigger.setTopology(topology);
 
@@ -159,7 +153,6 @@ public class WorkerTest {
         trigger.putParam(new PerformParam("a", "1", true));
         trigger.putParam(new PerformParam("b", "2", true));
         trigger.putParam(new PerformParam("c", "3"));
-
 
         // 4. 定义任务启动器, 并启动
         TaskLaunch launch = new TaskLaunch(trigger);
@@ -230,5 +223,4 @@ public class WorkerTest {
             log.info("  end {}", name);
         }
     }
-
 }

@@ -111,7 +111,9 @@ public class Workbench {
      * 工作者
      */
     public static class Worker {
+
         private final ExecutorService taskExecThreadPool;
+
         public Worker(Integer corePoolSize, Integer maximumPoolSize, Long keepAliveTime, TimeUnit unit,
                       BlockingQueue<Runnable> workQueue, ThreadFactory threadFactory, RejectedExecutionHandler handler) {
             this.taskExecThreadPool = new ThreadPoolExecutor(corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue, threadFactory, handler);
