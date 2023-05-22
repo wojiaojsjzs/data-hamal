@@ -5,9 +5,11 @@ import com.striveonger.study.task.core.executor.Executor;
 import com.striveonger.study.task.core.executor.assembly.graph.Adapter;
 import com.striveonger.study.task.core.executor.assembly.graph.Graph;
 import com.striveonger.study.task.core.executor.assembly.graph.Node;
+import com.striveonger.study.task.core.executor.extra.ExecutorExtraInfo;
 import com.striveonger.study.task.core.executor.flow.FlowExecutor;
 import com.striveonger.study.task.core.listener.Listener;
 import com.striveonger.study.task.core.scope.Workbench;
+import com.striveonger.study.task.core.scope.trigger.TaskTrigger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -77,18 +79,24 @@ public class ExecutorAssembly {
     }
 
     public static class Builder {
-        private Graph<Executor> graph;
         private Workbench workbench;
+        private Map<String, ExecutorExtraInfo> extras;
+        private Map<String, Set<String>> topology;
 
         public static Builder builder() {
             return new Builder();
         }
 
-        public Builder graph(Map<Executor, Set<Executor>> data) {
-            Adapter<Executor> adapter = new Adapter<>();
-            this.graph = adapter.createGraph(data);
+        public Builder topology(Map<String, Set<String>> topology) {
+            this.topology = topology;
             return this;
         }
+        public Builder extras(Map<String, ExecutorExtraInfo> extras) {
+            this.extras = extras;
+            return this;
+        }
+
+
 
         public Builder workbench(Workbench workbench) {
             this.workbench = workbench;
@@ -96,6 +104,28 @@ public class ExecutorAssembly {
         }
 
         public ExecutorAssembly build() {
+            if (topology == null || extras == null) {
+                throw new BuildTaskException(Type.STEP, "missing the necessary 'topology' or 'extras'...");
+            }
+            Map<Executor, Set<Executor>> data = new HashMap<>();
+            for (Map.Entry<String, Set<String>> entry : topology.entrySet()) {
+                ExecutorExtraInfo key = extras.get(entry.getKey());
+                if (key == null) {
+                    throw new BuildTaskException(Type.STEP, "topology key not match executor...");
+                }
+                Set<Executor> value = new HashSet<>();
+                for (String s : entry.getValue()) {
+                    ExecutorExtraInfo extra = extras.get(s);
+                    if (extra == null) {
+                        throw new BuildTaskException(Type.STEP, "topology key not match executor...");
+                    }
+                    value.add(extra.getExecutor());
+                }
+                data.put(key.getExecutor(), value);
+            }
+
+            Adapter<Executor> adapter = new Adapter<>();
+            Graph<Executor> graph = adapter.createGraph(data);
             if (graph == null || workbench == null) {
                 throw new BuildTaskException(Type.STEP, "missing the necessary 'graph' or 'workbench'...");
             }

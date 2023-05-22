@@ -64,24 +64,7 @@ public class TaskLaunch {
         });
 
         // 5. 生成 FlowExecutor
-        Map<String, Set<String>> topology = trigger.getTopology();
-        Map<Executor, Set<Executor>> data = new HashMap<>();
-        for (Map.Entry<String, Set<String>> entry : topology.entrySet()) {
-            ExecutorExtraInfo key = trigger.getExtra(entry.getKey());
-            if (key == null) {
-                throw new BuildTaskException(Type.STEP, "topology key not match executor...");
-            }
-            Set<Executor> value = new HashSet<>();
-            for (String s : entry.getValue()) {
-                ExecutorExtraInfo extra = trigger.getExtra(s);
-                if (extra == null) {
-                    throw new BuildTaskException(Type.STEP, "topology key not match executor...");
-                }
-                value.add(extra.getExecutor());
-            }
-            data.put(key.getExecutor(), value);
-        }
-        Executor master = ExecutorAssembly.Builder.builder().graph(data).workbench(workbench).build().assembly();
+        Executor master = ExecutorAssembly.Builder.builder().topology(trigger.getTopology()).extras(trigger.getExtraMap()).workbench(workbench).build().assembly();
         // 6.
 
         // 7. 启动

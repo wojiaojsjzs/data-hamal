@@ -54,6 +54,8 @@ public class TaskTrigger {
         return extras.values();
     }
 
+    public Map<String, ExecutorExtraInfo> getExtraMap() { return extras; }
+
     public void putExtra(ExecutorExtraInfo extra) {
         this.extras.put(String.valueOf(extra.getStepID()), extra);
     }
