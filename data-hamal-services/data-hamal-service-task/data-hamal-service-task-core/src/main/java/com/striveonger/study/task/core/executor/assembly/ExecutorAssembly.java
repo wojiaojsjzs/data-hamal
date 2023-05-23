@@ -7,9 +7,9 @@ import com.striveonger.study.task.core.executor.assembly.graph.Graph;
 import com.striveonger.study.task.core.executor.assembly.graph.Node;
 import com.striveonger.study.task.core.executor.extra.ExecutorExtraInfo;
 import com.striveonger.study.task.core.executor.flow.FlowExecutor;
-import com.striveonger.study.task.core.listener.Listener;
+import com.striveonger.study.task.core.executor.flow.SerialeFlowExecutor;
 import com.striveonger.study.task.core.scope.Workbench;
-import com.striveonger.study.task.core.scope.trigger.TaskTrigger;
+import com.striveonger.study.task.core.scope.context.StepContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,7 +19,7 @@ import static com.striveonger.study.task.core.exception.BuildTaskException.Type;
 
 /**
  * @author Mr.Lee
- * @description: 执行器的拼装工具
+ * @description: 执行器的组装工具
  * @date 2023-05-17 16:59
  */
 public class ExecutorAssembly {
@@ -28,7 +28,6 @@ public class ExecutorAssembly {
     private final Graph<Executor> graph;
     private final Workbench workbench;
 
-    private Queue<Node<Executor>> queue = new LinkedList<>();
     private final Map<Node<Executor>, Integer> intake = new HashMap<>();
     private final Set<Node<Executor>> register = new HashSet<>();
 
@@ -38,6 +37,7 @@ public class ExecutorAssembly {
     }
 
     public FlowExecutor assembly() {
+        Queue<Node<Executor>> queue = new LinkedList<>();
         // 1. 将图中, 所有的节点及节点入度插入到Map中
         for (Node<Executor> node : graph.getNodes().values()) {
             intake.put(node, node.getIn());
@@ -49,33 +49,62 @@ public class ExecutorAssembly {
             }
         }
 
-        // 是否为多起点
-        boolean muchStart = register.size() > 1;
-        List<FlowExecutor> list = new ArrayList<>();
-
-
         while (!queue.isEmpty()) {
             Node<Executor> current = queue.poll();
             if (current.getOut() > 1) {
                 // bfs
+
             } else if (current.getOut() == 1) {
                 // dfs
-                FlowExecutor executors = dfs(current);
+                List<Executor> executors = dfs(current);
+                SerialeFlowExecutor flow = new SerialeFlowExecutor();
+                flow.setWorkbench(workbench);
+                flow.push(executors);
+                // === debug start ===
+                log.debug("SerialeFlowExecutor: {}", getDisplayName(executors));
+                // === debug end ===
+            }
 
+            if (queue.isEmpty()) {
+                // 状态冲正后的任务回填
+                
             }
         }
 
         return null;
     }
 
-    private FlowExecutor dfs(Node<Executor> current) {
+    private List<Executor> dfs(Node<Executor> current) {
         List<Executor> list = new ArrayList<>();
-        if (current.getOut() < 2 && current.getIn() < 2) {
+        if (current.getOut() > 1) {
+            // 多岔路后继
+
+        } else {
+            // 单支路后继
             list.add(current.getValue());
-
+            // 注册并消除影响
+            register.add(current);
+            clearImpact(current);
+            // 判断是否要继续向下嗅探
+            Node<Executor> next;
+            if (current.getOut() == 1 && (next = current.getNext(0)).getIn() == 1) {
+                // 当前节点出度为1, 并且后继节点的入度也为1 时, 就继续向下收集 (找到一条绳上的蚂蚱)
+                list.addAll(dfs(next));
+            }
         }
-        return null;
+        return list;
 
+    }
+
+    /**
+     * 消除node节点, 在图中的影响
+     * @param node 完成注册的节点
+     */
+    private void clearImpact(Node<Executor> node) {
+        for (Node<Executor> next : node.getNexts()) {
+            int in = intake.get(next) - 1;
+            intake.put(next, in);
+        }
     }
 
     public static class Builder {
@@ -91,11 +120,11 @@ public class ExecutorAssembly {
             this.topology = topology;
             return this;
         }
+
         public Builder extras(Map<String, ExecutorExtraInfo> extras) {
             this.extras = extras;
             return this;
         }
-
 
 
         public Builder workbench(Workbench workbench) {
@@ -133,4 +162,18 @@ public class ExecutorAssembly {
         }
 
     }
+
+    // === debug start ===
+
+    private String getDisplayName(Executor executor) {
+        StepContext context = workbench.getContext().getStepContext(executor);
+        return context.getDisplayName();
+    }
+    private List<String> getDisplayName(List<Executor> executors) {
+        return executors.stream().map(this::getDisplayName).toList();
+    }
+
+    // === debug end ===
+
+
 }

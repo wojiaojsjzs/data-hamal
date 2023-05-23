@@ -59,6 +59,10 @@ public class Node<T> {
         return nexts;
     }
 
+    public Node<T> getNext(int idx) {
+        return nexts.get(idx);
+    }
+
     public List<Edge<T>> getEdges() {
         return edges;
     }
