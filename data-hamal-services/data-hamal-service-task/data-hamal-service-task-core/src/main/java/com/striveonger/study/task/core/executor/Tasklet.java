@@ -8,11 +8,7 @@ import org.slf4j.LoggerFactory;
  * @description:
  * @date 2023-05-22 11:25
  */
-public class Tasklet extends Executor {
+public abstract class Tasklet extends Executor {
     private final Logger log = LoggerFactory.getLogger(Tasklet.class);
 
-    @Override
-    public void execute() throws Exception {
-
-    }
 }

@@ -28,7 +28,11 @@ public class ExecutorAssembly {
     private final Graph<Executor> graph;
     private final Workbench workbench;
 
+    // 当前的可访问的节点
+    private final Queue<Node<Executor>> queue = new LinkedList<>();
+    // 实时的入度信息
     private final Map<Node<Executor>, Integer> intake = new HashMap<>();
+    // 访问过的节点(防止重复访问)
     private final Set<Node<Executor>> register = new HashSet<>();
 
     private ExecutorAssembly(Graph<Executor> graph, Workbench workbench) {
@@ -37,7 +41,7 @@ public class ExecutorAssembly {
     }
 
     public FlowExecutor assembly() {
-        Queue<Node<Executor>> queue = new LinkedList<>();
+
         // 1. 将图中, 所有的节点及节点入度插入到Map中
         for (Node<Executor> node : graph.getNodes().values()) {
             intake.put(node, node.getIn());
@@ -66,21 +70,24 @@ public class ExecutorAssembly {
             }
 
             if (queue.isEmpty()) {
-                // 状态冲正后的任务回填
-                
+                // 更新队列, 检查否有合并分支
+
+
             }
         }
 
         return null;
     }
 
+
+
     private List<Executor> dfs(Node<Executor> current) {
         List<Executor> list = new ArrayList<>();
         if (current.getOut() > 1) {
-            // 多岔路后继
+            // 多后继节点的情况
 
         } else {
-            // 单支路后继
+            // 无后继或单后继节点的情况
             list.add(current.getValue());
             // 注册并消除影响
             register.add(current);
@@ -93,7 +100,6 @@ public class ExecutorAssembly {
             }
         }
         return list;
-
     }
 
     /**
@@ -164,7 +170,6 @@ public class ExecutorAssembly {
     }
 
     // === debug start ===
-
     private String getDisplayName(Executor executor) {
         StepContext context = workbench.getContext().getStepContext(executor);
         return context.getDisplayName();
@@ -172,7 +177,6 @@ public class ExecutorAssembly {
     private List<String> getDisplayName(List<Executor> executors) {
         return executors.stream().map(this::getDisplayName).toList();
     }
-
     // === debug end ===
 
 
