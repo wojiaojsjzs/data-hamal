@@ -16,7 +16,6 @@ public class Adapter<T> {
             T from = entry.getKey();
             if (!graph.getNodes().containsKey(from)) {
                 graph.getNodes().put(from, new Node<>(from));
-
             }
             Node<T> fromNode = graph.getNodes().get(from);
             for (T to : entry.getValue()) {
@@ -30,7 +29,7 @@ public class Adapter<T> {
         return graph;
     }
 
-    private void updateGraph(Graph<T> graph, Node<T> fromNode, Node<T> toNode) {
+    public void updateGraph(Graph<T> graph, Node<T> fromNode, Node<T> toNode) {
         // 向from添加邻居节点
         fromNode.getNexts().add(toNode);
 

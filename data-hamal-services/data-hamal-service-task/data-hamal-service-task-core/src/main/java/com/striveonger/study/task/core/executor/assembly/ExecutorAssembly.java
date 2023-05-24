@@ -2,12 +2,12 @@ package com.striveonger.study.task.core.executor.assembly;
 
 import com.striveonger.study.task.core.exception.BuildTaskException;
 import com.striveonger.study.task.core.executor.Executor;
+import com.striveonger.study.task.core.executor.NonExecutor;
 import com.striveonger.study.task.core.executor.assembly.graph.Adapter;
 import com.striveonger.study.task.core.executor.assembly.graph.Graph;
 import com.striveonger.study.task.core.executor.assembly.graph.Node;
 import com.striveonger.study.task.core.executor.extra.ExecutorExtraInfo;
 import com.striveonger.study.task.core.executor.flow.FlowExecutor;
-import com.striveonger.study.task.core.executor.flow.SerialeFlowExecutor;
 import com.striveonger.study.task.core.scope.Workbench;
 import com.striveonger.study.task.core.scope.context.StepContext;
 import org.slf4j.Logger;
@@ -40,9 +40,13 @@ public class ExecutorAssembly {
         this.workbench = workbench;
     }
 
+    /**
+     * 开始组装
+     */
     public FlowExecutor assembly() {
 
         // 1. 将图中, 所有的节点及节点入度插入到Map中
+        Node<Executor> start = null;
         for (Node<Executor> node : graph.getNodes().values()) {
             intake.put(node, node.getIn());
             // 2. 将入度为0的节点插入到队列中.
@@ -50,13 +54,24 @@ public class ExecutorAssembly {
                 queue.offer(node);
                 // 入队就注册
                 register.add(node);
+                start = node;
             }
         }
+        // 经过处理的图, 起点只有一个
+        if (start == null || register.size() > 1) throw new BuildTaskException(Type.STEP, "not found applicable start node...");
 
+        if (start.getOut() == 1) {
+            dfs(start);
+        } else if (start.getOut() > 1) {
+
+        }
+        /*
         while (!queue.isEmpty()) {
             Node<Executor> current = queue.poll();
+            boolean merge = current.getIn() > 1;
             if (current.getOut() > 1) {
                 // bfs
+
 
             } else if (current.getOut() == 1) {
                 // dfs
@@ -64,7 +79,7 @@ public class ExecutorAssembly {
                 SerialeFlowExecutor flow = new SerialeFlowExecutor();
                 flow.setWorkbench(workbench);
                 flow.push(executors);
-                
+
                 // === debug start ===
                 log.debug("SerialeFlowExecutor: {}", getDisplayName(executors));
                 // === debug end ===
@@ -83,7 +98,7 @@ public class ExecutorAssembly {
                 }
             }
         }
-
+        */
         return null;
     }
 
@@ -122,6 +137,7 @@ public class ExecutorAssembly {
     }
 
     public static class Builder {
+        private final Adapter<Executor> adapter = new Adapter<>();
         private Workbench workbench;
         private Map<String, ExecutorExtraInfo> extras;
         private Map<String, Set<String>> topology;
@@ -167,12 +183,33 @@ public class ExecutorAssembly {
                 data.put(key.getExecutor(), value);
             }
 
-            Adapter<Executor> adapter = new Adapter<>();
             Graph<Executor> graph = adapter.createGraph(data);
             if (graph == null || workbench == null) {
                 throw new BuildTaskException(Type.STEP, "missing the necessary 'graph' or 'workbench'...");
             }
+            // 检查是否为多起点的情况
             return new ExecutorAssembly(graph, workbench);
+        }
+
+        /**
+         * 应对多起点的情况
+         */
+        private void replyMuchStart(Graph<Executor> graph) {
+            Set<Node<Executor>> set = new HashSet<>();
+            for (Node<Executor> node : graph.getNodes().values()) {
+                if (node.getIn() == 0) {
+                    set.add(node);
+                }
+            }
+            if (set.size() > 1) {
+                // 对于多起点的情况, 虚出一个起点来(能让代码更加统一)
+                Executor from = new NonExecutor();
+                Node<Executor> fromNode = new Node<>(from);
+                graph.getNodes().put(from, fromNode);
+                for (Node<Executor> toNode : set) {
+                    adapter.updateGraph(graph, fromNode, toNode);
+                }
+            }
         }
 
     }
