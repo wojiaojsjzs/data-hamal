@@ -21,6 +21,9 @@ public class CustomTopologySort {
         Adapter adapter = new Adapter();
         String json = """
             {
+                "X1" : ["X2"],
+                "X2" : ["X3"],
+                "X3" : ["F"],
                 "A1" : ["A2"],
             	"A2" : ["C"],
             	"B"  : ["C"],
@@ -38,17 +41,17 @@ public class CustomTopologySort {
             """;
 
 
-        json = """
-            {
-                "A"  : ["E"],
-            	"B"  : ["E"],
-            	"C"  : ["F"],
-            	"D"  : ["F"],
-            	"E"  : ["H"],
-            	"F"  : ["H"],
-            	"H"  : []
-            }
-            """;
+        // json = """
+        //     {
+        //         "A"  : ["E"],
+        //     	"B"  : ["E"],
+        //     	"C"  : ["F"],
+        //     	"D"  : ["F"],
+        //     	"E"  : ["H"],
+        //     	"F"  : ["H"],
+        //     	"H"  : []
+        //     }
+        //     """;
 
         Map<String, Set<String>> map = JacksonUtils.toObject(json, new TypeReference<Map<String, Set<String>>>() {});
         Graph<String> graph = adapter.createGraph(map);
