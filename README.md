@@ -102,3 +102,11 @@ docker compose -p data-hamal images
 ```
 
 ## 使用说明
+
+
+## DAG测试
+
+```mermaid
+flowchart LR
+    A
+```
