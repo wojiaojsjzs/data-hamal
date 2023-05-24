@@ -53,8 +53,8 @@ public class TaskLaunch {
         // 2. 初始化listener (todo: 临时手动new, 后面考虑采用ServiceLoader的方式来加载listener)
         Listener[] listeners = new Listener[] {new StepExecuteTimerListener(), new StepLogListener()};
 
-        // 3. 初始化工作空间
-        Workbench workbench = Workbench.builder().taskID(trigger.getTaskID()).corePoolSize(1).maximumPoolSize(64).context(cxt).build();
+        // 3. 初始化工作空间(todo: 后面可以把task其他的配置信息, 也放到触发器里)
+        Workbench workbench = Workbench.builder().taskID(trigger.getTaskID()).corePoolSize(4).maximumPoolSize(64).context(cxt).build();
 
         // 4. 初始化 Executor (设置 "listener", "工作空间" )
         List<Executor> executors = trigger.getExtras().stream().map(ExecutorExtraInfo::getExecutor).toList();
@@ -65,7 +65,8 @@ public class TaskLaunch {
 
         // 5. 生成 FlowExecutor
         Executor master = ExecutorAssembly.Builder.builder().topology(trigger.getTopology()).extras(trigger.getExtraMap()).workbench(workbench).build().assembly();
-        // 6.
+
+        // 6. 初始化数据库操作对象等基础工作... todo 看后面安排吧, 有可能放到 Workbench 中, 让操作统一
 
         // 7. 启动
         try {

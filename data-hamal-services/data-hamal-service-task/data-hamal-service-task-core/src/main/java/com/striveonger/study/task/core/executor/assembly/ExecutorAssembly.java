@@ -64,6 +64,7 @@ public class ExecutorAssembly {
                 SerialeFlowExecutor flow = new SerialeFlowExecutor();
                 flow.setWorkbench(workbench);
                 flow.push(executors);
+                
                 // === debug start ===
                 log.debug("SerialeFlowExecutor: {}", getDisplayName(executors));
                 // === debug end ===
@@ -71,14 +72,20 @@ public class ExecutorAssembly {
 
             if (queue.isEmpty()) {
                 // 更新队列, 检查否有合并分支
-
-
+                for (Map.Entry<Node<Executor>, Integer> entry : intake.entrySet()) {
+                    // 如果没有注册过, 且入度为0. 那肯定是合并分支
+                    if (!register.contains(entry.getKey()) && entry.getValue() == 0) {
+                        // 加入队列
+                        queue.offer(entry.getKey());
+                        // 还是秉承着入队就注册
+                        register.add(entry.getKey());
+                    }
+                }
             }
         }
 
         return null;
     }
-
 
 
     private List<Executor> dfs(Node<Executor> current) {
@@ -104,6 +111,7 @@ public class ExecutorAssembly {
 
     /**
      * 消除node节点, 在图中的影响
+     *
      * @param node 完成注册的节点
      */
     private void clearImpact(Node<Executor> node) {
@@ -174,10 +182,9 @@ public class ExecutorAssembly {
         StepContext context = workbench.getContext().getStepContext(executor);
         return context.getDisplayName();
     }
+
     private List<String> getDisplayName(List<Executor> executors) {
         return executors.stream().map(this::getDisplayName).toList();
     }
     // === debug end ===
-
-
 }

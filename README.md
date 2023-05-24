@@ -106,18 +106,77 @@ docker compose -p data-hamal images
 
 ## DAG测试
 
+### 图例
 ```mermaid
 flowchart LR
-    A --> C
-    B --> C
-    C --> D
-    C --> E
-    C --> F
-    D --> G
-    E --> G
-    F --> H
-    G --> I
-    H --> I
-    I --> J
-    J --> K
+    A1 --> A2
+    A2 --> C
+    B ---> C
+    C  --> D
+    D  --> G
+    C  --> F
+    C  --> E1
+    E1 --> E2
+    E2 --> G
+    F  --> H
+    G  --> I
+    H  --> I
+    I  --> J
+    J  --> K
+    
+    
+    
+    X1 --> X2
+    X2 --> X3
+    X3 --> F
+    
+    K  --> L1
+    K  --> M1
+    K  --> N1
+    L1  --> L2
+    L2  --> L3
+    L3  --> L4
+    M1  --> M2
+    M2  --> M3
+    M3  --> M4
+    N1  --> N2
+    N2  --> N3
+    N3  --> N4
 ```
+> Task Executor 测试用例示意图
+
+### 扩展节点
+```
+    X1 --> X2
+    X2 --> X3
+    X3 --> F
+    
+    K  --> L1
+    K  --> M1
+    K  --> N1
+    L1  --> L2
+    L2  --> L3
+    L3  --> L4
+    M1  --> M2
+    M2  --> M3
+    M3  --> M4
+    N1  --> N2
+    N2  --> N3
+    N3  --> N4
+```
+### 分析
+```java
+if (queue.isEmpty()) {
+    // 更新队列, 检查否有合并分支
+    for (Map.Entry<Node<Executor>, Integer> entry : intake.entrySet()) {
+        // 如果没有注册过, 且入度为0. 那肯定是合并分支
+        if (!register.contains(entry.getKey()) && entry.getValue() == 0) {
+            // 加入队列
+            queue.offer(entry.getKey());
+            // 还是秉承着入队就注册
+            register.add(entry.getKey());
+        }
+    }
+}
+```
+> 在起始的三个节点经过`dfs`方法后, `C`节点成功进入`queue`中. 如果不根据的入度检测, 会把`A1, A2`, `B`, `X1, X2, X3` 都合并到`C`节点中, 所以这种处理方式是存在BUG的

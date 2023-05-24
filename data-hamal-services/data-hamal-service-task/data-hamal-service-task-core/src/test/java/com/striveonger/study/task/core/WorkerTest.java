@@ -17,6 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.CountDownLatch;
@@ -202,8 +203,11 @@ public class WorkerTest {
         map.put(2L, "B");
         map.put(3L, "C");
         map.put(4L, "D");
-        long x = 2;
-        System.out.println(map.get(x));
+        Set<Long> set = new HashSet<>(map.keySet());
+        set.remove(1L);
+        String s = map.get(1L);
+        System.out.println(s);
+
     }
 
     private static class TestExecutor extends Executor {
