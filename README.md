@@ -108,5 +108,16 @@ docker compose -p data-hamal images
 
 ```mermaid
 flowchart LR
-    A
+    A --> C
+    B --> C
+    C --> D
+    C --> E
+    C --> F
+    D --> G
+    E --> G
+    F --> H
+    G --> I
+    H --> I
+    I --> J
+    J --> K
 ```
