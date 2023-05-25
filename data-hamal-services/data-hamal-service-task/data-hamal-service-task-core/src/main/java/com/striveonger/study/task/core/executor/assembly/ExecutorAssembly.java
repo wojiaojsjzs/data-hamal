@@ -106,7 +106,7 @@ public class ExecutorAssembly {
 
     /**
      * 单支路的情况
-     * @param node currNode.out == 1 && nextNode.in = 1
+     * @param node currNode.out == 1 && nextNode.in < 2
      * @return [node, node]
      */
     private FlowExecutor dfs(Node<Executor> node) {
