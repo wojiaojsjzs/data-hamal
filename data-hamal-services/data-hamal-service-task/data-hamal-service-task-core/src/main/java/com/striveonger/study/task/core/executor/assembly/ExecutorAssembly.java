@@ -1,13 +1,15 @@
 package com.striveonger.study.task.core.executor.assembly;
 
 import com.striveonger.study.task.core.exception.BuildTaskException;
+import com.striveonger.study.task.core.executor.Executable;
 import com.striveonger.study.task.core.executor.Executor;
-import com.striveonger.study.task.core.executor.NonExecutor;
+import com.striveonger.study.task.core.executor.EmptyExecutor;
 import com.striveonger.study.task.core.executor.assembly.graph.Adapter;
 import com.striveonger.study.task.core.executor.assembly.graph.Graph;
 import com.striveonger.study.task.core.executor.assembly.graph.Node;
 import com.striveonger.study.task.core.executor.extra.ExecutorExtraInfo;
 import com.striveonger.study.task.core.executor.flow.FlowExecutor;
+import com.striveonger.study.task.core.executor.flow.SerialeFlowExecutor;
 import com.striveonger.study.task.core.scope.Workbench;
 import com.striveonger.study.task.core.scope.context.StepContext;
 import org.slf4j.Logger;
@@ -61,7 +63,7 @@ public class ExecutorAssembly {
         if (start == null || register.size() > 1) throw new BuildTaskException(Type.STEP, "not found applicable start node...");
 
         if (start.getOut() == 1) {
-            dfs(start);
+            return dfs(start);
         } else if (start.getOut() > 1) {
 
         }
@@ -102,15 +104,14 @@ public class ExecutorAssembly {
         return null;
     }
 
-
-    private List<Executor> dfs(Node<Executor> current) {
-        List<Executor> list = new ArrayList<>();
+    private SerialeFlowExecutor dfs(Node<Executor> current) {
+        SerialeFlowExecutor flow = new SerialeFlowExecutor();
         if (current.getOut() > 1) {
             // 多后继节点的情况
 
         } else {
             // 无后继或单后继节点的情况
-            list.add(current.getValue());
+            flow.push(current.getValue());
             // 注册并消除影响
             register.add(current);
             clearImpact(current);
@@ -118,7 +119,21 @@ public class ExecutorAssembly {
             Node<Executor> next;
             if (current.getOut() == 1 && (next = current.getNext(0)).getIn() == 1) {
                 // 当前节点出度为1, 并且后继节点的入度也为1 时, 就继续向下收集 (找到一条绳上的蚂蚱)
-                list.addAll(dfs(next));
+                SerialeFlowExecutor nextFlows = dfs(next);
+                List<Executable> list = mergeSerialeFlow(nextFlows);
+                flow.push(list);
+            }
+        }
+        return flow;
+    }
+
+    private List<Executable> mergeSerialeFlow(SerialeFlowExecutor flow) {
+        List<Executable> list = new ArrayList<>();
+        for (Executable task : flow.getSubtasks()) {
+            if (task instanceof SerialeFlowExecutor subTask) {
+                list.addAll(mergeSerialeFlow(subTask));
+            } else {
+                list.add(task);
             }
         }
         return list;
@@ -126,7 +141,6 @@ public class ExecutorAssembly {
 
     /**
      * 消除node节点, 在图中的影响
-     *
      * @param node 完成注册的节点
      */
     private void clearImpact(Node<Executor> node) {
@@ -187,7 +201,8 @@ public class ExecutorAssembly {
             if (graph == null || workbench == null) {
                 throw new BuildTaskException(Type.STEP, "missing the necessary 'graph' or 'workbench'...");
             }
-            // 检查是否为多起点的情况
+            // 处理起点
+            replyMuchStart(graph);
             return new ExecutorAssembly(graph, workbench);
         }
 
@@ -203,7 +218,7 @@ public class ExecutorAssembly {
             }
             if (set.size() > 1) {
                 // 对于多起点的情况, 虚出一个起点来(能让代码更加统一)
-                Executor from = new NonExecutor();
+                Executor from = new EmptyExecutor();
                 Node<Executor> fromNode = new Node<>(from);
                 graph.getNodes().put(from, fromNode);
                 for (Node<Executor> toNode : set) {

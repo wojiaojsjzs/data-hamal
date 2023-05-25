@@ -24,6 +24,10 @@ public abstract class FlowExecutor extends Executor {
 
     public FlowExecutor() { }
 
+    public List<Executable> getSubtasks() {
+        return subtasks;
+    }
+
     public final <T extends Executable> void push(T task) {
         if (subtasks == null) {
             subtasks = new ArrayList<>();

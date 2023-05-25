@@ -25,7 +25,8 @@ public abstract class Executor implements Executable {
 
     private Listener[] listeners = null;
 
-    public Executor() { }
+    public Executor() {
+    }
 
     public void setWorkbench(Workbench workbench) {
         this.workbench = workbench;
@@ -57,22 +58,28 @@ public abstract class Executor implements Executable {
 
     private void doBefore() {
         if (Objects.nonNull(listeners)) {
-            // TODO: 压栈&执行
-            // listener.before(workbench.getContext());
+            // 顺序执行
+            for (int i = 0; i < listeners.length; i++) {
+                listeners[i].before(getStepContext());
+            }
         }
     }
 
     private void doAfter() {
         if (Objects.nonNull(listeners)) {
-            // TODO: 弹栈&执行
-            // listener.after(workbench.getContext());
+            // 逆序执行
+            for (int i = listeners.length - 1; i >= 0; i--) {
+                listeners[i].after(getStepContext());
+            }
         }
     }
 
     private void doError() {
         if (Objects.nonNull(listeners)) {
-            // TODO: 弹栈&执行
-            // listener.error(workbench.getContext());
+            // 逆序执行
+            for (int i = listeners.length - 1; i >= 0; i--) {
+                listeners[i].error(getStepContext());
+            }
         }
     }
 

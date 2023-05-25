@@ -69,19 +69,21 @@ public class TaskLaunch {
         // 6. 初始化数据库操作对象等基础工作... todo 看后面安排吧, 有可能放到 Workbench 中, 让操作统一
 
         // 7. 启动
+        TaskStatus status;
         try {
             doBefore();
             master.execute();
             doAfter();
+            status = TaskStatus.COMPLETE;
         } catch (Exception e) {
             doError();
             log.error("oops, task execute an error occurs...", e);
-            throw new CustomException(ResultStatus.TASK_EXECUTE_FAIL, e.getMessage());
+            status = TaskStatus.FAIL;
         }
 
         // 8.
 
-        return TaskStatus.FAIL;
+        return status;
     }
 
     private void doBefore() {

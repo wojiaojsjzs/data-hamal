@@ -7,6 +7,7 @@ import com.striveonger.study.task.core.scope.Workbench;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
@@ -24,7 +25,7 @@ public class ParalleFlowExecutor extends FlowExecutor {
         try {
             log.info("Paralle Flow Exec Start...");
             List<Executable> tasks = this.subtasks;
-            // 1.CountDownLatch
+            // 1. CountDownLatch
             CountDownLatch latch = new CountDownLatch(tasks.size());
             for (Executable task : tasks) {
                 worker.work(() -> {
@@ -40,15 +41,14 @@ public class ParalleFlowExecutor extends FlowExecutor {
             latch.await();
             // latch.await(60 * 3, TimeUnit.SECONDS);
 
-            // Thread.join
+            // 2. Thread.join
             // List<Thread> threads = new ArrayList<>();
             // for (Executable task : tasks) {
+            //     // 这样创建的线程, 不受线程池的约束...不好不好
             //     threads.add(new Thread(task));
             // }
             // threads.forEach(Thread::start);
-            // for (Thread t : threads) {
-            //     t.join();
-            // }
+            // for (Thread t : threads) t.join();
 
             // 3. Semaphore
             // Semaphore semaphore = new Semaphore(0);
@@ -66,7 +66,8 @@ public class ParalleFlowExecutor extends FlowExecutor {
             // semaphore.acquire(tasks.size());
             log.info("Paralle Flow Exec Finish...");
         } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+            log.info("");
+            throw new CustomException(ResultStatus.TASK_EXECUTE_FAIL);
         }
     }
 }

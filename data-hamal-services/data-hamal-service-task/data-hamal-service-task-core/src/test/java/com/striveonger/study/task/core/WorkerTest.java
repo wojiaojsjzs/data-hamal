@@ -33,23 +33,38 @@ public class WorkerTest {
 
     private final static Logger log = LoggerFactory.getLogger(WorkerTest.class);
 
+    // String json = """
+    //         {
+    //             "A1" : ["A2"],
+    //         	"A2" : ["C"],
+    //         	"B"  : ["C"],
+    //         	"C"  : ["D", "E1", "F"],
+    //         	"D"  : ["G"],
+    //         	"E1" : ["E2"],
+    //         	"E2" : ["G"],
+    //         	"F"  : ["H"],
+    //         	"G"  : ["I"],
+    //         	"H"  : ["I"],
+    //         	"I"  : ["J"],
+    //         	"J"  : ["K"],
+    //         	"K"  : []
+    //         }
+    //         """;
+
     String json = """
             {
                 "A1" : ["A2"],
-            	"A2" : ["C"],
+            	"A2" : ["B"],
             	"B"  : ["C"],
-            	"C"  : ["D", "E1", "F"],
+            	"C"  : ["D"],
             	"D"  : ["G"],
-            	"E1" : ["E2"],
-            	"E2" : ["G"],
-            	"F"  : ["H"],
             	"G"  : ["I"],
-            	"H"  : ["I"],
             	"I"  : ["J"],
             	"J"  : ["K"],
             	"K"  : []
             }
             """;
+
 
     @Test
     public void hello() {

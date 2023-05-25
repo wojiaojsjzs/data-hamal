@@ -52,7 +52,8 @@ public class StepExecuteTimerListener implements Listener {
          * @param key : taskID_stepID
          */
         public void start(String key) {
-            starts.put(key, System.nanoTime());
+            // starts.put(key, System.nanoTime());
+            starts.put(key, System.currentTimeMillis());
         }
 
         /**
@@ -62,7 +63,9 @@ public class StepExecuteTimerListener implements Listener {
          */
         public long stop(String key) {
             Long start = starts.remove(key);
-            return System.nanoTime() - (start == null ? 0 : start);
+            // return System.nanoTime() - (start == null ? 0 : start);
+            return System.currentTimeMillis()- (start == null ? 0 : start);
+
         }
     }
 }
