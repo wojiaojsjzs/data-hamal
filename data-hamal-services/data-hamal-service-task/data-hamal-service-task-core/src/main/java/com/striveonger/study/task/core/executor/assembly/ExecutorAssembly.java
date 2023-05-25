@@ -30,8 +30,6 @@ public class ExecutorAssembly {
     private final Graph<Executor> graph;
     private final Workbench workbench;
 
-    // 当前的可访问的节点
-    private final Queue<Node<Executor>> queue = new LinkedList<>();
     // 实时的入度信息
     private final Map<Node<Executor>, Integer> intake = new HashMap<>();
     // 访问过的节点(防止重复访问)
@@ -46,15 +44,12 @@ public class ExecutorAssembly {
      * 开始组装
      */
     public Executor assembly() {
-
-        // 1. 将图中, 所有的节点及节点入度插入到Map中
+        // 1. 将图中, 所有的节点及节点入度保存到 intake
         Node<Executor> start = null;
         for (Node<Executor> node : graph.getNodes().values()) {
             intake.put(node, node.getIn());
-            // 2. 将入度为0的节点插入到队列中.
+            // 2. 寻找start节点
             if (node.getIn() == 0) {
-                queue.offer(node);
-                // 入队就注册
                 register.add(node);
                 start = node;
             }
@@ -105,30 +100,32 @@ public class ExecutorAssembly {
         //         }
         //     }
         // }
+        return null;
 
     }
 
+    /**
+     * 单支路的情况
+     * @param node currNode.out == 1 && nextNode.in = 1
+     * @return [node, node]
+     */
     private FlowExecutor dfs(Node<Executor> node) {
-        if (node.getOut() > 1) {
-            // 多后继节点的情况
-
-        } else {
-            SerialeFlowExecutor flow = new SerialeFlowExecutor();
-            // 无后继或单后继节点的情况
-            flow.push(node.getValue());
-            // 注册并消除影响
-            register.add(node);
-            clearImpact(node);
-            // 判断是否要继续向下嗅探
-            Node<Executor> next;
-            if (node.getOut() == 1 && (next = node.getNext(0)).getIn() == 1) {
-                // 当前节点出度为1, 并且后继节点的入度也为1 时, 就继续向下收集 (找到一条绳上的蚂蚱)
-                FlowExecutor nextFlows = dfs(next);
-                List<Executable> list = mergeSerialeFlow(nextFlows);
-                flow.push(list);
-            }
-            return flow;
+        SerialeFlowExecutor flow = new SerialeFlowExecutor();
+        // 无后继或单后继节点的情况
+        flow.push(node.getValue());
+        // 注册并消除影响
+        register.add(node);
+        clearImpact(node);
+        // 判断是否要继续向下嗅探
+        Node<Executor> next;
+        if (node.getOut() == 1 && (next = node.getNext(0)).getIn() == 1) {
+            // 当前节点出度为1, 并且后继节点的入度也为1 时, 就继续向下收集 (找到一条绳上的蚂蚱)
+            FlowExecutor nextFlows = dfs(next);
+            List<Executable> list = mergeSerialeFlow(nextFlows);
+            flow.push(list);
         }
+        return flow;
+
     }
 
     private List<Executable> mergeSerialeFlow(FlowExecutor flow) {
@@ -145,6 +142,7 @@ public class ExecutorAssembly {
 
     /**
      * 消除node节点, 在图中的影响
+     *
      * @param node 完成注册的节点
      */
     private void clearImpact(Node<Executor> node) {

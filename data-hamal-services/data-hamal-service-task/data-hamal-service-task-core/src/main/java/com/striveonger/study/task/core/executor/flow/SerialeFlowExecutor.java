@@ -16,7 +16,6 @@ public class SerialeFlowExecutor extends FlowExecutor {
 
     @Override
     public void execute() {
-        log.info("Seriale Executor execute start...");
         for (Executable task : this.subtasks) {
             try {
                 task.run();
@@ -25,6 +24,5 @@ public class SerialeFlowExecutor extends FlowExecutor {
                 throw new CustomException(ResultStatus.TASK_EXECUTE_FAIL);
             }
         }
-        log.info("Seriale Executor execute finish...");
     }
 }

@@ -23,7 +23,6 @@ public class ParalleFlowExecutor extends FlowExecutor {
     public void execute() {
         Workbench.Worker worker = workbench.getWorker();
         try {
-            log.info("Paralle Flow Exec Start...");
             List<Executable> tasks = this.subtasks;
             // 1. CountDownLatch
             CountDownLatch latch = new CountDownLatch(tasks.size());
@@ -64,7 +63,6 @@ public class ParalleFlowExecutor extends FlowExecutor {
             //     });
             // }
             // semaphore.acquire(tasks.size());
-            log.info("Paralle Flow Exec Finish...");
         } catch (InterruptedException e) {
             log.info("");
             throw new CustomException(ResultStatus.TASK_EXECUTE_FAIL);
