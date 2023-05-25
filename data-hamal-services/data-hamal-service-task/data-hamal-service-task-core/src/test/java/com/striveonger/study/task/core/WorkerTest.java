@@ -33,32 +33,18 @@ public class WorkerTest {
 
     private final static Logger log = LoggerFactory.getLogger(WorkerTest.class);
 
-    // String json = """
-    //         {
-    //             "A1" : ["A2"],
-    //         	"A2" : ["C"],
-    //         	"B"  : ["C"],
-    //         	"C"  : ["D", "E1", "F"],
-    //         	"D"  : ["G"],
-    //         	"E1" : ["E2"],
-    //         	"E2" : ["G"],
-    //         	"F"  : ["H"],
-    //         	"G"  : ["I"],
-    //         	"H"  : ["I"],
-    //         	"I"  : ["J"],
-    //         	"J"  : ["K"],
-    //         	"K"  : []
-    //         }
-    //         """;
-
     String json = """
             {
                 "A1" : ["A2"],
-            	"A2" : ["B"],
+            	"A2" : ["C"],
             	"B"  : ["C"],
-            	"C"  : ["D"],
+            	"C"  : ["D", "E1", "F"],
             	"D"  : ["G"],
+            	"E1" : ["E2"],
+            	"E2" : ["G"],
+            	"F"  : ["H"],
             	"G"  : ["I"],
+            	"H"  : ["I"],
             	"I"  : ["J"],
             	"J"  : ["K"],
             	"K"  : []
@@ -162,7 +148,8 @@ public class WorkerTest {
         trigger.putExtra(Ke);
 
         // 2.2 定义任务的拓扑序
-        Map<String, Set<String>> topology = JacksonUtils.toObject(json, new TypeReference<Map<String, Set<String>>>() {});
+        Map<String, Set<String>> topology = JacksonUtils.toObject(json, new TypeReference<Map<String, Set<String>>>() {
+        });
         trigger.setTopology(topology);
 
         // 3. 定义任务参数
@@ -237,9 +224,8 @@ public class WorkerTest {
 
         @Override
         public void execute() throws Exception {
-            log.info("start {}", name);
+            log.info("'{}' execute process...", name);
             SleepHelper.sleepSeconds(waitTime);
-            log.info("  end {}", name);
         }
     }
 }

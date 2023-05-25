@@ -22,7 +22,6 @@ public class StepExecuteTimerListener implements Listener {
 
     @Override
     public void before(StepContext context) {
-        log.info("Step '{}' start the timer", context.getDisplayName());
         timer.start(key(context));
     }
 
