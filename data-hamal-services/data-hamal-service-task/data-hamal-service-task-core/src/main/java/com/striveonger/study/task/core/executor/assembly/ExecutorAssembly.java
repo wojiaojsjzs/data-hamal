@@ -45,7 +45,7 @@ public class ExecutorAssembly {
     /**
      * 开始组装
      */
-    public FlowExecutor assembly() {
+    public Executor assembly() {
 
         // 1. 将图中, 所有的节点及节点入度插入到Map中
         Node<Executor> start = null;
@@ -65,69 +65,73 @@ public class ExecutorAssembly {
         if (start.getOut() == 1) {
             return dfs(start);
         } else if (start.getOut() > 1) {
-
+            return bfs(start);
+        } else {
+            // 只有一个执行节点的情况
+            return start.getValue();
         }
-        /*
-        while (!queue.isEmpty()) {
-            Node<Executor> current = queue.poll();
-            boolean merge = current.getIn() > 1;
-            if (current.getOut() > 1) {
-                // bfs
-
-
-            } else if (current.getOut() == 1) {
-                // dfs
-                List<Executor> executors = dfs(current);
-                SerialeFlowExecutor flow = new SerialeFlowExecutor();
-                flow.setWorkbench(workbench);
-                flow.push(executors);
-
-                // === debug start ===
-                log.debug("SerialeFlowExecutor: {}", getDisplayName(executors));
-                // === debug end ===
-            }
-
-            if (queue.isEmpty()) {
-                // 更新队列, 检查否有合并分支
-                for (Map.Entry<Node<Executor>, Integer> entry : intake.entrySet()) {
-                    // 如果没有注册过, 且入度为0. 那肯定是合并分支
-                    if (!register.contains(entry.getKey()) && entry.getValue() == 0) {
-                        // 加入队列
-                        queue.offer(entry.getKey());
-                        // 还是秉承着入队就注册
-                        register.add(entry.getKey());
-                    }
-                }
-            }
-        }
-        */
-        return null;
     }
 
-    private SerialeFlowExecutor dfs(Node<Executor> current) {
-        SerialeFlowExecutor flow = new SerialeFlowExecutor();
-        if (current.getOut() > 1) {
+    private FlowExecutor bfs(Node<Executor> node) {
+        // while (!queue.isEmpty()) {
+        //     Node<Executor> current = queue.poll();
+        //     boolean merge = current.getIn() > 1;
+        //     if (current.getOut() > 1) {
+        //         // bfs
+        //
+        //
+        //     } else if (current.getOut() == 1) {
+        //         // dfs
+        //         List<Executor> executors = dfs(current);
+        //         SerialeFlowExecutor flow = new SerialeFlowExecutor();
+        //         flow.setWorkbench(workbench);
+        //         flow.push(executors);
+        //
+        //         // === debug start ===
+        //         log.debug("SerialeFlowExecutor: {}", getDisplayName(executors));
+        //         // === debug end ===
+        //     }
+        //
+        //     if (queue.isEmpty()) {
+        //         // 更新队列, 检查否有合并分支
+        //         for (Map.Entry<Node<Executor>, Integer> entry : intake.entrySet()) {
+        //             // 如果没有注册过, 且入度为0. 那肯定是合并分支
+        //             if (!register.contains(entry.getKey()) && entry.getValue() == 0) {
+        //                 // 加入队列
+        //                 queue.offer(entry.getKey());
+        //                 // 还是秉承着入队就注册
+        //                 register.add(entry.getKey());
+        //             }
+        //         }
+        //     }
+        // }
+
+    }
+
+    private FlowExecutor dfs(Node<Executor> node) {
+        if (node.getOut() > 1) {
             // 多后继节点的情况
 
         } else {
+            SerialeFlowExecutor flow = new SerialeFlowExecutor();
             // 无后继或单后继节点的情况
-            flow.push(current.getValue());
+            flow.push(node.getValue());
             // 注册并消除影响
-            register.add(current);
-            clearImpact(current);
+            register.add(node);
+            clearImpact(node);
             // 判断是否要继续向下嗅探
             Node<Executor> next;
-            if (current.getOut() == 1 && (next = current.getNext(0)).getIn() == 1) {
+            if (node.getOut() == 1 && (next = node.getNext(0)).getIn() == 1) {
                 // 当前节点出度为1, 并且后继节点的入度也为1 时, 就继续向下收集 (找到一条绳上的蚂蚱)
-                SerialeFlowExecutor nextFlows = dfs(next);
+                FlowExecutor nextFlows = dfs(next);
                 List<Executable> list = mergeSerialeFlow(nextFlows);
                 flow.push(list);
             }
+            return flow;
         }
-        return flow;
     }
 
-    private List<Executable> mergeSerialeFlow(SerialeFlowExecutor flow) {
+    private List<Executable> mergeSerialeFlow(FlowExecutor flow) {
         List<Executable> list = new ArrayList<>();
         for (Executable task : flow.getSubtasks()) {
             if (task instanceof SerialeFlowExecutor subTask) {
