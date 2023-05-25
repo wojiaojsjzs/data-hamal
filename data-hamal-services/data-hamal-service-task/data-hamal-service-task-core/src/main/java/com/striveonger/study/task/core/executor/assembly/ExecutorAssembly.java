@@ -125,9 +125,13 @@ public class ExecutorAssembly {
             flow.push(list);
         }
         return flow;
-
     }
 
+    /**
+     * 简化执行结构, 摊平层级
+     * @param flow
+     * @return
+     */
     private List<Executable> mergeSerialeFlow(FlowExecutor flow) {
         List<Executable> list = new ArrayList<>();
         for (Executable task : flow.getSubtasks()) {
