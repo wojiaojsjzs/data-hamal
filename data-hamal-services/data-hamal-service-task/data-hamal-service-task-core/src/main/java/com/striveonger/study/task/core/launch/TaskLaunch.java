@@ -51,7 +51,8 @@ public class TaskLaunch {
         RuntimeContext cxt = new RuntimeContext(trigger);
 
         // 2. 初始化listener (todo: 临时手动new, 后面考虑采用ServiceLoader的方式来加载listener)
-        Listener[] listeners = new Listener[] {new StepExecuteTimerListener(), new StepLogListener()};
+        // Listener[] listeners = new Listener[] {new StepExecuteTimerListener(), new StepLogListener()};
+        Listener[] listeners = new Listener[] {new StepExecuteTimerListener()};
 
         // 3. 初始化工作空间(todo: 后面可以把task其他的配置信息, 也放到触发器里)
         Workbench workbench = Workbench.builder().taskID(trigger.getTaskID()).corePoolSize(4).maximumPoolSize(64).context(cxt).build();

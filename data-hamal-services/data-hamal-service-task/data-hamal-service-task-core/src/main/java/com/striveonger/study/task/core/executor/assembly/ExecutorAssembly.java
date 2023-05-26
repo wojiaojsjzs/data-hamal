@@ -9,6 +9,7 @@ import com.striveonger.study.task.core.executor.assembly.graph.Graph;
 import com.striveonger.study.task.core.executor.assembly.graph.Node;
 import com.striveonger.study.task.core.executor.extra.ExecutorExtraInfo;
 import com.striveonger.study.task.core.executor.flow.FlowExecutor;
+import com.striveonger.study.task.core.executor.flow.ParalleFlowExecutor;
 import com.striveonger.study.task.core.executor.flow.SerialeFlowExecutor;
 import com.striveonger.study.task.core.scope.Workbench;
 import com.striveonger.study.task.core.scope.context.StepContext;
@@ -76,47 +77,17 @@ public class ExecutorAssembly {
      * @return
      */
     private FlowExecutor bfs(Node<Executor> node) {
-        // while (!queue.isEmpty()) {
-        //     Node<Executor> current = queue.poll();
-        //     boolean merge = current.getIn() > 1;
-        //     if (current.getOut() > 1) {
-        //         // bfs
-        //
-        //
-        //     } else if (current.getOut() == 1) {
-        //         // dfs
-        //         List<Executor> executors = dfs(current);
-        //         SerialeFlowExecutor flow = new SerialeFlowExecutor();
-        //         flow.setWorkbench(workbench);
-        //         flow.push(executors);
-        //
-        //         // === debug start ===
-        //         log.debug("SerialeFlowExecutor: {}", getDisplayName(executors));
-        //         // === debug end ===
-        //     }
-        //
-        //     if (queue.isEmpty()) {
-        //         // 更新队列, 检查否有合并分支
-        //         for (Map.Entry<Node<Executor>, Integer> entry : intake.entrySet()) {
-        //             // 如果没有注册过, 且入度为0. 那肯定是合并分支
-        //             if (!register.contains(entry.getKey()) && entry.getValue() == 0) {
-        //                 // 加入队列
-        //                 queue.offer(entry.getKey());
-        //                 // 还是秉承着入队就注册
-        //                 register.add(entry.getKey());
-        //             }
-        //         }
-        //     }
-        // }
-
         // 做为当前的"起点", 进入串行执行器, 等待合并各个分支
         FlowExecutor result = new SerialeFlowExecutor();
+        result.setWorkbench(workbench);
         result.push(node.getValue());
         // 注册并消除对后继节点的影响
         register.add(node);
         clearImpact(node);
         // 需要合并的各支路
         List<Executable> list = new ArrayList<>();
+        FlowExecutor paralle = new ParalleFlowExecutor();
+        paralle.setWorkbench(workbench);
         // 处理支路
         boolean merge = false;
         Queue<Node<Executor>> queue = new LinkedList<>();
@@ -125,19 +96,19 @@ public class ExecutorAssembly {
             Node<Executor> next = queue.poll();
             if (next.getOut() > 1) {
                 FlowExecutor flow = bfs(next);
+                list.add(flow);
                 // 判断是否需要合并
                 if (merge) {
-                    result.push(list);
-                } else {
-                    list.add(flow);
+                    paralle.push(list);
+                    list.clear();
                 }
             } else if (next.getOut() == 1) {
                 FlowExecutor flow = dfs(next);
+                list.add(flow);
                 // 判断是否需要合并
                 if (merge) {
-                    result.push(list);
-                } else {
-                    list.add(flow);
+                    paralle.push(list);
+                    list.clear();
                 }
             } else {
                 // 用来处理分支上的叶子节点
@@ -150,7 +121,7 @@ public class ExecutorAssembly {
                     //     /
                     //  B
                     // A, B 被加到queue中, 最终 C 会走这里
-                    result.push(next.getValue());
+                    paralle.push(next.getValue());
                 } else {
                     //      B -- C
                     //    /
@@ -160,25 +131,23 @@ public class ExecutorAssembly {
                     // A 做为node进来, D 会走这里...
                     list.add(next.getValue());
                 }
+            }
 
-                if (queue.isEmpty()) {
-                    merge = false;
-                    // 更新队列, 检查否有合并分支
-                    for (Map.Entry<Node<Executor>, Integer> entry : intake.entrySet()) {
-                        // 如果没有注册过, 且入度为0. 那肯定是合并分支
-                        if (!register.contains(entry.getKey()) && entry.getValue() == 0) {
-                            merge = true;
-                            // 加入队列
-                            queue.offer(entry.getKey());
-                        }
+            if (queue.isEmpty()) {
+                merge = false;
+                // 更新队列, 检查否有合并分支
+                for (Map.Entry<Node<Executor>, Integer> entry : intake.entrySet()) {
+                    // 如果没有注册过, 且入度为0. 那肯定是合并分支
+                    if (!register.contains(entry.getKey()) && entry.getValue() == 0) {
+                        merge = true;
+                        // 加入队列
+                        queue.offer(entry.getKey());
                     }
                 }
             }
         }
-
-
-        return null;
-
+        result.push(paralle);
+        return result;
     }
 
     /**
@@ -192,6 +161,7 @@ public class ExecutorAssembly {
             return bfs(node);
         } else {
             SerialeFlowExecutor flow = new SerialeFlowExecutor();
+            flow.setWorkbench(workbench);
             // 无后继或单后继节点的情况
             flow.push(node.getValue());
             // 注册并消除影响
