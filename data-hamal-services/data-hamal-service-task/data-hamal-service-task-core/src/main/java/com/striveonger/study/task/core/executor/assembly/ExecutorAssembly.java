@@ -1,9 +1,9 @@
 package com.striveonger.study.task.core.executor.assembly;
 
 import com.striveonger.study.task.core.exception.BuildTaskException;
+import com.striveonger.study.task.core.executor.EmptyExecutor;
 import com.striveonger.study.task.core.executor.Executable;
 import com.striveonger.study.task.core.executor.Executor;
-import com.striveonger.study.task.core.executor.EmptyExecutor;
 import com.striveonger.study.task.core.executor.assembly.graph.Adapter;
 import com.striveonger.study.task.core.executor.assembly.graph.Graph;
 import com.striveonger.study.task.core.executor.assembly.graph.Node;
@@ -55,7 +55,9 @@ public class ExecutorAssembly {
             }
         }
         // 经过处理的图, 起点只有一个
-        if (start == null || register.size() > 1) throw new BuildTaskException(Type.STEP, "not found applicable start node...");
+        if (start == null || register.size() > 1) {
+            throw new BuildTaskException(Type.STEP, "not found applicable start node...");
+        }
 
         if (start.getOut() == 1) {
             return dfs(start);
@@ -67,6 +69,12 @@ public class ExecutorAssembly {
         }
     }
 
+    /**
+     * 多支路的情况
+     *
+     * @param node 分叉节点
+     * @return
+     */
     private FlowExecutor bfs(Node<Executor> node) {
         // while (!queue.isEmpty()) {
         //     Node<Executor> current = queue.poll();
@@ -100,35 +108,115 @@ public class ExecutorAssembly {
         //         }
         //     }
         // }
+
+        // 做为当前的"起点", 进入串行执行器, 等待合并各个分支
+        FlowExecutor result = new SerialeFlowExecutor();
+        result.push(node.getValue());
+        // 注册并消除对后继节点的影响
+        register.add(node);
+        clearImpact(node);
+        // 需要合并的各支路
+        List<Executable> list = new ArrayList<>();
+        // 处理支路
+        boolean merge = false;
+        Queue<Node<Executor>> queue = new LinkedList<>();
+        node.getNexts().forEach(queue::offer);
+        while (!queue.isEmpty()) {
+            Node<Executor> next = queue.poll();
+            if (next.getOut() > 1) {
+                FlowExecutor flow = bfs(next);
+                // 判断是否需要合并
+                if (merge) {
+                    result.push(list);
+                } else {
+                    list.add(flow);
+                }
+            } else if (next.getOut() == 1) {
+                FlowExecutor flow = dfs(next);
+                // 判断是否需要合并
+                if (merge) {
+                    result.push(list);
+                } else {
+                    list.add(flow);
+                }
+            } else {
+                // 用来处理分支上的叶子节点
+                // 注册节点, 叶子节点不需要消除影响的
+                register.add(next);
+                if (merge) {
+                    //  A
+                    //     \
+                    //       C
+                    //     /
+                    //  B
+                    // A, B 被加到queue中, 最终 C 会走这里
+                    result.push(next.getValue());
+                } else {
+                    //      B -- C
+                    //    /
+                    //  A
+                    //    \
+                    //      D
+                    // A 做为node进来, D 会走这里...
+                    list.add(next.getValue());
+                }
+
+                if (queue.isEmpty()) {
+                    merge = false;
+                    // 更新队列, 检查否有合并分支
+                    for (Map.Entry<Node<Executor>, Integer> entry : intake.entrySet()) {
+                        // 如果没有注册过, 且入度为0. 那肯定是合并分支
+                        if (!register.contains(entry.getKey()) && entry.getValue() == 0) {
+                            merge = true;
+                            // 加入队列
+                            queue.offer(entry.getKey());
+                        }
+                    }
+                }
+            }
+        }
+
+
         return null;
 
     }
 
     /**
      * 单支路的情况
+     *
      * @param node currNode.out == 1 && nextNode.in < 2
      * @return [node, node]
      */
     private FlowExecutor dfs(Node<Executor> node) {
-        SerialeFlowExecutor flow = new SerialeFlowExecutor();
-        // 无后继或单后继节点的情况
-        flow.push(node.getValue());
-        // 注册并消除影响
-        register.add(node);
-        clearImpact(node);
-        // 判断是否要继续向下嗅探
-        Node<Executor> next;
-        if (node.getOut() == 1 && (next = node.getNext(0)).getIn() == 1) {
-            // 当前节点出度为1, 并且后继节点的入度也为1 时, 就继续向下收集 (找到一条绳上的蚂蚱)
-            FlowExecutor nextFlows = dfs(next);
-            List<Executable> list = mergeSerialeFlow(nextFlows);
-            flow.push(list);
+        if (node.getOut() > 1) {
+            return bfs(node);
+        } else {
+            SerialeFlowExecutor flow = new SerialeFlowExecutor();
+            // 无后继或单后继节点的情况
+            flow.push(node.getValue());
+            // 注册并消除影响
+            register.add(node);
+            clearImpact(node);
+            // 判断是否要继续向下嗅探
+            Node<Executor> next;
+            if (node.getOut() == 1 && (next = node.getNext(0)).getIn() == 1) {
+                // 当前节点出度为1, 并且后继节点的入度也为1 时, 就继续向下收集 (找到一条绳上的蚂蚱)
+
+                // 方案一: 简化执行结构
+                FlowExecutor nextFlows = dfs(next);
+                List<Executable> list = mergeSerialeFlow(nextFlows);
+                flow.push(list);
+
+                // 方案二: 带层级执行, 会额外创建执行器
+                // flow.push(dfs(next));
+            }
+            return flow;
         }
-        return flow;
     }
 
     /**
      * 简化执行结构, 摊平层级
+     *
      * @param flow
      * @return
      */
