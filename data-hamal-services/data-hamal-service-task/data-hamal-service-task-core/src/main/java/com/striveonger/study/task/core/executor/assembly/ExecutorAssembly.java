@@ -96,20 +96,20 @@ public class ExecutorAssembly {
             Node<Executor> next = queue.poll();
             if (next.getOut() > 1) {
                 FlowExecutor flow = bfs(next);
-                list.add(flow);
                 // 判断是否需要合并
                 if (merge) {
                     paralle.push(list);
                     list.clear();
                 }
+                list.add(flow);
             } else if (next.getOut() == 1) {
                 FlowExecutor flow = dfs(next);
-                list.add(flow);
                 // 判断是否需要合并
                 if (merge) {
                     paralle.push(list);
                     list.clear();
                 }
+                list.add(flow);
             } else {
                 // 用来处理分支上的叶子节点
                 // 注册节点, 叶子节点不需要消除影响的
@@ -147,6 +147,7 @@ public class ExecutorAssembly {
             }
         }
         result.push(paralle);
+        result.push(list);
         return result;
     }
 
@@ -293,14 +294,4 @@ public class ExecutorAssembly {
 
     }
 
-    // === debug start ===
-    private String getDisplayName(Executor executor) {
-        StepContext context = workbench.getContext().getStepContext(executor);
-        return context.getDisplayName();
-    }
-
-    private List<String> getDisplayName(List<Executor> executors) {
-        return executors.stream().map(this::getDisplayName).toList();
-    }
-    // === debug end ===
 }
