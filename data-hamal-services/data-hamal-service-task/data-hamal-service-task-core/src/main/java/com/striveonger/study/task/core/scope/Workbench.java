@@ -130,8 +130,8 @@ public class Workbench {
         private Long keepAliveTime = 30L;
         private final TimeUnit unit = TimeUnit.MILLISECONDS;
         // 核心线程满了, 任务会进入等待队列(workQueue). 当等待队列满了之后, 创建非核心线程来该执行任务.
-        // private BlockingQueue<Runnable> workQueue = new SynchronousQueue<>();
-        private BlockingQueue<Runnable> workQueue = new LinkedBlockingDeque<>(1);
+        private BlockingQueue<Runnable> workQueue = new SynchronousQueue<>();
+        // private BlockingQueue<Runnable> workQueue = new LinkedBlockingDeque<>(1);
         private ThreadFactory threadFactory;
         // 线程池满了, 直接抛异常
         private RejectedExecutionHandler handler = new ThreadPoolExecutor.AbortPolicy();
