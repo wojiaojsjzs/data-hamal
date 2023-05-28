@@ -2,6 +2,7 @@ package com.striveonger.study.task.core.executor.flow;
 
 import com.striveonger.study.task.core.executor.Executable;
 import com.striveonger.study.task.core.executor.Executor;
+import com.striveonger.study.task.core.scope.Workbench;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,7 +23,9 @@ public abstract class FlowExecutor extends Executor {
      */
     protected List<Executable> subtasks;
 
-    public FlowExecutor() { }
+    public FlowExecutor(Workbench workbench) { this.workbench = workbench; }
+
+
 
     public List<Executable> getSubtasks() {
         return subtasks;

@@ -78,42 +78,31 @@ public class ExecutorAssembly {
      */
     private FlowExecutor bfs(Node<Executor> node) {
         // 做为当前的"起点", 进入串行执行器, 等待合并各个分支
-        FlowExecutor result = new SerialeFlowExecutor();
-        result.setWorkbench(workbench);
+        FlowExecutor result = new SerialeFlowExecutor(workbench);
         result.push(node.getValue());
-        // 注册并消除对后继节点的影响
-        register.add(node);
+        // 消除对后继节点的影响
+        // register.add(node);
         clearImpact(node);
         // 需要合并的各支路
         List<Executable> list = new ArrayList<>();
-        FlowExecutor paralle = new ParalleFlowExecutor();
-        paralle.setWorkbench(workbench);
-        // 处理支路
+        // 合并支路标识位
         boolean merge = false;
         Queue<Node<Executor>> queue = new LinkedList<>();
-        node.getNexts().forEach(queue::offer);
+        for (Node<Executor> next : node.getNexts()) {
+            queue.offer(next);
+            register.add(next);
+        }
         while (!queue.isEmpty()) {
             Node<Executor> next = queue.poll();
             if (next.getOut() > 1) {
                 FlowExecutor flow = bfs(next);
-                // 判断是否需要合并
-                if (merge) {
-                    paralle.push(list);
-                    list.clear();
-                }
                 list.add(flow);
             } else if (next.getOut() == 1) {
                 FlowExecutor flow = dfs(next);
-                // 判断是否需要合并
-                if (merge) {
-                    paralle.push(list);
-                    list.clear();
-                }
                 list.add(flow);
             } else {
                 // 用来处理分支上的叶子节点
                 // 注册节点, 叶子节点不需要消除影响的
-                register.add(next);
                 if (merge) {
                     //  A
                     //     \
@@ -121,7 +110,7 @@ public class ExecutorAssembly {
                     //     /
                     //  B
                     // A, B 被加到queue中, 最终 C 会走这里
-                    paralle.push(next.getValue());
+                    result.push(next.getValue());
                 } else {
                     //      B -- C
                     //    /
@@ -134,20 +123,34 @@ public class ExecutorAssembly {
             }
 
             if (queue.isEmpty()) {
-                merge = false;
                 // 更新队列, 检查否有合并分支
                 for (Map.Entry<Node<Executor>, Integer> entry : intake.entrySet()) {
                     // 如果没有注册过, 且入度为0. 那肯定是合并分支
                     if (!register.contains(entry.getKey()) && entry.getValue() == 0) {
                         merge = true;
-                        // 加入队列
+                        // 合并当前找到所有支路
+                        FlowExecutor paralle = new ParalleFlowExecutor(workbench);
+                        paralle.push(list);
+                        result.push(paralle);
+                        list.clear();
+                        // 后续节点, 加入队列
                         queue.offer(entry.getKey());
+                        register.add(entry.getKey());
                     }
                 }
             }
         }
-        result.push(paralle);
-        result.push(list);
+        if (merge) { // 存在合并节点的情况
+            // 添加合并节点及后续
+            result.push(list);
+        } else { // 不存在合并节点的情况
+            // 拼装支路合集
+            // 各个支路的聚合对象
+            FlowExecutor paralle = new ParalleFlowExecutor(workbench);
+            paralle.push(list);
+            // 添加刚刚拼好的支路合集
+            result.push(paralle);
+        }
         return result;
     }
 
@@ -161,8 +164,7 @@ public class ExecutorAssembly {
         if (node.getOut() > 1) {
             return bfs(node);
         } else {
-            SerialeFlowExecutor flow = new SerialeFlowExecutor();
-            flow.setWorkbench(workbench);
+            SerialeFlowExecutor flow = new SerialeFlowExecutor(workbench);
             // 无后继或单后继节点的情况
             flow.push(node.getValue());
             // 注册并消除影响
@@ -284,6 +286,7 @@ public class ExecutorAssembly {
             if (set.size() > 1) {
                 // 对于多起点的情况, 虚出一个起点来(能让代码更加统一)
                 Executor from = new EmptyExecutor();
+                from.setWorkbench(workbench);
                 Node<Executor> fromNode = new Node<>(from);
                 graph.getNodes().put(from, fromNode);
                 for (Node<Executor> toNode : set) {

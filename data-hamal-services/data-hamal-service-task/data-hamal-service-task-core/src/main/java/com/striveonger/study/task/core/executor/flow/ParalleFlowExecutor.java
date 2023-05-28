@@ -19,6 +19,10 @@ import java.util.concurrent.CountDownLatch;
 public class ParalleFlowExecutor extends FlowExecutor {
     private final Logger log = LoggerFactory.getLogger(ParalleFlowExecutor.class);
 
+    public ParalleFlowExecutor(Workbench workbench) {
+        super(workbench);
+    }
+
     @Override
     public void execute() {
         Workbench.Worker worker = workbench.getWorker();

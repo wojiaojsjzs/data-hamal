@@ -21,9 +21,6 @@ public class CustomTopologySort {
         Adapter adapter = new Adapter();
         String json = """
             {
-                "X1" : ["X2"],
-                "X2" : ["X3"],
-                "X3" : ["F"],
                 "A1" : ["A2"],
             	"A2" : ["C"],
             	"B"  : ["C"],

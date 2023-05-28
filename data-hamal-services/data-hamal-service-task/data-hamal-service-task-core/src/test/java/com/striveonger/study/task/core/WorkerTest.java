@@ -33,36 +33,6 @@ public class WorkerTest {
 
     private final static Logger log = LoggerFactory.getLogger(WorkerTest.class);
 
-    // String json = """
-    //         {
-    //             "A1" : ["A2"],
-    //         	"A2" : ["C"],
-    //         	"B"  : ["C"],
-    //         	"C"  : ["D", "E1", "F"],
-    //         	"D"  : ["G"],
-    //         	"E1" : ["E2"],
-    //         	"E2" : ["G"],
-    //         	"F"  : ["H"],
-    //         	"G"  : ["I"],
-    //         	"H"  : ["I"],
-    //         	"I"  : ["J"],
-    //         	"J"  : ["K"],
-    //         	"K"  : []
-    //         }
-    //         """;
-
-    String json = """
-            {
-                "A1" : ["A2"],
-            	"A2" : ["B", "C"],
-            	"B"  : ["D"],
-            	"C"  : ["D"],
-            	"D"  : ["E1"],
-            	"E1" : ["E2"],
-            	"E2" : []
-            }
-            """;
-
 
     @Test
     public void hello() {
@@ -71,6 +41,58 @@ public class WorkerTest {
 
     @Test
     public void test() {
+        String json = """
+            {
+                "A1" : ["A2"],
+            	"A2" : ["C"],
+            	"B"  : ["C"],
+            	"C"  : ["D", "E1", "F"],
+            	"D"  : ["G"],
+            	"E1" : ["E2"],
+            	"E2" : ["G"],
+            	"F"  : ["H"],
+            	"G"  : ["I"],
+            	"H"  : ["I"],
+            	"I"  : ["J"],
+            	"J"  : ["K"],
+            	"K"  : []
+            }
+            """;
+
+        test(json);
+    }
+
+    @Test
+    public void test1() {
+        String json = """
+            {
+                "G"  : ["A1"],
+                "H"  : ["A1"],
+                "I"  : ["A2"],
+                "J"  : ["A2"],
+                "A1" : ["B"],
+            	"A2" : ["B"],
+            	"B"  : []
+            }
+            """;
+
+        test(json);
+    }
+
+    @Test
+    public void test2() {
+        String json = """
+            {
+                "B" : ["A1", "A2"],
+            	"A1": ["G", "H"],
+            	"A2": ["I", "J"]
+            }
+            """;
+        test(json);
+    }
+
+
+    public void test(String json) {
         log.info("Test Start...");
 
         // 1. 初始化任务触发器
@@ -235,8 +257,8 @@ public class WorkerTest {
 
         @Override
         public void execute() throws Exception {
-            log.info("'{}' execute process...", name);
-            SleepHelper.sleepMilliSeconds(waitTime * 100);
+            // log.info("'{}' execute process...", name);
+            SleepHelper.sleepSeconds(waitTime);
         }
     }
 }

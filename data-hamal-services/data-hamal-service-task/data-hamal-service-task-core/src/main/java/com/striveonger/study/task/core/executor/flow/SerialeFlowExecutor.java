@@ -3,6 +3,7 @@ package com.striveonger.study.task.core.executor.flow;
 import com.striveonger.study.core.constant.ResultStatus;
 import com.striveonger.study.core.exception.CustomException;
 import com.striveonger.study.task.core.executor.Executable;
+import com.striveonger.study.task.core.scope.Workbench;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,6 +14,10 @@ import org.slf4j.LoggerFactory;
  */
 public class SerialeFlowExecutor extends FlowExecutor {
     private final Logger log = LoggerFactory.getLogger(SerialeFlowExecutor.class);
+
+    public SerialeFlowExecutor(Workbench workbench) {
+        super(workbench);
+    }
 
     @Override
     public void execute() {
