@@ -175,13 +175,13 @@ public class ExecutorAssembly {
             if (node.getOut() == 1 && (next = node.getNext(0)).getIn() == 1) {
                 // 当前节点出度为1, 并且后继节点的入度也为1 时, 就继续向下收集 (找到一条绳上的蚂蚱)
 
-                // 方案一: 简化执行结构
+                // 方案一: 带层级执行, 会额外创建执行器
+                // flow.push(dfs(next));
+
+                // 方案二: 简化执行结构
                 FlowExecutor nextFlows = dfs(next);
                 List<Executable> list = mergeSerialeFlow(nextFlows);
                 flow.push(list);
-
-                // 方案二: 带层级执行, 会额外创建执行器
-                // flow.push(dfs(next));
             }
             return flow;
         }

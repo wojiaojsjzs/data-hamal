@@ -50,7 +50,7 @@ public class TaskLaunch {
         Listener[] listeners = new Listener[] {new StepExecuteTimerListener()};
 
         // 3. 初始化工作空间(todo: 后面可以把task其他的配置信息, 也放到触发器里)
-        Workbench workbench = Workbench.builder().taskID(trigger.getTaskID()).corePoolSize(0).maximumPoolSize(64).context(cxt).build();
+        Workbench workbench = Workbench.builder().taskID(trigger.getTaskID()).corePoolSize(0).maximumPoolSize(6).context(cxt).build();
 
         // 4. 初始化 Executor (设置 "listener", "工作空间" )
         List<Executor> executors = trigger.getExtras().stream().map(ExecutorExtraInfo::getExecutor).toList();

@@ -1,6 +1,6 @@
-package com.striveonger.study.task.core.executor.extra;
+package com.striveonger.study.task.common.executor.extra;
 
-import com.striveonger.study.task.core.executor.Executor;
+import com.striveonger.study.task.common.executor.Executable;
 
 /**
  * @author Mr.Lee
@@ -14,7 +14,7 @@ public class ExecutorExtraInfo {
     private String displayName;
     // 扩展内容 end...
 
-    private Executor executor;
+    private Executable executor;
 
     public int getIndex() {
         return index;
@@ -40,11 +40,11 @@ public class ExecutorExtraInfo {
         this.displayName = displayName;
     }
 
-    public Executor getExecutor() {
+    public Executable getExecutor() {
         return executor;
     }
 
-    public void setExecutor(Executor executor) {
+    public void setExecutor(Executable executor) {
         this.executor = executor;
     }
 }

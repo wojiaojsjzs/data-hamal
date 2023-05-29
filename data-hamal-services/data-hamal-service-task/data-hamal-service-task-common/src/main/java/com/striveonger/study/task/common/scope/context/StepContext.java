@@ -1,20 +1,23 @@
-package com.striveonger.study.task.core.executor.extra;
-
-import com.striveonger.study.task.core.executor.Executor;
+package com.striveonger.study.task.common.scope.context;
 
 /**
  * @author Mr.Lee
- * @description: Executor 扩展的信息(用于构建task)
- * @date 2023-05-12 00:29
+ * @description: Step运行时环境
+ * @date 2023-05-05 22:33
  */
-public class ExecutorExtraInfo {
-    // 扩展内容 start...
-    private int index;
-    private String stepID;
-    private String displayName;
-    // 扩展内容 end...
+public class StepContext {
 
-    private Executor executor;
+    private int index;
+
+    private String stepID;
+
+    private String displayName;
+
+    private TaskContext taskContext;
+
+    public long getTaskID() {
+        return taskContext.getTaskID();
+    }
 
     public int getIndex() {
         return index;
@@ -40,11 +43,11 @@ public class ExecutorExtraInfo {
         this.displayName = displayName;
     }
 
-    public Executor getExecutor() {
-        return executor;
+    public TaskContext getTaskContext() {
+        return taskContext;
     }
 
-    public void setExecutor(Executor executor) {
-        this.executor = executor;
+    public void setTaskContext(TaskContext taskContext) {
+        this.taskContext = taskContext;
     }
 }
