@@ -1,4 +1,4 @@
-package com.striveonger.study.task.common.scope.trigger;
+package com.striveonger.study.task.common.scope.context;
 
 /**
  * @author Mr.Lee
