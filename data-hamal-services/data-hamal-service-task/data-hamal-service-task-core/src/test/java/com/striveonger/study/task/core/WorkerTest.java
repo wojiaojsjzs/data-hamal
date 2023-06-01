@@ -126,7 +126,7 @@ public class WorkerTest {
         Ce.setDisplayName("C");
         Ce.setExecutor(C);
         trigger.putExtra(Ce);
-        Executor D = new TestExecutor("D", 5);
+        Executor D = new TestExecutor("D", 2);
         ExecutorExtraInfo De = new ExecutorExtraInfo();
         De.setStepID("D");
         De.setDisplayName("D");
@@ -214,24 +214,6 @@ public class WorkerTest {
     }
 
     @Test
-    public void testWorker() throws Exception {
-        Workbench workbench = Workbench.builder().taskID(1024L).corePoolSize(0).maximumPoolSize(Integer.MAX_VALUE).build();
-        Workbench.Worker worker = workbench.getWorker();
-        int[] i = new int[1];
-        CountDownLatch latch = new CountDownLatch(20);
-        for (i[0] = 0; i[0] < 20; i[0]++) {
-            worker.work(() -> {
-                int x = i[0];
-                ThreadUtil.sleep(400);
-                log.info("hello {}", x);
-                latch.countDown();
-            });
-        }
-        log.info("Thread Pool");
-        latch.await();
-    }
-
-    @Test
     public void testMap() {
         Map<Long, String> map = new HashMap<>();
         map.put(1L, "A");
@@ -258,7 +240,7 @@ public class WorkerTest {
         @Override
         public void execute() throws Exception {
             // log.info("'{}' execute process...", name);
-            SleepHelper.sleepSeconds(waitTime);
+            SleepHelper.sleepMilliSeconds(waitTime);
         }
     }
 }

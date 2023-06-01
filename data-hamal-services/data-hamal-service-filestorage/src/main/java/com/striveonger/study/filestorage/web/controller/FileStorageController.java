@@ -74,7 +74,6 @@ public class FileStorageController {
             if (StrUtil.isBlank(filename)) continue;
             log.info("upload filename: {}", filename);
             try {
-                // TODO: 生成id的方案，后面可以换成 "美团的叶子"
                 ID id = null; int retry = 3;
                 do {
                     id = idGenRemoteService.acquireDisrupt(FILE_STORAGE.getKey());
