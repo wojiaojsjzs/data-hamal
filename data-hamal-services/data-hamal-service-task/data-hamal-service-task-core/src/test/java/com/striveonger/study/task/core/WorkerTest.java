@@ -5,12 +5,11 @@ import cn.hutool.core.thread.ThreadUtil;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.striveonger.study.core.utils.JacksonUtils;
 import com.striveonger.study.core.utils.SleepHelper;
+import com.striveonger.study.task.common.scope.context.PerformParam;
 import com.striveonger.study.task.core.constant.TaskStatus;
 import com.striveonger.study.task.core.executor.Executor;
 import com.striveonger.study.task.core.executor.extra.ExecutorExtraInfo;
 import com.striveonger.study.task.core.launch.TaskLaunch;
-import com.striveonger.study.task.core.scope.Workbench;
-import com.striveonger.study.task.core.scope.trigger.PerformParam;
 import com.striveonger.study.task.core.scope.trigger.TaskTrigger;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
@@ -240,7 +239,7 @@ public class WorkerTest {
         @Override
         public void execute() throws Exception {
             // log.info("'{}' execute process...", name);
-            SleepHelper.sleepMilliSeconds(waitTime);
+            SleepHelper.sleepMilliSeconds(waitTime * 500);
         }
     }
 }

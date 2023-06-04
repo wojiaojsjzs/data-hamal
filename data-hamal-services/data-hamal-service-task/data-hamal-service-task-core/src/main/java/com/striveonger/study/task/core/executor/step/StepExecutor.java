@@ -1,9 +1,9 @@
 package com.striveonger.study.task.core.executor.step;
 
+import com.striveonger.study.task.common.executor.step.item.ItemProcessor;
+import com.striveonger.study.task.common.executor.step.item.ItemReader;
+import com.striveonger.study.task.common.executor.step.item.ItemWriter;
 import com.striveonger.study.task.core.executor.Executor;
-import com.striveonger.study.task.core.executor.step.item.ItemProcessor;
-import com.striveonger.study.task.core.executor.step.item.ItemReader;
-import com.striveonger.study.task.core.executor.step.item.ItemWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

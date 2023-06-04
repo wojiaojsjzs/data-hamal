@@ -1,4 +1,4 @@
-package com.striveonger.study.task.core.executor.step.item;
+package com.striveonger.study.task.common.executor.step.item;
 
 /**
  * @author Mr.Lee

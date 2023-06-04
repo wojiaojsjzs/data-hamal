@@ -2,9 +2,9 @@ package com.striveonger.study.task.core.executor;
 
 import com.striveonger.study.core.constant.ResultStatus;
 import com.striveonger.study.core.exception.CustomException;
-import com.striveonger.study.task.core.listener.Listener;
+import com.striveonger.study.task.common.listener.Listener;
+import com.striveonger.study.task.common.scope.context.StepContext;
 import com.striveonger.study.task.core.scope.Workbench;
-import com.striveonger.study.task.core.scope.context.StepContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

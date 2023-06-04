@@ -1,10 +1,6 @@
 package com.striveonger.study.task.core.scope;
 
 import com.striveonger.study.task.core.exception.BuildTaskException;
-import com.striveonger.study.task.core.executor.Executable;
-import com.striveonger.study.task.core.executor.Executor;
-import com.striveonger.study.task.core.executor.flow.FlowExecutor;
-import com.striveonger.study.task.core.listener.Listener;
 import com.striveonger.study.task.core.scope.context.RuntimeContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

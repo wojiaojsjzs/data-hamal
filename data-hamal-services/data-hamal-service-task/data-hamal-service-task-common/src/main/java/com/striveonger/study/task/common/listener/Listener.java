@@ -38,5 +38,10 @@ public interface Listener {
      */
     void error(StepContext context);
 
-    enum Type { TASK, STEP }
+
+    default Type type() {
+        return Type.ALL;
+    }
+
+    enum Type { ALL, TASK, STEP }
 }

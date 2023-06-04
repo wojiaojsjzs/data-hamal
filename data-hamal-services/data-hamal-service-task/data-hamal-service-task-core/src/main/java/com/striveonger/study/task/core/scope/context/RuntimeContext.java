@@ -2,6 +2,8 @@ package com.striveonger.study.task.core.scope.context;
 
 import com.striveonger.study.core.constant.ResultStatus;
 import com.striveonger.study.core.exception.CustomException;
+import com.striveonger.study.task.common.scope.context.StepContext;
+import com.striveonger.study.task.common.scope.context.TaskContext;
 import com.striveonger.study.task.core.exception.BuildTaskException;
 import com.striveonger.study.task.core.executor.Executable;
 import com.striveonger.study.task.core.executor.Executor;

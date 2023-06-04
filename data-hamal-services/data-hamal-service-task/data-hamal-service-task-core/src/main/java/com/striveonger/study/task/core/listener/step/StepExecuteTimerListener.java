@@ -1,8 +1,7 @@
 package com.striveonger.study.task.core.listener.step;
 
-import com.striveonger.study.task.core.listener.ExecuteListener;
-import com.striveonger.study.task.core.listener.Listener;
-import com.striveonger.study.task.core.scope.context.StepContext;
+import com.striveonger.study.task.common.listener.Listener;
+import com.striveonger.study.task.common.scope.context.StepContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,7 +13,6 @@ import java.util.concurrent.ConcurrentHashMap;
  * @description:
  * @date 2023-05-16 17:01
  */
-@ExecuteListener(type = Listener.Type.STEP, order = 15)
 public class StepExecuteTimerListener implements Listener {
     private final Logger log = LoggerFactory.getLogger(StepExecuteTimerListener.class);
 

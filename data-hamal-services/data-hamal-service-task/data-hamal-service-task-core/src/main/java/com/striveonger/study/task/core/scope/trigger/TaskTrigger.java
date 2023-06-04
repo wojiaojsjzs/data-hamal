@@ -1,5 +1,6 @@
 package com.striveonger.study.task.core.scope.trigger;
 
+import com.striveonger.study.task.common.scope.context.PerformParam;
 import com.striveonger.study.task.core.executor.extra.ExecutorExtraInfo;
 
 import java.util.*;
