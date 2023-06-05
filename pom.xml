@@ -26,6 +26,7 @@
         <!-- providers -->
         <data-hamal-provider-leaf.port>9100</data-hamal-provider-leaf.port>
 
+        <!-- hello-demo -->
         <data-hamal-provider-hello.port>11010</data-hamal-provider-hello.port>
         <data-hamal-service-hello.port>11020</data-hamal-service-hello.port>
 

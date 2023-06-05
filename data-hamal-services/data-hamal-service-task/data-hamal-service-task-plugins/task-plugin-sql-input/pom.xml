@@ -3,18 +3,24 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
+        <artifactId>data-hamal-service-task-plugins</artifactId>
         <groupId>com.striveonger.study</groupId>
-        <artifactId>data-hamal-service-task</artifactId>
         <version>0.0.1</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>data-hamal-service-task-plugins</artifactId>
-    <packaging>pom</packaging>
+    <artifactId>task-plugin-sql-input</artifactId>
 
-    <modules>
-        <module>task-plugin-sql-input</module>
-    </modules>
+    <dependencies>
+
+        <dependency>
+            <groupId>com.striveonger.study</groupId>
+            <artifactId>dp-jdbc</artifactId>
+            <version>${data-hamal.version}</version>
+        </dependency>
+
+
+    </dependencies>
 
 
 </project>
