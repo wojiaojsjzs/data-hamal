@@ -55,9 +55,13 @@
         <junit.platform.version>1.9.1</junit.platform.version>
         <guava.version>31.1-jre</guava.version>
         <mockito.version>4.6.1</mockito.version>
-        <!--<dubbo.version>3.1.8</dubbo.version>-->
         <dubbo.version>3.2.0</dubbo.version>
         <nacos.version>2.2.0</nacos.version>
+
+        <!-- task plugin -->
+        <!-- 我本地用的是 Chrome 114.0.5735.106 -->
+        <!-- 对应的 ChromeDriver 114.0.5735.90  -->
+        <selenium.version>4.9.1</selenium.version> <!-- 这里 是需要覆盖Spring的默认依赖的 -->
     </properties>
 
     <profiles>
@@ -294,6 +298,58 @@
                 <version>${nacos.version}</version>
             </dependency>
 
+            <!--task-plugin-spider-->
+            <dependency>
+                <groupId>org.seleniumhq.selenium</groupId>
+                <artifactId>selenium-api</artifactId>
+                <version>${selenium.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.seleniumhq.selenium</groupId>
+                <artifactId>selenium-chrome-driver</artifactId>
+                <version>${selenium.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.seleniumhq.selenium</groupId>
+                <artifactId>selenium-edge-driver</artifactId>
+                <version>${selenium.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.seleniumhq.selenium</groupId>
+                <artifactId>selenium-firefox-driver</artifactId>
+                <version>${selenium.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.seleniumhq.selenium</groupId>
+                <artifactId>selenium-ie-driver</artifactId>
+                <version>${selenium.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.seleniumhq.selenium</groupId>
+                <artifactId>selenium-java</artifactId>
+                <version>${selenium.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.seleniumhq.selenium</groupId>
+                <artifactId>selenium-opera-driver</artifactId>
+                <version>${selenium.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.seleniumhq.selenium</groupId>
+                <artifactId>selenium-remote-driver</artifactId>
+                <version>${selenium.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.seleniumhq.selenium</groupId>
+                <artifactId>selenium-safari-driver</artifactId>
+                <version>${selenium.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.seleniumhq.selenium</groupId>
+                <artifactId>selenium-support</artifactId>
+                <version>${selenium.version}</version>
+            </dependency>
+
             <!-- JUnit5 -->
             <dependency>
                 <groupId>org.junit.platform</groupId>
@@ -327,6 +383,7 @@
                 <version>${mockito.version}</version>
                 <scope>test</scope>
             </dependency>
+
         </dependencies>
     </dependencyManagement>
 
