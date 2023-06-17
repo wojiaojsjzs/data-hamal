@@ -12,14 +12,13 @@
 
     <artifactId>task-plugin-spider</artifactId>
 
-    <properties>
-
-    </properties>
-
-
+    <description>
+        爬虫组件
+          - 动作: 操作浏览器发生的动作
+          - 解析: 解析浏览器的内容
+    </description>
 
     <dependencies>
-
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-chrome-driver</artifactId>
