@@ -1,6 +1,5 @@
 package com.striveonger.study.dp.jdbc.loader;
 
-import cn.hutool.core.lang.Dict;
 import com.striveonger.study.core.constant.ResultStatus;
 import com.striveonger.study.core.exception.CustomException;
 import com.striveonger.study.core.utils.JacksonUtils;
@@ -10,7 +9,6 @@ import javax.sql.DataSource;
 import java.lang.reflect.Method;
 import java.sql.*;
 import java.util.Arrays;
-import java.util.Map;
 import java.util.Properties;
 import java.util.function.Supplier;
 
