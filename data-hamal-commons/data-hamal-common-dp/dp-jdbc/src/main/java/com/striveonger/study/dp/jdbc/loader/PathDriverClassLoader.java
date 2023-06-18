@@ -1,6 +1,8 @@
 package com.striveonger.study.dp.jdbc.loader;
 
 import cn.hutool.core.io.IoUtil;
+import com.striveonger.study.core.constant.ResultStatus;
+import com.striveonger.study.core.exception.CustomException;
 import com.striveonger.study.core.utils.FileUtil;
 import com.striveonger.study.core.utils.JacksonUtils;
 import org.slf4j.Logger;
@@ -41,8 +43,9 @@ public class PathDriverClassLoader extends URLClassLoader {
         super(fullFilesToURL(path).toArray(URL[]::new), parent);
         this.path = path;
         this.extraForceLoads.add(DriverLoader.class.getName());
-        this.extraForceLoads.add(JacksonUtils.class.getName());
-        this.extraForceLoads.add("com.striveonger.study.dp.jdbc.loader.DriverLoader$Config");
+        this.extraForceLoads.add(DriverLoader.Config.class.getName());
+        this.extraForceLoads.add(CustomException.class.getName());
+        this.extraForceLoads.add(ResultStatus.class.getName());
     }
 
     public File getPath() {

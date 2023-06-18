@@ -1,5 +1,7 @@
 package com.striveonger.study.dp.jdbc.loader;
 
+import com.striveonger.study.core.constant.ResultStatus;
+import com.striveonger.study.core.exception.CustomException;
 import com.striveonger.study.core.utils.JacksonUtils;
 import com.zaxxer.hikari.HikariDataSource;
 
@@ -22,6 +24,7 @@ public class DriverLoader {
 
     public DataSource getDataSource(String s) {
         Config config = JacksonUtils.toObject(s, Config.class);
+        if (config == null) throw new CustomException(ResultStatus.ACCIDENT, "String 's' parse DriverLoader.Config failure...");
         HikariDataSource ds = new HikariDataSource();
         ds.setDriverClassName(config.getDriverClassName());
         ds.setJdbcUrl(config.getUrl());
@@ -171,7 +174,5 @@ public class DriverLoader {
             this.maxLifetime = maxLifetime;
         }
     }
-
-
 
 }
