@@ -12,4 +12,23 @@
     <artifactId>dp-jdbc</artifactId>
 
 
+    <dependencies>
+        <dependency>
+            <groupId>com.striveonger.study</groupId>
+            <artifactId>data-hamal-common-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.zaxxer</groupId>
+            <artifactId>HikariCP</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.striveonger.study</groupId>
+            <artifactId>data-hamal-common-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+
+    </dependencies>
+
 </project>
