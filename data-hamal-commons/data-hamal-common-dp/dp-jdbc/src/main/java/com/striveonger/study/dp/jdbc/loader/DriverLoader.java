@@ -19,8 +19,29 @@ import java.util.Set;
  */
 public class DriverLoader {
 
-    public DriverLoader() { }
+    // private final Config config;
 
+    // public DriverLoader(Config config) {
+    //     this.config = config;
+    // }
+
+    // public DataSource getDataSource() {
+    //     HikariDataSource ds = new HikariDataSource();
+    //     ds.setDriverClassName(config.getDriverClassName());
+    //     ds.setJdbcUrl(config.getUrl());
+    //     ds.setUsername(config.getUsername());
+    //     ds.setPassword(config.getPassword());
+    //
+    //     // 添加配置项
+    //     ds.setConnectionTimeout(config.getConnectionTimeout());
+    //     ds.setMinimumIdle(config.getMinimumIdle());
+    //     ds.setMaximumPoolSize(config.getMaximumPoolSize());
+    //     ds.setIdleTimeout(config.getIdleTimeout());
+    //     ds.setMaxLifetime(config.getMaxLifetime());
+    //     return ds;
+    // }
+
+    public DriverLoader() { }
 
     public DataSource getDataSource(String s) {
         Config config = JacksonUtils.toObject(s, Config.class);
@@ -75,7 +96,7 @@ public class DriverLoader {
 
 
     /**
-     * Class 向上查找 继承和接口, 检查是否包含name
+     * Class 向上查找 继承和接口, 检查是否匹配name
      * @param clazz
      * @param name
      * @return
@@ -96,8 +117,7 @@ public class DriverLoader {
         return false;
     }
 
-
-    public static class Config {
+    static class Config {
         private String driverClassName, url, username, password;
 
         private int connectionTimeout = 30000, minimumIdle = 1, maximumPoolSize = 10, idleTimeout = 300000, maxLifetime = 300000;

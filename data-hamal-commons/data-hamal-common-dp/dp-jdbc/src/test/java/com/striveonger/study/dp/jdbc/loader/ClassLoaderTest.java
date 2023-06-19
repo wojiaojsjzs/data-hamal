@@ -60,19 +60,19 @@ public class ClassLoaderTest {
         // DriverLoader.class
         Class<?> clazz = pathClassLoader.loadClass(DriverLoader.class.getName());
 
-
         Supplier<Connection> supplier = null;
         DriverLoader.Config config = new DriverLoader.Config();
         config.setDriverClassName("org.postgresql.Driver");
         config.setUrl("jdbc:postgresql://localhost:5432/postgres");
         config.setUsername("postgres");
         config.setPassword("123456");
-        String s = JacksonUtils.toJSONString(config);
 
-        Object object = clazz.getDeclaredConstructor().newInstance();
-        // Object result = object.getClass().getMethod("getDataSource").invoke(object);
-        // Object result = object.getClass().getMethod("getDataSource", Map.class).invoke(object, Dict.create().set("a", "a"));
+        String s = JacksonUtils.toJSONString(config);
+        Object object = DriverLoader.class.getDeclaredConstructor().newInstance();
         Object result = object.getClass().getMethod("getDataSource", String.class).invoke(object, s);
+
+        // Object object = DriverLoader.class.getConstructor(DriverLoader.Config.class).newInstance(config);
+        // Object result = object.getClass().getMethod("getDataSource").invoke(object);
 
         if (result instanceof DataSource ds) {
             supplier = () -> {
@@ -87,28 +87,16 @@ public class ClassLoaderTest {
     }
 
     private void extract(Supplier<Connection> supplier) {
-        try (Connection connect = supplier.get()) {
-            Statement statement = connect.createStatement();
+        try (Connection connect = supplier.get(); Statement statement = connect.createStatement()) {
             ResultSet set = statement.executeQuery("SELECT * FROM test.air");
             while (set.next()) {
                 String id = set.getString("id");
                 String name = set.getString("name");
                 System.out.println(id + " --- " + name);
             }
-
         } catch (Exception e) {
             e.printStackTrace();
             throw new CustomException(ResultStatus.ACCIDENT);
         }
-    }
-
-    @Test
-    public void test() {
-        Class<?> clazz = DriverLoader.class;
-        Method[] methods = clazz.getDeclaredMethods();
-        for (Method method : methods) {
-            System.out.println(method.getName() + " " + Arrays.toString(method.getParameterTypes()));
-        }
-
     }
 }
