@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
  * @description:
  * @date 2023-03-09 14:05
  */
-@DubboService
+@DubboService(group = "data-hamal")
 public class HelloRemoteServiceImpl implements HelloRemoteService {
     private final Logger log = LoggerFactory.getLogger(HelloRemoteServiceImpl.class);
 

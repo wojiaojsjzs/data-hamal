@@ -14,7 +14,7 @@ import javax.annotation.Resource;
  * @description:
  * @date 2023-03-08 09:38
  */
-@DubboService //(version = "1.0.0")
+@DubboService(group = "data-hamal") //(version = "1.0.0")
 public class IDGenRemoteServiceImpl implements IDGenRemoteService {
     private final Logger log = LoggerFactory.getLogger(IDGenRemoteServiceImpl.class);
 
