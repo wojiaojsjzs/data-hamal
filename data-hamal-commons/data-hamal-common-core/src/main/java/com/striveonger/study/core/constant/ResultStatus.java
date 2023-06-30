@@ -58,10 +58,10 @@ public enum ResultStatus {
      */
     MESSAGE_SEND_FAIL(513, "Message Send Fail"),
 
+    /**
+     * 任务执行失败
+     */
     TASK_EXECUTE_FAIL(520, "Task Execute Fail");
-
-
-
 
     private final int state;
     private final String message;

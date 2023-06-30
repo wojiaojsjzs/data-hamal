@@ -6,9 +6,7 @@ import com.striveonger.study.core.utils.JacksonUtils;
 import org.junit.jupiter.api.Test;
 
 import javax.sql.DataSource;
-import java.lang.reflect.Method;
 import java.sql.*;
-import java.util.Arrays;
 import java.util.Properties;
 import java.util.function.Supplier;
 
@@ -66,12 +64,13 @@ public class ClassLoaderTest {
         config.setUrl("jdbc:postgresql://localhost:5432/postgres");
         config.setUsername("postgres");
         config.setPassword("123456");
-
         String s = JacksonUtils.toJSONString(config);
-        Object object = DriverLoader.class.getDeclaredConstructor().newInstance();
+        // 这里注意, DriverLoader.class 是用默认的ClassLoader加载的, 这样是无法加载指定路径下的Driver类的
+        // 要记得用
+        Object object = clazz.getDeclaredConstructor().newInstance();
         Object result = object.getClass().getMethod("getDataSource", String.class).invoke(object, s);
 
-        // Object object = DriverLoader.class.getConstructor(DriverLoader.Config.class).newInstance(config);
+        // Object object = clazz.getConstructor(DriverLoader.Config.class).newInstance(config);
         // Object result = object.getClass().getMethod("getDataSource").invoke(object);
 
         if (result instanceof DataSource ds) {

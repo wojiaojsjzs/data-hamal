@@ -1,17 +1,20 @@
 package com.striveonger.study.redis.holder;
 
 import cn.hutool.core.thread.ThreadUtil;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.striveonger.study.core.result.Result;
+import com.striveonger.study.core.utils.JacksonUtils;
 import com.striveonger.study.core.utils.SleepHelper;
 import com.striveonger.study.redis.config.RedisConfig;
+import com.striveonger.study.redis.config.RedisConfigProperties;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
-import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.test.context.TestPropertySource;
 
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -28,37 +31,67 @@ public class RedisHolderTest {
 
     private RedisHolder holder;
 
+    // @BeforeEach
+    // public void setup() {
+    //     RedisStandaloneConfiguration config = new RedisStandaloneConfiguration();
+    //     config.setHostName("localhost");
+    //     config.setPort(6379);
+    //     config.setPassword("123456");
+    //     config.setDatabase(1);
+    //     // GenericObjectPoolConfig<Object> poolConfig = new GenericObjectPoolConfig<>();
+    //     // poolConfig.setMinIdle(0);
+    //     // poolConfig.setMaxIdle(10);
+    //     // poolConfig.setMaxWait(Duration.ofMillis(-1));
+    //     // poolConfig.setMaxTotal(200);
+    //     // LettucePoolingClientConfiguration lettuceConfig = LettucePoolingClientConfiguration.builder().poolConfig(poolConfig).build();
+    //     // LettuceConnectionFactory factory = new LettuceConnectionFactory(config, lettuceConfig);
+    //     LettuceConnectionFactory factory = new LettuceConnectionFactory(config);
+    //
+    //     factory.afterPropertiesSet();
+    //     RedisConfig redis = new RedisConfig();
+    //     RedisTemplate<String, byte[]> template = redis.redisTemplate(factory);
+    //     this.holder = redis.holder(template);
+    // }
+
     @BeforeEach
     public void setup() {
-        RedisStandaloneConfiguration config = new RedisStandaloneConfiguration();
-        config.setHostName("localhost");
-        config.setPort(6379);
-        config.setPassword("123456");
-        config.setDatabase(1);
-        // GenericObjectPoolConfig<Object> poolConfig = new GenericObjectPoolConfig<>();
-        // poolConfig.setMinIdle(0);
-        // poolConfig.setMaxIdle(10);
-        // poolConfig.setMaxWait(Duration.ofMillis(-1));
-        // poolConfig.setMaxTotal(200);
-        // LettucePoolingClientConfiguration lettuceConfig = LettucePoolingClientConfiguration.builder().poolConfig(poolConfig).build();
-        // LettuceConnectionFactory factory = new LettuceConnectionFactory(config, lettuceConfig);
-        LettuceConnectionFactory factory = new LettuceConnectionFactory(config);
-
-        factory.afterPropertiesSet();
+        RedisConfigProperties properties = new RedisConfigProperties();
+        properties.setPassword("123456");
+        properties.setModel("single");
+        RedisConfigProperties.Single single = new RedisConfigProperties.Single();
+        single.setAddress("redis://localhost:6379");
+        single.setDatabase(0);
+        properties.setSingle(single);
         RedisConfig redis = new RedisConfig();
-        RedisTemplate<String, byte[]> template = redis.redisTemplate(factory);
-        this.holder = redis.holder(template);
+        this.holder = redis.holder(redis.redissonClient(properties));
     }
 
     @Test
     public void test() {
-        // Result result = Result.success().data("xxx");
-        // holder.putValue("data-hamal:KLP:aaa", JacksonUtils.toJSONString(result));
-        // String s = holder.getValue("data-hamal:KLP:aaa");
+        String key = "data-hamal:KLP:aaa";
+        System.out.println("------------------------");
+        // Result<String> result = Result.success("yyy");
+        // holder.putValue(key, JacksonUtils.toJSONString(result));
+        // String s = holder.getValue(key);
         // System.out.println(s);
-        // result = JacksonUtils.toObject(s, Result.class);
+        // result = JacksonUtils.toObject(s, new TypeReference<>() {});
         // assert result != null;
         // System.out.println(result.getData());
+
+        // boolean flag = holder.setnx(key, 1);
+        // System.out.println("1: " + flag);
+        // int val = holder.getValue(key);
+        // System.out.println(val);
+        //
+        // System.out.println("------------------------");
+        // flag = holder.setnx(key, 2);
+        // System.out.println("2: " + flag);
+        // val = holder.getValue(key);
+        // System.out.println(val);
+
+
+
+
 
 
         System.out.println("------------------------");
@@ -94,11 +127,11 @@ public class RedisHolderTest {
         Thread t1 = new Thread(() -> {
             log.error("T1 start...");
             RedisHolder.Lock lock = holder.acquireLock();
-            boolean acquire = lock.lock("test");
+            boolean acquire = lock.tryLock("test", 0);
             log.error("T1 acquire: " + acquire);
             if (acquire) {
                 // 持有锁的时间
-                ThreadUtil.sleep(5 * 1000); // 占用时间 5s
+                ThreadUtil.sleep(50 * 1000); // 占用时间 5s
                 log.error("T1 unlock");
                 lock.unlock("test");
             }
@@ -116,7 +149,7 @@ public class RedisHolderTest {
             log.error("T2 acquire: " + acquire);
             if (acquire) {
                 // 持有锁的时间
-                ThreadUtil.sleep(5 * 1000);
+                ThreadUtil.sleep(50 * 1000);
                 log.error("T2 unlock");
                 lock.unlock("test");
             }
@@ -126,6 +159,6 @@ public class RedisHolderTest {
         pool.submit(t1); pool.submit(t2);
 
         ThreadUtil.sleep(3 * 60 * 1000);
-        System.out.println("finish~");
+        // System.out.println("finish~");
     }
 }

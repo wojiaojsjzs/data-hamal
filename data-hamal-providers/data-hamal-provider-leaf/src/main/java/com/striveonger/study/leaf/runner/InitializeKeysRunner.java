@@ -35,7 +35,7 @@ public class InitializeKeysRunner implements CommandLineRunner {
     public void run(String... args) throws Exception {
         RedisHolder.Lock lock = redis.acquireLock();
         try {
-            boolean acquire = lock.lock(INITIALIZE_LEAF_KEY.key());
+            boolean acquire = lock.tryLock(INITIALIZE_LEAF_KEY.key(), 0);
             if (acquire) { // 锁定资源
                 // 同一时间, 只能有一个线程进行初始化操作
                 for (Keys item : Keys.values()) {
