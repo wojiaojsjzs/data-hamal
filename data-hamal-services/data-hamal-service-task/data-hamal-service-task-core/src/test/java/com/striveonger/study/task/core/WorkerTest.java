@@ -181,7 +181,7 @@ public class WorkerTest {
         trigger.putExtra(Ke);
 
         // 2.2 定义任务的拓扑序
-        Map<String, Set<String>> topology = JacksonUtils.toObject(json, new TypeReference<Map<String, Set<String>>>() {});
+        Map<String, Set<String>> topology = JacksonUtils.toObject(json, new TypeReference<>() { });
         trigger.setTopology(topology);
 
         // 3. 定义任务参数

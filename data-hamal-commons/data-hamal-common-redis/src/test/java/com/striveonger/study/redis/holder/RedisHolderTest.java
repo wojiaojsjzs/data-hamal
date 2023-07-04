@@ -89,11 +89,6 @@ public class RedisHolderTest {
         // val = holder.getValue(key);
         // System.out.println(val);
 
-
-
-
-
-
         System.out.println("------------------------");
         // byte[] bytes = SerializeUtil.serialize(result);
         // String key = "data-hamal:KLP:bbb";
