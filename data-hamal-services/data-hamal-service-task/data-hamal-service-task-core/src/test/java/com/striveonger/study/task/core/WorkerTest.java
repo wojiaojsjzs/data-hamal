@@ -239,7 +239,7 @@ public class WorkerTest {
         @Override
         public void execute() throws Exception {
             // log.info("'{}' execute process...", name);
-            SleepHelper.sleepMilliSeconds(waitTime * 500);
+            SleepHelper.sleepMilliSeconds(waitTime * 800);
         }
     }
 }

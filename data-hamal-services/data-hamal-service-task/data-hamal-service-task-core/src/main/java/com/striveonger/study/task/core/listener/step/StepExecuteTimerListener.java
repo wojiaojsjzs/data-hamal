@@ -1,6 +1,6 @@
 package com.striveonger.study.task.core.listener.step;
 
-import com.striveonger.study.task.common.listener.Listener;
+import com.striveonger.study.task.common.Listener;
 import com.striveonger.study.task.common.scope.context.StepContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,8 +44,10 @@ public class StepExecuteTimerListener implements Listener {
      */
     private static class ExecuteTimer {
         Map<String, Long> starts = new ConcurrentHashMap<>();
+
         /**
          * 开始计时
+         *
          * @param key : taskID_stepID
          */
         public void start(String key) {
@@ -55,14 +57,16 @@ public class StepExecuteTimerListener implements Listener {
 
         /**
          * 停止计时
+         *
          * @param key : taskID_stepID
          * @return
          */
         public long stop(String key) {
             Long start = starts.remove(key);
+            // 毫秒级
+            return System.currentTimeMillis() - (start == null ? 0 : start);
+            // 纳秒级
             // return System.nanoTime() - (start == null ? 0 : start);
-            return System.currentTimeMillis()- (start == null ? 0 : start);
-
         }
     }
 }

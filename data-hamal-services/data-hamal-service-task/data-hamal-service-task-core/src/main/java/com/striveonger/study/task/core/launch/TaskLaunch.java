@@ -1,10 +1,11 @@
 package com.striveonger.study.task.core.launch;
 
-import com.striveonger.study.task.common.listener.Listener;
+import com.striveonger.study.task.common.Listener;
 import com.striveonger.study.task.core.constant.TaskStatus;
 import com.striveonger.study.task.core.executor.Executor;
 import com.striveonger.study.task.core.executor.assembly.ExecutorAssembly;
 import com.striveonger.study.task.core.executor.extra.ExecutorExtraInfo;
+import com.striveonger.study.task.core.listener.loader.ListenerLoader;
 import com.striveonger.study.task.core.listener.step.StepExecuteTimerListener;
 import com.striveonger.study.task.core.scope.Workbench;
 import com.striveonger.study.task.core.scope.context.RuntimeContext;
@@ -45,9 +46,11 @@ public class TaskLaunch {
         // 1. 根据触发器, 创建上下文对象
         RuntimeContext cxt = new RuntimeContext(trigger);
 
-        // 2. 初始化listener (todo: 临时手动new, 后面考虑采用ServiceLoader的方式来加载listener)
+        // 2. 初始化listener (TODO: 临时手动new, 后面考虑采用ServiceLoader的方式来加载listener)
         // Listener[] listeners = new Listener[] {new StepExecuteTimerListener(), new StepLogListener()};
-        Listener[] listeners = new Listener[] {new StepExecuteTimerListener()};
+        // Listener[] listeners = new Listener[] {new StepExecuteTimerListener()};
+        Listener[] listeners = ListenerLoader.getInstance().getFullRegisterListeners();
+
 
         // 3. 初始化工作空间(todo: 后面可以把task其他的配置信息, 也放到触发器里)
         Workbench workbench = Workbench.builder().taskID(trigger.getTaskID()).corePoolSize(0).maximumPoolSize(6).context(cxt).build();
@@ -77,7 +80,7 @@ public class TaskLaunch {
             status = TaskStatus.FAIL;
         }
 
-        // 8.
+        // 8. 更新状态, 释放资源...
 
         return status;
     }

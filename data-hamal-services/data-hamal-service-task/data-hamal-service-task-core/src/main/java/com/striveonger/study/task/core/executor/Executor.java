@@ -2,7 +2,7 @@ package com.striveonger.study.task.core.executor;
 
 import com.striveonger.study.core.constant.ResultStatus;
 import com.striveonger.study.core.exception.CustomException;
-import com.striveonger.study.task.common.listener.Listener;
+import com.striveonger.study.task.common.Listener;
 import com.striveonger.study.task.common.scope.context.StepContext;
 import com.striveonger.study.task.core.scope.Workbench;
 import org.slf4j.Logger;
@@ -25,8 +25,7 @@ public abstract class Executor implements Executable {
 
     private Listener[] listeners = null;
 
-    public Executor() {
-    }
+    public Executor() { }
 
     public void setWorkbench(Workbench workbench) {
         this.workbench = workbench;
