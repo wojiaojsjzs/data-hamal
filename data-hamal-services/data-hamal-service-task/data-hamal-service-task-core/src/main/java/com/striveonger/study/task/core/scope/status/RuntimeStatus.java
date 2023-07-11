@@ -24,14 +24,21 @@ public class RuntimeStatus implements Serializable {
 
     private long[] states;
 
+    /**
+     * 任务暂停状态
+     */
     private volatile boolean suspend = false;
 
+    /**
+     * 任务中止状态
+     */
     private volatile boolean aborted = false;
 
     public RuntimeStatus() { }
 
     public RuntimeStatus(int total) {
         this.total = total;
+        // total / 64 + 1
         this.states = new long[(total >> 5) + 1];
     }
 
