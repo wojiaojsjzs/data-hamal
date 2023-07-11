@@ -1,6 +1,7 @@
 package com.striveonger.study.task.core.listener.loader;
 
 import com.striveonger.study.task.common.Listener;
+import com.striveonger.study.task.common.scope.context.StepContext;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +33,18 @@ public class ListenerLoader {
      */
     public Listener[] getFullRegisterListeners() {
         return listeners.toArray(Listener[]::new);
+    }
+
+    /**
+     * 根据条件, 获取组件所需的监听器
+     * 比如: 调试时运行时, 需要通过WebSocket向页面, 向页面输出执行日志. 而正式运行时, 则不需要
+     *
+     * @param context
+     * @return
+     */
+    public Listener[] getListenersByConditions(StepContext context) {
+        // 根据当前的执行环境, 过滤条件
+        return listeners.stream().filter(l -> l.need(context)).toArray(Listener[]::new);
     }
 
 }

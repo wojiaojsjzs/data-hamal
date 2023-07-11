@@ -38,6 +38,12 @@ public interface Listener {
      */
     void error(StepContext context);
 
+    /**
+     *
+     * @return
+     */
+    boolean need(StepContext context);
+
 
     default Type type() {
         return Type.ALL;

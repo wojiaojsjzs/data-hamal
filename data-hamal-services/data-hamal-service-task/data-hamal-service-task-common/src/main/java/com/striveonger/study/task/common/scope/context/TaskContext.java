@@ -15,6 +15,12 @@ public class TaskContext {
     private final long taskID;
     private final Map<String, PerformParam> params = new ConcurrentHashMap<>();
 
+    /**
+     * 任务启动, 所需的资源
+     * 比如: RedisHolder, TaskExecutorLogHolder, WebSocketHolder
+     */
+    private final Map<Class<?>, Object> resource = new ConcurrentHashMap<>();
+
     public TaskContext(long taskID, List<PerformParam> params) {
         this.taskID = taskID;
         for (PerformParam param : params) {
@@ -41,5 +47,19 @@ public class TaskContext {
                 param.setValue(val);
             }
         }
+    }
+
+    public void putResource(Class<?> key, Object val) {
+        if (Objects.nonNull(key) && Objects.nonNull(val)) {
+            resource.put(key, val);
+        }
+    }
+
+    public <T> T getResource(Class<T> key) {
+        Object val = resource.get(key);
+        if (Objects.nonNull(key) && Objects.nonNull(val) && key.isInstance(val)) {
+            return (T) val;
+        }
+        return null;
     }
 }

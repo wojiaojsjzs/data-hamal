@@ -10,7 +10,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author Mr.Lee
- * @description:
+ * @description: 执行时间监听器
  * @date 2023-05-16 17:01
  */
 public class StepExecuteTimerListener implements Listener {
@@ -33,6 +33,12 @@ public class StepExecuteTimerListener implements Listener {
     public void error(StepContext context) {
         long time = timer.stop(key(context));
         log.info("Step '{}' elapsed time: {}ms", context.getDisplayName(), time);
+    }
+
+    @Override
+    public boolean need(StepContext context) {
+        // 全部组件都需要添加的监听器
+        return true;
     }
 
     private String key(StepContext context) {
