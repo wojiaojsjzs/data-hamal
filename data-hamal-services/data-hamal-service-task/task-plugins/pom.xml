@@ -4,27 +4,19 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <groupId>com.striveonger.study</groupId>
-        <artifactId>data-hamal-services</artifactId>
+        <artifactId>data-hamal-service-task</artifactId>
         <version>0.0.1</version>
     </parent>
+
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>data-hamal-service-task</artifactId>
+    <artifactId>task-plugins</artifactId>
     <packaging>pom</packaging>
 
     <modules>
-        <!--核心成员-->
-        <module>task-core</module>
-        <!--通用工具-->
-        <module>task-common</module>
-        <!--执行器-->
-        <module>task-executor</module>
-        <!--插件包-->
-        <module>task-plugins</module>
-        <!--任务服务-->
-        <module>task-worker</module>
-        <!--任务调度-->
-
+        <module>task-plugin-sql-input</module>
+        <module>task-plugin-spider</module>
     </modules>
+
 
 </project>

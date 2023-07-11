@@ -15,6 +15,6 @@ public enum DistractLockKeys {
     }
 
     public String key() {
-        return key;
+        return key.intern();
     }
 }
