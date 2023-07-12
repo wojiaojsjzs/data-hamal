@@ -1,12 +1,16 @@
 package com.striveonger.study.task.common.scope.status;
 
+import com.striveonger.study.task.common.constant.StepStatus;
+import com.striveonger.study.task.common.constant.TaskStatus;
+
 import java.util.Map;
+import java.util.Objects;
 import java.util.ServiceLoader;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author Mr.Lee
- * @description: 执行状态控制对象
+ * @description: 执行状态控制对象(RuntimeStatus的包装类)
  * @date 2023-07-11 15:11
  */
 public interface StatusControls {
@@ -26,13 +30,15 @@ public interface StatusControls {
      */
     void stop(String id);
 
-    /**
-     * 获取任务状态
-     *
-     * @param id 任务ID
-     * @return   状态对象
-     */
-    RuntimeStatus get(String id);
+    /* 包装开始 */
+
+    public void update(String id, int num, StepStatus status);
+
+    public StepStatus stepStatus(String id, int num);
+
+    public TaskStatus taskStatus(String id);
+
+    /* 包装结束 */
 
     /**
      * 默认使用"本地内存"存储任务的执行状态
@@ -40,6 +46,8 @@ public interface StatusControls {
     public static class Default implements StatusControls {
 
         private final Map<String, RuntimeStatus> cache = new ConcurrentHashMap<>();
+
+        private Default() {  }
 
         @Override
         public void start(String id, int size) {
@@ -57,8 +65,31 @@ public interface StatusControls {
         }
 
         @Override
-        public RuntimeStatus get(String id) {
-            return cache.get(id);
+        public void update(String id, int num, StepStatus status) {
+            synchronized (id.intern()) {
+                RuntimeStatus holder = cache.get(id);
+                if (Objects.nonNull(holder)) {
+                    holder.update(num, status);
+                }
+            }
+        }
+
+        @Override
+        public StepStatus stepStatus(String id, int num) {
+            RuntimeStatus holder = cache.get(id);
+            if (Objects.nonNull(holder)) {
+                return holder.stepStatus(num);
+            }
+            return null;
+        }
+
+        @Override
+        public TaskStatus taskStatus(String id) {
+            RuntimeStatus holder = cache.get(id);
+            if (Objects.nonNull(holder)) {
+                return holder.taskStatus();
+            }
+            return null;
         }
     }
 

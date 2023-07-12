@@ -1,14 +1,14 @@
 package com.striveonger.study.task.common;
 
 
-import com.striveonger.study.task.common.scope.context.StepContext;
+import com.striveonger.study.task.common.scope.context.TaskContext;
 
 /**
  * @author Mr.Lee
  * @description:
  * @date 2023-04-23 16:11
  */
-public interface StepListener extends Listener {
+public interface TaskListener extends Listener {
 
     /*
      * TODO: 现在呢想到的
@@ -26,21 +26,16 @@ public interface StepListener extends Listener {
     /**
      * 执行前
      */
-    void before(StepContext context);
+    void before(TaskContext context);
 
     /**
      * 执行后
      */
-    void after(StepContext context);
+    void after(TaskContext context);
 
     /**
      * 执行出错
      */
-    void error(StepContext context);
+    void error(TaskContext context);
 
-    /**
-     *
-     * @return
-     */
-    boolean need(StepContext context);
 }

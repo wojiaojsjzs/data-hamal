@@ -1,7 +1,8 @@
 package com.striveonger.study.task.core;
 
-import com.striveonger.study.task.core.constant.StepStatus;
-import com.striveonger.study.task.core.scope.status.RuntimeStatus;
+
+import com.striveonger.study.task.common.constant.StepStatus;
+import com.striveonger.study.task.common.scope.status.RuntimeStatus;
 
 public class RunningStatusTest {
 

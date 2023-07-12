@@ -1,7 +1,8 @@
 package com.striveonger.study.task.core.launch;
 
 import com.striveonger.study.task.common.StepListener;
-import com.striveonger.study.task.core.constant.TaskStatus;
+
+import com.striveonger.study.task.common.constant.TaskStatus;
 import com.striveonger.study.task.core.executor.Executor;
 import com.striveonger.study.task.core.executor.assembly.ExecutorAssembly;
 import com.striveonger.study.task.core.executor.extra.ExecutorExtraInfo;
@@ -57,7 +58,7 @@ public class TaskLaunch {
         // 4. 初始化 Executor (设置 "listener", "工作空间" )
         List<Executor> executors = trigger.getExtras().stream().map(ExecutorExtraInfo::getExecutor).toList();
         executors.forEach(executor -> {
-            executor.setListeners(listeners);
+            executor.setListeners(listeners); // todo 每个组件可单独实现并监听
             executor.setWorkbench(workbench);
         });
 

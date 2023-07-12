@@ -1,6 +1,8 @@
 package com.striveonger.study.task.common.scope.context;
 
 
+import com.striveonger.study.task.common.scope.status.StatusControls;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -21,11 +23,14 @@ public class TaskContext {
      */
     private final Map<Class<?>, Object> resource = new ConcurrentHashMap<>();
 
+    private final StatusControls controls;
+
     public TaskContext(long taskID, List<PerformParam> params) {
         this.taskID = String.valueOf(taskID);
         for (PerformParam param : params) {
             this.params.put(param.getName(), param);
         }
+        controls = StatusControls.Holder.getControls();
     }
 
     public String getTaskID() {
@@ -61,5 +66,10 @@ public class TaskContext {
             return (T) val;
         }
         return null;
+    }
+
+
+    public StatusControls getStatusControls() {
+        return controls;
     }
 }

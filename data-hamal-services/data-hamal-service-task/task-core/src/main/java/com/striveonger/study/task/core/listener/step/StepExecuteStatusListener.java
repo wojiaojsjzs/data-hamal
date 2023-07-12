@@ -1,7 +1,9 @@
 package com.striveonger.study.task.core.listener.step;
 
 import com.striveonger.study.task.common.StepListener;
+import com.striveonger.study.task.common.constant.StepStatus;
 import com.striveonger.study.task.common.scope.context.StepContext;
+import com.striveonger.study.task.common.scope.status.StatusControls;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,19 +17,27 @@ public class StepExecuteStatusListener implements StepListener {
 
     @Override
     public void before(StepContext context) {
-
+        process(context, StepStatus.RUNNING);
     }
 
     @Override
     public void after(StepContext context) {
-
-        // log.info("Step '{}' elapsed time: {}ms", context.getDisplayName(), time);
+        process(context, StepStatus.COMPLETE);
     }
 
     @Override
     public void error(StepContext context) {
+        process(context, StepStatus.FAIL);
+    }
 
-        // log.info("Step '{}' elapsed time: {}ms", context.getDisplayName(), time);
+    private void process(StepContext context,  StepStatus status) {
+        String id = context.getTaskID();
+        int index = context.getIndex();
+        StatusControls controls = context.getStatusControls();
+        synchronized (id.intern()) {
+
+            controls.update(id, index, status);
+        }
     }
 
     @Override

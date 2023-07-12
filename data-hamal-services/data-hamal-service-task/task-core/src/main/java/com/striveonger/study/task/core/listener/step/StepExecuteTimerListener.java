@@ -41,8 +41,13 @@ public class StepExecuteTimerListener implements StepListener {
         return true;
     }
 
+    @Override
+    public Priority getPriority() {
+        return Priority.MAX;
+    }
+
     private String key(StepContext context) {
-        return String.format("%d_%s", context.getTaskID(), context.getStepID());
+        return String.format("%s_%s", context.getTaskID(), context.getStepID());
     }
 
     /**
