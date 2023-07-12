@@ -15,7 +15,7 @@ public class StepContext {
 
     private TaskContext taskContext;
 
-    public long getTaskID() {
+    public String getTaskID() {
         return taskContext.getTaskID();
     }
 

@@ -12,7 +12,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @date 2023-05-05 22:35
  */
 public class TaskContext {
-    private final long taskID;
+    private final String taskID;
     private final Map<String, PerformParam> params = new ConcurrentHashMap<>();
 
     /**
@@ -22,13 +22,13 @@ public class TaskContext {
     private final Map<Class<?>, Object> resource = new ConcurrentHashMap<>();
 
     public TaskContext(long taskID, List<PerformParam> params) {
-        this.taskID = taskID;
+        this.taskID = String.valueOf(taskID);
         for (PerformParam param : params) {
             this.params.put(param.getName(), param);
         }
     }
 
-    public long getTaskID() {
+    public String getTaskID() {
         return taskID;
     }
 
