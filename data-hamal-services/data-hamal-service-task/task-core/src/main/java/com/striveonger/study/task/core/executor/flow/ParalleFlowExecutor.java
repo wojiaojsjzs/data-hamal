@@ -31,7 +31,7 @@ public class ParalleFlowExecutor extends FlowExecutor {
             // 1. CountDownLatch
             CountDownLatch latch = new CountDownLatch(tasks.size());
             for (Executable task : tasks) {
-                // todo 后面考虑换成jdk19支持的虚拟线程...后面再说吧
+                // TODO 后面考虑换成JDK19支持的虚拟线程...后面再说吧
                 worker.work(() -> {
                     try {
                         task.run();

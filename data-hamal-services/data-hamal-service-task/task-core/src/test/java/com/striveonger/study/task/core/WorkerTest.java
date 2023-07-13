@@ -96,7 +96,7 @@ public class WorkerTest {
 
         // 1. 初始化任务触发器
         TaskTrigger trigger = new TaskTrigger();
-        trigger.setTaskID(1L);
+        trigger.setTaskID(20140527010300001L);
 
         // 2. 定义 DAG 任务
         int waitTimeConstant = 1;
@@ -238,8 +238,14 @@ public class WorkerTest {
 
         @Override
         public void execute() throws Exception {
-            // log.info("'{}' execute process...", name);
-            SleepHelper.sleepMilliSeconds(waitTime * 800);
+            // if ("D".equals(this.name)) {
+            //     throw new RuntimeException();
+            // }
+            SleepHelper.sleepMilliSeconds(waitTime * 500);
+        }
+
+        public String getName() {
+            return name;
         }
     }
 }

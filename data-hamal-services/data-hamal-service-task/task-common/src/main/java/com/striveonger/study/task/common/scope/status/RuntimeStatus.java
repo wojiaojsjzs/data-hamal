@@ -10,6 +10,9 @@ import org.slf4j.LoggerFactory;
 
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 
 /**
@@ -44,8 +47,10 @@ public class RuntimeStatus implements Serializable {
      * 更新Step执行状态
      */
     public void update(int num, StepStatus status) {
-        update(num << 1, status.getCode() & 1);
-        update((num << 1) + 1, (status.getCode() >> 1) & 1);
+        synchronized (this) {
+            update(num << 1, status.getCode() & 1);
+            update((num << 1) + 1, (status.getCode() >> 1) & 1);
+        }
     }
 
     private void update(int num, int x) {
@@ -80,10 +85,14 @@ public class RuntimeStatus implements Serializable {
         }
         if (this.aborted) return TaskStatus.ABORT;
         if (this.suspend) return TaskStatus.SUSPEND;
+        // 所有子任务未开始, 则任务状态未开始
         if (cnt[0] == total) return TaskStatus.NONE;
+        // 所有子任务完成, 则任务状态完成
         if (cnt[3] == total) return TaskStatus.COMPLETE;
+        // 有一个子任务失败了, 整个任务失败
         if (cnt[2] > 0) return TaskStatus.FAIL;
-        if (cnt[1] > 0) return TaskStatus.RUNNING;
+        // 子任务执行中或执行完成的任务大于0, 则任务就在执行中
+        if (cnt[1] > 0 || cnt[3] > 0) return TaskStatus.RUNNING;
         // 咋地, 要上天啊~
         log.error("status count: {}, states: {}", Arrays.toString(cnt), Arrays.toString(states));
         throw new CustomException(ResultStatus.ACCIDENT);

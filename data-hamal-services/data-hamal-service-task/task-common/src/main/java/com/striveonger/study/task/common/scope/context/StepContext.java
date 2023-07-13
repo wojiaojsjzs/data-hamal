@@ -1,7 +1,5 @@
 package com.striveonger.study.task.common.scope.context;
 
-import com.striveonger.study.task.common.scope.status.StatusControls;
-
 /**
  * @author Mr.Lee
  * @description: Step运行时环境
@@ -51,9 +49,5 @@ public class StepContext {
 
     public void setTaskContext(TaskContext taskContext) {
         this.taskContext = taskContext;
-    }
-
-    public StatusControls getStatusControls() {
-        return taskContext.getStatusControls();
     }
 }

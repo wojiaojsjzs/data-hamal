@@ -15,22 +15,19 @@ public class RunningStatusTest {
 
         System.out.println("==========开始执行=====");
         for (int i = 0; i < total; i++) {
-            System.out.println("Step Status: " + status.stepStatus(i));
             status.update(i, StepStatus.RUNNING);
-            System.out.println("Step Status: " + status.stepStatus(i));
-            System.out.println("Task Status: " + status.taskStatus());
+            System.out.println("Step Status: " + status.stepStatus(i) + " Task Status: " + status.taskStatus());
         }
 
         System.out.println("==========逐步执行完成=====");
         for (int i = 0; i < total; i++) {
-            System.out.println("Step Status: " + status.stepStatus(i));
+            System.out.print("Step Status: " + status.stepStatus(i));
             if (i % 7 == 1) {
                 status.update(i, StepStatus.FAIL);
             } else {
                 status.update(i, StepStatus.COMPLETE);
             }
-            System.out.println("Step Status: " + status.stepStatus(i));
-            System.out.println("Task Status: " + status.taskStatus());
+            System.out.println(" Step Status: " + status.stepStatus(i) + " Task Status: " + status.taskStatus());
         }
     }
 

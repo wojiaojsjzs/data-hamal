@@ -1,9 +1,11 @@
 package com.striveonger.study.task.core.listener.loader;
 
+import com.striveonger.study.task.common.Listener;
 import com.striveonger.study.task.common.StepListener;
 import com.striveonger.study.task.common.scope.context.StepContext;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.ServiceLoader;
 
@@ -32,7 +34,7 @@ public class StepListenerLoader {
      * 获取所有已注册的监听器
      */
     public StepListener[] getFullRegisterListeners() {
-        return listeners.toArray(StepListener[]::new);
+        return listeners.stream().sorted(Comparator.comparingInt(Listener::order).reversed()).toArray(StepListener[]::new);
     }
 
     /**
@@ -44,7 +46,7 @@ public class StepListenerLoader {
      */
     public StepListener[] getListenersByConditions(StepContext context) {
         // 根据当前的执行环境, 过滤条件
-        return listeners.stream().filter(l -> l.need(context)).toArray(StepListener[]::new);
+        return listeners.stream().filter(l -> l.need(context)).sorted(Comparator.comparingInt(Listener::order).reversed()).toArray(StepListener[]::new);
     }
 
 }

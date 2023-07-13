@@ -30,9 +30,7 @@ public class ClassLoaderTest {
         Object object = clazz.getDeclaredConstructor().newInstance();
         System.out.println(object);
         Class.forName(driverClassName, true, pathClassLoader);
-        Object result = object.getClass()
-                .getMethod("getDriver", String.class)
-                .invoke(object, driverClassName);
+        Object result = object.getClass().getMethod("getDriver", String.class).invoke(object, driverClassName);
         if (result instanceof Driver driver) {
             Properties info = new Properties();
             info.put("user", username);

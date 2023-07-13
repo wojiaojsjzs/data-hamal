@@ -11,6 +11,8 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * @author Mr.Lee
  * @description: 执行状态控制对象(RuntimeStatus的包装类)
+ * 为什么不把状态控制器, 放到RuntimeContext中呢?
+ * 考虑到后面的中止与暂停操作, 不是在任务执行中修改的...需要从外面通过任务ID就能修改到任务状态
  * @date 2023-07-11 15:11
  */
 public interface StatusControls {
@@ -32,6 +34,12 @@ public interface StatusControls {
 
     /* 包装开始 */
 
+    /**
+     * 更新任务的执行状态
+     * @param id      任务ID
+     * @param num     步骤索引
+     * @param status  步骤执行状态
+     */
     public void update(String id, int num, StepStatus status);
 
     public StepStatus stepStatus(String id, int num);

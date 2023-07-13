@@ -2,11 +2,13 @@ package com.striveonger.study.task.core.launch;
 
 import com.striveonger.study.task.common.StepListener;
 
+import com.striveonger.study.task.common.TaskListener;
 import com.striveonger.study.task.common.constant.TaskStatus;
 import com.striveonger.study.task.core.executor.Executor;
 import com.striveonger.study.task.core.executor.assembly.ExecutorAssembly;
 import com.striveonger.study.task.core.executor.extra.ExecutorExtraInfo;
 import com.striveonger.study.task.core.listener.loader.StepListenerLoader;
+import com.striveonger.study.task.core.listener.loader.TaskListenerLoader;
 import com.striveonger.study.task.core.scope.Workbench;
 import com.striveonger.study.task.core.scope.context.RuntimeContext;
 import com.striveonger.study.task.core.scope.trigger.TaskTrigger;
@@ -27,12 +29,19 @@ public class TaskLaunch {
 
     private final TaskTrigger trigger;
 
+    private final RuntimeContext context;
+
+    private final TaskListener[] listeners;
+
     public TaskLaunch(TaskTrigger trigger) {
         this.trigger = trigger;
+        this.context = RuntimeContext.Holder.getContext(trigger);
+        this.listeners = TaskListenerLoader.getInstance().getFullRegisterListeners();
     }
 
     /**
      * 启动任务
+     *
      * @return 任务执行结果
      */
     public TaskStatus start() {
@@ -44,21 +53,20 @@ public class TaskLaunch {
         // 6. 启动 MasterExecutor
 
         // 1. 根据触发器, 创建上下文对象
-        RuntimeContext cxt = new RuntimeContext(trigger);
+        // RuntimeContext cxt = RuntimeContext.Holder.getContext(trigger);
 
         // 2. 初始化listener (TODO: 临时手动new, 后面考虑采用ServiceLoader的方式来加载listener)
         // Listener[] listeners = new Listener[] {new StepExecuteTimerListener(), new StepLogListener()};
         // Listener[] listeners = new Listener[] {new StepExecuteTimerListener()};
-        StepListener[] listeners = StepListenerLoader.getInstance().getFullRegisterListeners();
 
 
         // 3. 初始化工作空间(todo: 后面可以把task其他的配置信息, 也放到触发器里)
-        Workbench workbench = Workbench.builder().taskID(trigger.getTaskID()).corePoolSize(0).maximumPoolSize(6).context(cxt).build();
+        Workbench workbench = Workbench.builder().taskID(trigger.getTaskID()).corePoolSize(0).maximumPoolSize(6).context(context).build();
 
         // 4. 初始化 Executor (设置 "listener", "工作空间" )
         List<Executor> executors = trigger.getExtras().stream().map(ExecutorExtraInfo::getExecutor).toList();
         executors.forEach(executor -> {
-            executor.setListeners(listeners); // todo 每个组件可单独实现并监听
+            executor.setListeners(StepListenerLoader.getInstance().getListenersByConditions(context.getStepContext(executor)));
             executor.setWorkbench(workbench);
         });
 
@@ -86,18 +94,30 @@ public class TaskLaunch {
     }
 
     private String name = null;
+
     private void doBefore() {
         name = Thread.currentThread().getName();
         Thread.currentThread().setName(String.format("task-exec-%s-thread-master", trigger.getTaskID()));
         log.info("task start, taskID: {}", trigger.getTaskID());
+
+        for (int i = 0; i < listeners.length; i++) {
+            listeners[i].before(context.getTaskContext());
+        }
     }
 
     private void doAfter() {
         Thread.currentThread().setName(name);
+        for (int i = listeners.length - 1; i >= 0; i--) {
+            listeners[i].after(context.getTaskContext());
+        }
     }
 
     private void doError() {
         Thread.currentThread().setName(name);
+        Thread.currentThread().setName(name);
+        for (int i = listeners.length - 1; i >= 0; i--) {
+            listeners[i].after(context.getTaskContext());
+        }
     }
 
 }

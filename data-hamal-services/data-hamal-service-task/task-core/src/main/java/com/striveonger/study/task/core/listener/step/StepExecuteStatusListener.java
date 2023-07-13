@@ -17,6 +17,7 @@ public class StepExecuteStatusListener implements StepListener {
 
     @Override
     public void before(StepContext context) {
+        // TODO: 后期要先检查
         process(context, StepStatus.RUNNING);
     }
 
@@ -30,14 +31,13 @@ public class StepExecuteStatusListener implements StepListener {
         process(context, StepStatus.FAIL);
     }
 
-    private void process(StepContext context,  StepStatus status) {
+    private void process(StepContext context, StepStatus status) {
         String id = context.getTaskID();
         int index = context.getIndex();
-        StatusControls controls = context.getStatusControls();
-        synchronized (id.intern()) {
-
-            controls.update(id, index, status);
-        }
+        StatusControls controls = StatusControls.Holder.getControls();
+        // controls.update 原子操作, 外层不用考虑多线程问题
+        controls.update(id, index, status);
+        log.info("Step '{}' Step Status: {},  Task Status: {}", context.getDisplayName(), controls.stepStatus(id, index), controls.taskStatus(id));
     }
 
     @Override

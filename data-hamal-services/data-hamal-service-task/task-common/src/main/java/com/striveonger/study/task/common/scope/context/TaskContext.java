@@ -1,7 +1,6 @@
 package com.striveonger.study.task.common.scope.context;
 
 
-import com.striveonger.study.task.common.scope.status.StatusControls;
 
 import java.util.List;
 import java.util.Map;
@@ -15,6 +14,9 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class TaskContext {
     private final String taskID;
+
+    private final Integer total;
+
     private final Map<String, PerformParam> params = new ConcurrentHashMap<>();
 
     /**
@@ -23,18 +25,26 @@ public class TaskContext {
      */
     private final Map<Class<?>, Object> resource = new ConcurrentHashMap<>();
 
-    private final StatusControls controls;
-
-    public TaskContext(long taskID, List<PerformParam> params) {
+    /**
+     * 初始化任务的上下文对象
+     * @param taskID   任务ID
+     * @param total    步骤的总数
+     * @param params   任务执行参数
+     */
+    public TaskContext(long taskID, int total, List<PerformParam> params) {
         this.taskID = String.valueOf(taskID);
         for (PerformParam param : params) {
             this.params.put(param.getName(), param);
         }
-        controls = StatusControls.Holder.getControls();
+        this.total = total;
     }
 
     public String getTaskID() {
         return taskID;
+    }
+
+    public Integer getTotal() {
+        return total;
     }
 
     public String getParam(String key) {
@@ -66,10 +76,5 @@ public class TaskContext {
             return (T) val;
         }
         return null;
-    }
-
-
-    public StatusControls getStatusControls() {
-        return controls;
     }
 }
