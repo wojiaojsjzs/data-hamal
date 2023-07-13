@@ -35,10 +35,11 @@ public class ParalleFlowExecutor extends FlowExecutor {
                 worker.work(() -> {
                     try {
                         task.run();
-                        latch.countDown();
                     } catch (Exception e) {
                         log.error("Paralle Executor execute failure...", e);
                         throw new CustomException(ResultStatus.TASK_EXECUTE_FAIL);
+                    } finally {
+                        latch.countDown();
                     }
                 });
             }
