@@ -12,7 +12,6 @@ public class BuildTaskException extends RuntimeException {
      */
     private final Type type;
 
-    // 工作台
     public BuildTaskException() {
         // 默认的异常类型
         this(Type.TASK);
@@ -43,7 +42,7 @@ public class BuildTaskException extends RuntimeException {
         STEP("Step build failure..."),
 
         /**
-         * 工作台构建失败
+         * 工作空间构建失败
          */
         WORKBENCH("Workbench build failure...");
 
