@@ -31,8 +31,10 @@ public class StepExecutor<I, O> extends Executor {
 
     @Override
     public void execute() throws Exception {
-        I in = reader.read();
-        O out = processor.process(in);
-        writer.write(out);
+        I in;
+        while ((in = reader.read()) != null) {
+            O out = processor.process(in);
+            writer.write(out);
+        }
     }
 }
