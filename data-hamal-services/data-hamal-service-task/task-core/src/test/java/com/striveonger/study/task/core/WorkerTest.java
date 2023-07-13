@@ -41,22 +41,22 @@ public class WorkerTest {
     @Test
     public void test() {
         String json = """
-            {
-                "A1" : ["A2"],
-            	"A2" : ["C"],
-            	"B"  : ["C"],
-            	"C"  : ["D", "E1", "F"],
-            	"D"  : ["G"],
-            	"E1" : ["E2"],
-            	"E2" : ["G"],
-            	"F"  : ["H"],
-            	"G"  : ["I"],
-            	"H"  : ["I"],
-            	"I"  : ["J"],
-            	"J"  : ["K"],
-            	"K"  : []
-            }
-            """;
+                {
+                    "A1" : ["A2"],
+                	"A2" : ["C"],
+                	"B"  : ["C"],
+                	"C"  : ["D", "E1", "F"],
+                	"D"  : ["G"],
+                	"E1" : ["E2"],
+                	"E2" : ["G"],
+                	"F"  : ["H"],
+                	"G"  : ["I"],
+                	"H"  : ["I"],
+                	"I"  : ["J"],
+                	"J"  : ["K"],
+                	"K"  : []
+                }
+                """;
 
         test(json);
     }
@@ -64,16 +64,16 @@ public class WorkerTest {
     @Test
     public void test1() {
         String json = """
-            {
-                "G"  : ["A1"],
-                "H"  : ["A1"],
-                "I"  : ["A2"],
-                "J"  : ["A2"],
-                "A1" : ["B"],
-            	"A2" : ["B"],
-            	"B"  : []
-            }
-            """;
+                {
+                    "G"  : ["A1"],
+                    "H"  : ["A1"],
+                    "I"  : ["A2"],
+                    "J"  : ["A2"],
+                    "A1" : ["B"],
+                	"A2" : ["B"],
+                	"B"  : []
+                }
+                """;
 
         test(json);
     }
@@ -81,12 +81,12 @@ public class WorkerTest {
     @Test
     public void test2() {
         String json = """
-            {
-                "B" : ["A1", "A2"],
-            	"A1": ["G", "H"],
-            	"A2": ["I", "J"]
-            }
-            """;
+                {
+                    "B" : ["A1", "A2"],
+                	"A1": ["G", "H"],
+                	"A2": ["I", "J"]
+                }
+                """;
         test(json);
     }
 
@@ -181,7 +181,8 @@ public class WorkerTest {
         trigger.putExtra(Ke);
 
         // 2.2 定义任务的拓扑序
-        Map<String, Set<String>> topology = JacksonUtils.toObject(json, new TypeReference<>() { });
+        Map<String, Set<String>> topology = JacksonUtils.toObject(json, new TypeReference<>() {
+        });
         trigger.setTopology(topology);
 
         // 3. 定义任务参数
@@ -238,9 +239,9 @@ public class WorkerTest {
 
         @Override
         public void execute() throws Exception {
-            // if ("D".equals(this.name)) {
-            //     throw new RuntimeException();
-            // }
+            if ("D".equals(this.name)) {
+                throw new RuntimeException();
+            }
             SleepHelper.sleepMilliSeconds(waitTime * 500);
         }
 
