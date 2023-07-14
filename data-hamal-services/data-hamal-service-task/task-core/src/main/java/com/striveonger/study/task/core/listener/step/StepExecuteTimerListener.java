@@ -30,7 +30,7 @@ public class StepExecuteTimerListener implements StepListener {
     }
 
     @Override
-    public void error(StepContext context) {
+    public void error(StepContext context, Exception e) {
         long time = timer.stop(key(context));
         log.error("Step '{}' elapsed time: {}ms", context.getDisplayName(), time);
     }

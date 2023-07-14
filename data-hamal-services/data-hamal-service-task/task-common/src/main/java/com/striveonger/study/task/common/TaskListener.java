@@ -36,6 +36,6 @@ public interface TaskListener extends Listener {
     /**
      * 执行出错
      */
-    void error(TaskContext context);
+    void error(TaskContext context, Exception e);
 
 }

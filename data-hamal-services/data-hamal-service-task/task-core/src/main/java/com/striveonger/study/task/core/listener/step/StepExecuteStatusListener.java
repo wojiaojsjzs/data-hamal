@@ -30,7 +30,7 @@ public class StepExecuteStatusListener implements StepListener {
     }
 
     @Override
-    public void error(StepContext context) {
+    public void error(StepContext context, Exception e) {
         process(context, StepStatus.FAIL);
     }
 

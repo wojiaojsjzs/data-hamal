@@ -90,7 +90,6 @@ public class WorkerTest {
         test(json);
     }
 
-
     public void test(String json) {
         log.info("Test Start...");
 

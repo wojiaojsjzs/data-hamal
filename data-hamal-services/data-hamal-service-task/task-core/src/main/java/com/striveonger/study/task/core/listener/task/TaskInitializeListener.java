@@ -24,7 +24,7 @@ public class TaskInitializeListener implements TaskListener {
     }
 
     @Override
-    public void error(TaskContext context) {
+    public void error(TaskContext context, Exception e) {
         StatusControls controls = StatusControls.Holder.getControls();
         controls.stop(context.getTaskID());
     }

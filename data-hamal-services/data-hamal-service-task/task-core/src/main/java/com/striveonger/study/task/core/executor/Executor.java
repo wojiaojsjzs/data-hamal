@@ -46,7 +46,7 @@ public abstract class Executor implements Executable {
             execute();
             doAfter();
         } catch (Exception e) {
-            doError();
+            doError(e);
             log.error("task execute occur error...", e);
             if (e instanceof CustomException ce) {
                 throw ce;
@@ -73,11 +73,11 @@ public abstract class Executor implements Executable {
         }
     }
 
-    private void doError() {
+    private void doError(Exception e) {
         if (Objects.nonNull(listeners)) {
             // 逆序执行
             for (int i = listeners.length - 1; i >= 0; i--) {
-                listeners[i].error(getStepContext());
+                listeners[i].error(getStepContext(), e);
             }
         }
     }

@@ -20,12 +20,13 @@ public class SerialeFlowExecutor extends FlowExecutor {
     }
 
     @Override
-    public void execute() {
+    public void execute() throws Exception {
         for (Executable task : this.subtasks) {
             try {
                 task.run();
             } catch (Exception e) {
                 log.error("Seriale Executor execute failure...", e);
+                if (e instanceof CustomException) throw e;
                 throw new CustomException(ResultStatus.TASK_EXECUTE_FAIL);
             }
         }

@@ -36,7 +36,7 @@ public interface StepListener extends Listener {
     /**
      * 执行出错
      */
-    void error(StepContext context);
+    void error(StepContext context, Exception e);
 
     /**
      *

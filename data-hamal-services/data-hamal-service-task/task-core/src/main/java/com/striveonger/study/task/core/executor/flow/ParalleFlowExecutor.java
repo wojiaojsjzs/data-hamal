@@ -24,7 +24,7 @@ public class ParalleFlowExecutor extends FlowExecutor {
     }
 
     @Override
-    public void execute() {
+    public void execute() throws Exception {
         Workbench.Worker worker = workbench.getWorker();
         try {
             List<Executable> tasks = this.subtasks;
@@ -37,7 +37,7 @@ public class ParalleFlowExecutor extends FlowExecutor {
                         task.run();
                     } catch (Exception e) {
                         log.error("Paralle Executor execute failure...", e);
-                        throw new CustomException(ResultStatus.TASK_EXECUTE_FAIL);
+                        throw e;
                     } finally {
                         latch.countDown();
                     }
@@ -69,8 +69,8 @@ public class ParalleFlowExecutor extends FlowExecutor {
             //     });
             // }
             // semaphore.acquire(tasks.size());
-        } catch (InterruptedException e) {
-            log.info("");
+        } catch (Exception e) {
+            if (e instanceof CustomException) throw e;
             throw new CustomException(ResultStatus.TASK_EXECUTE_FAIL);
         }
     }

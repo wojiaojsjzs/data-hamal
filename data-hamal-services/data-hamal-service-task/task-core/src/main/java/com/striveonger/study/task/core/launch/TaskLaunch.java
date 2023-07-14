@@ -83,7 +83,7 @@ public class TaskLaunch {
             doAfter();
             status = TaskStatus.COMPLETE;
         } catch (Exception e) {
-            doError();
+            doError(e);
             log.error("oops, task execute an error occurs...", e);
             status = TaskStatus.FAIL;
         }
@@ -112,11 +112,11 @@ public class TaskLaunch {
         }
     }
 
-    private void doError() {
+    private void doError(Exception e) {
         Thread.currentThread().setName(name);
         Thread.currentThread().setName(name);
         for (int i = listeners.length - 1; i >= 0; i--) {
-            listeners[i].after(context.getTaskContext());
+            listeners[i].error(context.getTaskContext(), e);
         }
     }
 

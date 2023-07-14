@@ -12,11 +12,17 @@
     <artifactId>task-executor</artifactId>
 
     <dependencies>
+
         <dependency>
             <groupId>com.striveonger.study</groupId>
             <artifactId>task-core</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.striveonger.study</groupId>
+            <artifactId>data-hamal-common-test</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
 </project>

@@ -22,6 +22,10 @@ public class PerformParam {
      */
     private final boolean alterable;
 
+    public PerformParam() {
+        this.alterable = false;
+    }
+
     /**
      * 默认为定义常量
      * @param name
