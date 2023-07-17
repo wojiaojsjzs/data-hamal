@@ -35,11 +35,11 @@ com.striveonger.study
 │   └── data-hamal-common-swagger                // 接口文档
 ├── data-hamal-services                          // 开放服务
 │   └── data-hamal-service-task                  // 任务模块
-│       └── data-hamal-service-task-core         // 任务核心
-│       └── data-hamal-service-task-common       // 公共内容
-│       └── data-hamal-service-task-executor     // 任务执行
-│       └── data-hamal-service-task-plugins      // 任务插件
-│       └── data-hamal-service-task-worker       // 任务服务 [9010]
+│       └── task-core                            // 任务核心
+│       └── task-common                          // 公共内容
+│       └── task-executor                        // 任务执行
+│       └── task-plugins                         // 任务插件
+│       └── task-worker                          // 任务服务 [9010]
 │   └── data-hamal-service-filestorage           // 文件服务 [9020]
 ├── data-hamal-providers                         // 基础服务
 │   └── data-hamal-provider-leaf                 // 叶子服务 [9100]

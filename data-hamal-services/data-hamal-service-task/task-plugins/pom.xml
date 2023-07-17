@@ -14,8 +14,11 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>task-plugin-sql-input</module>
         <module>task-plugin-spider</module>
+
+        <module>task-plugin-sql-input</module>
+
+        <module>task-plugin-table-output</module>
     </modules>
 
 

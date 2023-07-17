@@ -1,5 +1,9 @@
-package com.striveonger.study.task.executor.beans;
+package com.striveonger.study.task.common.entity;
 
+
+import com.striveonger.study.task.common.executor.step.item.ItemReader;
+
+import javax.management.StandardEmitterMBean;
 import java.util.List;
 
 /**
@@ -10,6 +14,14 @@ import java.util.List;
 public abstract class BuildConfig {
 
     private List<Column> columns;
+
+    public List<Column> getColumns() {
+        return columns;
+    }
+
+    public void setColumns(List<Column> columns) {
+        this.columns = columns;
+    }
 
     public static class Column {
 
@@ -119,4 +131,23 @@ public abstract class BuildConfig {
             this.status = status;
         }
     }
+
+
+//    public static class Deserializer extends StdTypeDeserializer<BuildConfig> {
+//
+//        public Deserializer() {
+//            this(null);
+//        }
+//
+//        public Deserializer(Class<?> clazz) {
+//            super(clazz);
+//        }
+//
+//        @Override
+//        public BuildConfig deserialize(JsonParser parser, DeserializationContext context) throws IOException, JacksonException {
+//
+//            return null;
+//        }
+//    }
+
 }

@@ -74,4 +74,8 @@ public class JacksonUtils {
         String str = toJSONString(o);
         return str == null ? null : str.getBytes(StandardCharsets.UTF_8);
     }
+
+    public static ObjectMapper getMapper() {
+        return mapper;
+    }
 }

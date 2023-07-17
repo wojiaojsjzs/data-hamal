@@ -1,4 +1,8 @@
-package com.striveonger.study.task.executor.beans;
+package com.striveonger.study.task.executor.entity;
+
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.striveonger.study.task.common.entity.BuildConfig;
 
 /**
  * @author Mr.Lee
@@ -23,7 +27,9 @@ public class Step {
 
     /**
      * 组件构建所需的内容(*每个组件差异也就在这了*)
+     * 只能用于属性，不能用于类
      */
+    @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.EXTERNAL_PROPERTY, property = "type")
     private BuildConfig buildConfig;
 
     public String getId() {

@@ -4,39 +4,29 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <groupId>com.striveonger.study</groupId>
-        <artifactId>data-hamal-service-task</artifactId>
+        <artifactId>task-plugins</artifactId>
         <version>0.0.1</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>task-executor</artifactId>
+    <artifactId>task-plugin-table-output</artifactId>
 
     <dependencies>
 
-        <!-- Task Core -->
         <dependency>
             <groupId>com.striveonger.study</groupId>
-            <artifactId>task-core</artifactId>
+            <artifactId>task-common</artifactId>
         </dependency>
 
-        <!-- Task Plugin -->
-        <dependency>
-            <groupId>com.striveonger.study</groupId>
-            <artifactId>task-plugin-sql-input</artifactId>
-            <version>${data-hamal.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.striveonger.study</groupId>
-            <artifactId>task-plugin-table-output</artifactId>
-            <version>${data-hamal.version}</version>
-        </dependency>
 
         <dependency>
             <groupId>com.striveonger.study</groupId>
-            <artifactId>data-hamal-common-test</artifactId>
-            <scope>test</scope>
+            <artifactId>dp-jdbc</artifactId>
+            <version>${data-hamal.version}</version>
         </dependency>
+
 
     </dependencies>
+
 
 </project>
