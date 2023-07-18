@@ -21,6 +21,9 @@ public class TaskExecutor {
         // 将Task任务解析为任务触发器
         TaskTrigger trigger = new TaskTrigger();
         trigger.setTaskID(body.getId());
+        trigger.setTopology(body.getTopology());
+        trigger.putAllParam(body.getParams());
+
 
 
 

@@ -49,6 +49,10 @@ public class TaskTrigger {
         params.add(param);
     }
 
+    public void putAllParam(Collection<PerformParam> list) {
+        params.addAll(list);
+    }
+
     public ExecutorExtraInfo getExtra(String key) { return extras.get(key); }
 
     public Collection<ExecutorExtraInfo> getExtras() {
