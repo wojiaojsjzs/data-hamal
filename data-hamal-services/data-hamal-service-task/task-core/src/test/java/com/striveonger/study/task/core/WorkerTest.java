@@ -95,7 +95,7 @@ public class WorkerTest {
 
         // 1. 初始化任务触发器
         TaskTrigger trigger = new TaskTrigger();
-        trigger.setTaskID(20140527010300001L);
+        trigger.setTaskID("20140527010300001");
 
         // 2. 定义 DAG 任务
         int waitTimeConstant = 1;

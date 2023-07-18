@@ -30,7 +30,7 @@ public class Workbench {
     /**
      * 任务ID
      */
-    private final long taskID;
+    private final String taskID;
 
     private final RuntimeContext context;
 
@@ -51,7 +51,7 @@ public class Workbench {
      * @param threadFactory   线程的创建器
      * @param handler         拒绝策略
      */
-    private Workbench(long taskID, RuntimeContext context,
+    private Workbench(String taskID, RuntimeContext context,
                       Integer corePoolSize, Integer maximumPoolSize,
                       Long keepAliveTime, TimeUnit unit,
                       BlockingQueue<Runnable> workQueue,
@@ -67,7 +67,7 @@ public class Workbench {
         return worker;
     }
 
-    public long getTaskID() {
+    public String getTaskID() {
         return taskID;
     }
 
@@ -87,7 +87,7 @@ public class Workbench {
         private final AtomicInteger threadNumber = new AtomicInteger(1);
         private final String namePrefix;
 
-        public TaskThreadFactory(long taskID) {
+        public TaskThreadFactory(String taskID) {
             namePrefix = "task-exec-" + taskID + "-thread-";
         }
 
@@ -119,7 +119,7 @@ public class Workbench {
     }
 
     public static class Builder {
-        private Long taskID;
+        private String taskID;
         private RuntimeContext context;
         private Integer corePoolSize = 8, maximumPoolSize = 32;
         private Long keepAliveTime = 30L;
@@ -131,7 +131,7 @@ public class Workbench {
         // 线程池满了, 直接抛异常
         private RejectedExecutionHandler handler = new ThreadPoolExecutor.AbortPolicy();
 
-        public Builder taskID(long id) {
+        public Builder taskID(String id) {
             this.taskID = id;
             this.threadFactory = new TaskThreadFactory(id);
             return this;

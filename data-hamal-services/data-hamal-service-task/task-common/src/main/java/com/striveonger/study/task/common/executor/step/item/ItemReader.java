@@ -5,7 +5,7 @@ package com.striveonger.study.task.common.executor.step.item;
  * @description:
  * @date 2023-04-24 11:01
  */
-public interface ItemReader<I> extends Item {
+public interface ItemReader<I> extends Plugin {
 
     I read() throws Exception;
 }

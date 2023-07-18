@@ -5,7 +5,7 @@ package com.striveonger.study.task.common.executor.step.item;
  * @description:
  * @date 2023-04-24 11:05
  */
-public interface ItemWriter<O> extends Item {
+public interface ItemWriter<O> extends Plugin {
 
     void write(O output) throws Exception;
 }

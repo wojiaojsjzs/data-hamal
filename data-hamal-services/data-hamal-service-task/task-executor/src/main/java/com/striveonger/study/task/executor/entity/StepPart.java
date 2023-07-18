@@ -1,7 +1,6 @@
 package com.striveonger.study.task.executor.entity;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.striveonger.study.task.common.entity.BuildConfig;
 
 /**
@@ -9,7 +8,7 @@ import com.striveonger.study.task.common.entity.BuildConfig;
  * @description: 步骤实体
  * @date 2023-07-14 14:35
  */
-public class Step {
+public class StepPart {
 
     /**
      * 步骤ID
@@ -27,7 +26,7 @@ public class Step {
 
     /**
      * 组件构建所需的内容(*每个组件差异也就在这了*)
-     * 只能用于属性，不能用于类
+     * EXTERNAL_PROPERTY 只能用于属性，不能用于类
      */
     @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.EXTERNAL_PROPERTY, property = "type")
     private BuildConfig buildConfig;

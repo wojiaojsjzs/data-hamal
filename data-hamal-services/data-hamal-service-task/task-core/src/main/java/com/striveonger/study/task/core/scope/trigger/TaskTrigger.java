@@ -15,7 +15,7 @@ public class TaskTrigger {
     /**
      * taskID
      */
-    private long taskID;
+    private String taskID;
 
     /**
      * task 执行参数
@@ -33,11 +33,11 @@ public class TaskTrigger {
      */
     private Map<String, Set<String>> topology;
 
-    public long getTaskID() {
+    public String getTaskID() {
         return taskID;
     }
 
-    public void setTaskID(long taskID) {
+    public void setTaskID(String taskID) {
         this.taskID = taskID;
     }
 

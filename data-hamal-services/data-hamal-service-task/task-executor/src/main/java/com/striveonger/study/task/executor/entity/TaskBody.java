@@ -11,7 +11,7 @@ import java.util.Set;
  * @description: 任务实体
  * @date 2023-07-14 14:35
  */
-public class Task {
+public class TaskBody {
 
     /**
      * 任务ID
@@ -26,7 +26,7 @@ public class Task {
     /**
      * 执行步骤
      */
-    private List<Step> steps;
+    private List<StepPart> steps;
 
     /**
      * 执行顺序(DAG.Topology)
@@ -49,11 +49,11 @@ public class Task {
         this.params = params;
     }
 
-    public List<Step> getSteps() {
+    public List<StepPart> getSteps() {
         return steps;
     }
 
-    public void setSteps(List<Step> steps) {
+    public void setSteps(List<StepPart> steps) {
         this.steps = steps;
     }
 

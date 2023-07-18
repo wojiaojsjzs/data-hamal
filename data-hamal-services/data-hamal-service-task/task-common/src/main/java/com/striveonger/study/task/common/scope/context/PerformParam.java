@@ -28,6 +28,7 @@ public class PerformParam {
 
     /**
      * 默认为定义常量
+     *
      * @param name
      * @param value
      */
@@ -50,8 +51,10 @@ public class PerformParam {
     }
 
     public void setValue(String value) {
-        if (alterable) {
-            this.value = value;
-        }
+        this.value = value;
+    }
+
+    public boolean isAlterable() {
+        return alterable;
     }
 }

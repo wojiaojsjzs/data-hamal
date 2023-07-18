@@ -2,6 +2,8 @@ package com.striveonger.study.task.core.executor.extra;
 
 import com.striveonger.study.task.core.executor.Executor;
 
+import java.io.StringReader;
+
 /**
  * @author Mr.Lee
  * @description: Executor 扩展的信息(用于构建task)
@@ -12,6 +14,7 @@ public class ExecutorExtraInfo {
     private int index;
     private String stepID;
     private String displayName;
+    private String type;
     // 扩展内容 end...
 
     private Executor executor;
@@ -38,6 +41,14 @@ public class ExecutorExtraInfo {
 
     public void setDisplayName(String displayName) {
         this.displayName = displayName;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public Executor getExecutor() {

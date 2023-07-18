@@ -1,7 +1,6 @@
 package com.striveonger.study.task.common.scope.context;
 
 
-
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -31,7 +30,7 @@ public class TaskContext {
      * @param total    步骤的总数
      * @param params   任务执行参数
      */
-    public TaskContext(long taskID, int total, List<PerformParam> params) {
+    public TaskContext(String taskID, int total, List<PerformParam> params) {
         this.taskID = String.valueOf(taskID);
         for (PerformParam param : params) {
             this.params.put(param.getName(), param);
