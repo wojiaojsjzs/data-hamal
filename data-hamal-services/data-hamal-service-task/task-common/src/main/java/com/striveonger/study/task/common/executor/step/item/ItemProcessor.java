@@ -5,7 +5,8 @@ package com.striveonger.study.task.common.executor.step.item;
  * @description:
  * @date 2023-04-24 11:03
  */
-public interface ItemProcessor<I, O> extends Plugin {
+@FunctionalInterface
+public interface ItemProcessor<I, O> {
 
     O process(I input) throws Exception;
 }

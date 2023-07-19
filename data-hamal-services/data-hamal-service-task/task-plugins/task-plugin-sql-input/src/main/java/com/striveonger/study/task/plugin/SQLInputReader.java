@@ -49,16 +49,6 @@ public class SQLInputReader implements ItemReader<Map<String, Object>> {
         return source.remove(0);
     }
 
-    @Override
-    public void register() {
-
-    }
-
-    @Override
-    public String type() {
-        return "SQL_INPUT";
-    }
-
     // todo: temp 模拟数据
     private final List<Map<String, Object>> data = Arrays.asList(
             Dict.create().set("id", "1").set("name", "1"),

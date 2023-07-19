@@ -87,7 +87,6 @@ public class TaskExecutorTest {
         ObjectMapper mapper = JacksonUtils.getMapper();
         mapper.registerSubtypes(new NamedType(SQLInputBuildConfig.class, "SQL_INPUT"));
         mapper.registerSubtypes(new NamedType(TableOutputBuildConfig.class, "TABLE_OUTPUT"));
-
         this.task = JacksonUtils.toObject(body, TaskBody.class);
     }
 
@@ -98,8 +97,6 @@ public class TaskExecutorTest {
         TaskExecutor executor = new TaskExecutor();
         TaskStatus status = executor.exec(task);
         System.out.println(status);
-
-
     }
 
 }

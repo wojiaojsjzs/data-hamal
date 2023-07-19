@@ -18,18 +18,15 @@ public class TaskExecutor {
      * @return
      */
     public TaskStatus exec(TaskBody body) {
-        // 将Task任务解析为任务触发器
+        // 1. 生成任务触发器
         TaskTrigger trigger = new TaskTrigger();
         trigger.setTaskID(body.getId());
         trigger.setTopology(body.getTopology());
         trigger.putAllParam(body.getParams());
+        // 2. 根据组件适配器生成Executor及其扩展信息
+        
 
-
-
-
-
-
-        // 2. 调用
+        // 3. 启动任务
         TaskLaunch launch = new TaskLaunch(trigger);
         return launch.start();
     }

@@ -62,7 +62,13 @@ public class TaskTrigger {
     public Map<String, ExecutorExtraInfo> getExtraMap() { return extras; }
 
     public void putExtra(ExecutorExtraInfo extra) {
-        this.extras.put(String.valueOf(extra.getStepID()), extra);
+        this.extras.put(extra.getStepID(), extra);
+    }
+
+    public void putAllExtra(Collection<ExecutorExtraInfo> list) {
+        for (ExecutorExtraInfo extra : list) {
+            this.extras.put(extra.getStepID(), extra);
+        }
     }
 
     public Map<String, Set<String>> getTopology() {
