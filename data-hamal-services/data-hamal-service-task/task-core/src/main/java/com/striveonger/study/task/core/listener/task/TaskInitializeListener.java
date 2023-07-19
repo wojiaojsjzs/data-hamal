@@ -1,6 +1,6 @@
 package com.striveonger.study.task.core.listener.task;
 
-import com.striveonger.study.task.common.TaskListener;
+import com.striveonger.study.task.common.listener.TaskListener;
 import com.striveonger.study.task.common.scope.context.TaskContext;
 import com.striveonger.study.task.common.scope.status.StatusControls;
 

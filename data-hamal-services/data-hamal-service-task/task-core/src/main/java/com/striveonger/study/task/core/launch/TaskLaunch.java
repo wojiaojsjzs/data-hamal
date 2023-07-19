@@ -1,21 +1,23 @@
 package com.striveonger.study.task.core.launch;
 
-import com.striveonger.study.task.common.StepListener;
-
-import com.striveonger.study.task.common.TaskListener;
 import com.striveonger.study.task.common.constant.TaskStatus;
+import com.striveonger.study.task.common.executor.Executable;
+import com.striveonger.study.task.common.listener.TaskListener;
+import com.striveonger.study.task.common.scope.context.RuntimeContext;
+import com.striveonger.study.task.common.scope.context.StepContext;
+import com.striveonger.study.task.common.scope.context.TaskContext;
 import com.striveonger.study.task.core.executor.Executor;
 import com.striveonger.study.task.core.executor.assembly.ExecutorAssembly;
 import com.striveonger.study.task.core.executor.extra.ExecutorExtraInfo;
 import com.striveonger.study.task.core.listener.loader.StepListenerLoader;
 import com.striveonger.study.task.core.listener.loader.TaskListenerLoader;
 import com.striveonger.study.task.core.scope.Workbench;
-import com.striveonger.study.task.core.scope.context.RuntimeContext;
 import com.striveonger.study.task.core.scope.trigger.TaskTrigger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Mr.Lee
@@ -35,7 +37,7 @@ public class TaskLaunch {
 
     public TaskLaunch(TaskTrigger trigger) {
         this.trigger = trigger;
-        this.context = RuntimeContext.Holder.getContext(trigger);
+        this.context = null; // TODO: 重构 RuntimeContext 功能
         this.listeners = TaskListenerLoader.getInstance().getFullRegisterListeners();
     }
 
@@ -54,6 +56,20 @@ public class TaskLaunch {
 
         // 1. 根据触发器, 创建上下文对象
         // RuntimeContext cxt = RuntimeContext.Holder.getContext(trigger);
+
+        this.taskContext = new TaskContext(trigger.getTaskID(), trigger.getExtras().size(), trigger.getParams());
+        this.stepContexts = new ConcurrentHashMap<>();
+        int idx = 0;
+        for (ExecutorExtraInfo extra : trigger.getExtras()) {
+            StepContext context = new StepContext();
+            // 给每个任务, 随机分配一个索引值(以对应 RuntimeStatus)
+            context.setIndex(idx++);
+            context.setTaskContext(this.taskContext);
+            context.setStepID(extra.getStepID());
+            context.setDisplayName(extra.getDisplayName());
+            this.stepContexts.put(extra.getExecutor(), context);
+        }
+
 
         // 2. 初始化listener (TODO: 临时手动new, 后面考虑采用ServiceLoader的方式来加载listener)
         // Listener[] listeners = new Listener[] {new StepExecuteTimerListener(), new StepLogListener()};

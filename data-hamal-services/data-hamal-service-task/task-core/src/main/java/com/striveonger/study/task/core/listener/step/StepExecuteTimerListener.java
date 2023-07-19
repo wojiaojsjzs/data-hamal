@@ -1,6 +1,6 @@
 package com.striveonger.study.task.core.listener.step;
 
-import com.striveonger.study.task.common.StepListener;
+import com.striveonger.study.task.common.listener.StepListener;
 import com.striveonger.study.task.common.scope.context.StepContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

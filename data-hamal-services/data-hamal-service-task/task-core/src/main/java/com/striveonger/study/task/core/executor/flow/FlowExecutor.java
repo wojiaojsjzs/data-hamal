@@ -1,6 +1,6 @@
 package com.striveonger.study.task.core.executor.flow;
 
-import com.striveonger.study.task.core.executor.Executable;
+import com.striveonger.study.task.common.executor.Executable;
 import com.striveonger.study.task.core.executor.Executor;
 import com.striveonger.study.task.core.scope.Workbench;
 import org.slf4j.Logger;

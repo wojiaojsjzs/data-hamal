@@ -2,8 +2,6 @@ package com.striveonger.study.task.core.executor.extra;
 
 import com.striveonger.study.task.core.executor.Executor;
 
-import java.io.StringReader;
-
 /**
  * @author Mr.Lee
  * @description: Executor 扩展的信息(用于构建task)

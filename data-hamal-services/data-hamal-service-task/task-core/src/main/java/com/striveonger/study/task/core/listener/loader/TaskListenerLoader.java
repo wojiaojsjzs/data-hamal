@@ -1,9 +1,7 @@
 package com.striveonger.study.task.core.listener.loader;
 
-import com.striveonger.study.task.common.Listener;
-import com.striveonger.study.task.common.StepListener;
-import com.striveonger.study.task.common.TaskListener;
-import com.striveonger.study.task.common.scope.context.StepContext;
+import com.striveonger.study.task.common.listener.Listener;
+import com.striveonger.study.task.common.listener.TaskListener;
 
 import java.util.ArrayList;
 import java.util.Comparator;

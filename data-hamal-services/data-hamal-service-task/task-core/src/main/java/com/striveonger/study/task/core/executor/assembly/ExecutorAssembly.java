@@ -1,8 +1,8 @@
 package com.striveonger.study.task.core.executor.assembly;
 
+import com.striveonger.study.task.common.executor.Executable;
 import com.striveonger.study.task.core.exception.BuildTaskException;
 import com.striveonger.study.task.core.executor.EmptyExecutor;
-import com.striveonger.study.task.core.executor.Executable;
 import com.striveonger.study.task.core.executor.Executor;
 import com.striveonger.study.task.core.executor.assembly.graph.Adapter;
 import com.striveonger.study.task.core.executor.assembly.graph.Graph;

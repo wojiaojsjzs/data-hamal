@@ -1,10 +1,14 @@
 package com.striveonger.study.task.core.scope;
 
+import com.striveonger.study.task.common.executor.Executable;
+import com.striveonger.study.task.common.scope.context.RuntimeContext;
+import com.striveonger.study.task.common.scope.context.StepContext;
+import com.striveonger.study.task.common.scope.context.TaskContext;
 import com.striveonger.study.task.core.exception.BuildTaskException;
-import com.striveonger.study.task.core.scope.context.RuntimeContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Map;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -34,6 +38,10 @@ public class Workbench {
 
     private final RuntimeContext context;
 
+    private final TaskContext taskContext;
+
+    private final Map<Executable, StepContext> stepContexts = new ConcurrentHashMap<>();
+
     /**
      * 天选打工人 & 职业经理人
      */
@@ -52,6 +60,8 @@ public class Workbench {
      * @param handler         拒绝策略
      */
     private Workbench(String taskID, RuntimeContext context,
+                      TaskContext taskContext,
+                      Map<Executable, StepContext> stepContexts,
                       Integer corePoolSize, Integer maximumPoolSize,
                       Long keepAliveTime, TimeUnit unit,
                       BlockingQueue<Runnable> workQueue,
@@ -60,6 +70,8 @@ public class Workbench {
         this.taskID = taskID;
         this.context = context;
         this.worker = new Worker(corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue, threadFactory, handler);
+        this.taskContext = taskContext;
+        this.stepContexts.putAll(stepContexts);
     }
 
 

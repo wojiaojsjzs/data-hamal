@@ -2,7 +2,7 @@ package com.striveonger.study.task.core.listener.step;
 
 import com.striveonger.study.core.constant.ResultStatus;
 import com.striveonger.study.core.exception.CustomException;
-import com.striveonger.study.task.common.StepListener;
+import com.striveonger.study.task.common.listener.StepListener;
 import com.striveonger.study.task.common.constant.StepStatus;
 import com.striveonger.study.task.common.constant.TaskStatus;
 import com.striveonger.study.task.common.scope.context.StepContext;
