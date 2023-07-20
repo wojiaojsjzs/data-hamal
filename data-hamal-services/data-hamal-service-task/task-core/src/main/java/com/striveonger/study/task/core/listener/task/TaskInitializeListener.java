@@ -2,7 +2,6 @@ package com.striveonger.study.task.core.listener.task;
 
 import com.striveonger.study.task.common.listener.TaskListener;
 import com.striveonger.study.task.common.scope.context.TaskContext;
-import com.striveonger.study.task.common.scope.status.StatusControls;
 
 /**
  * @author Mr.Lee
@@ -13,20 +12,17 @@ public class TaskInitializeListener implements TaskListener {
 
     @Override
     public void before(TaskContext context) {
-        StatusControls controls = StatusControls.Holder.getControls();
-        controls.start(context.getTaskID(), context.getTotal());
+        context.startRecordStatus();
     }
 
     @Override
     public void after(TaskContext context) {
-        StatusControls controls = StatusControls.Holder.getControls();
-        controls.stop(context.getTaskID());
+        context.stopRecordStatus();
     }
 
     @Override
     public void error(TaskContext context, Exception e) {
-        StatusControls controls = StatusControls.Holder.getControls();
-        controls.stop(context.getTaskID());
+        context.stopRecordStatus();
     }
 
     @Override

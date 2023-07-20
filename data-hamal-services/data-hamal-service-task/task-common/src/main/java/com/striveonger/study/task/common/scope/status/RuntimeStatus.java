@@ -10,9 +10,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.Serializable;
 import java.util.Arrays;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReadWriteLock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 
 /**

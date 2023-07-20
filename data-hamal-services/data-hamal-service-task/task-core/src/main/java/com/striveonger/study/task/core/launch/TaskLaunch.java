@@ -32,7 +32,7 @@ public class TaskLaunch {
 
     private final TaskTrigger trigger;
 
-    private final RuntimeContext context;
+    private final RuntimeContext runtimeContext;
 
     private final TaskContext taskContext;
 
@@ -40,9 +40,9 @@ public class TaskLaunch {
 
     public TaskLaunch(TaskTrigger trigger) {
         this.trigger = trigger;
-        this.context = null; // TODO: 重构 RuntimeContext 功能
+        this.runtimeContext = new RuntimeContext(trigger.getStorage());
         this.listeners = TaskListenerLoader.getInstance().getFullRegisterListeners();
-        this.taskContext = new TaskContext(trigger.getTaskID(), trigger.getExtras().size(), trigger.getParams());
+        this.taskContext = new TaskContext(trigger.getTaskID(), trigger.getExtras().size(), runtimeContext, trigger.getParams(), List.of());
     }
 
     /**
@@ -65,9 +65,8 @@ public class TaskLaunch {
         Map<Executable, StepContext> stepContexts = new ConcurrentHashMap<>();
         int idx = 0;
         for (ExecutorExtraInfo extra : trigger.getExtras()) {
-            StepContext context = new StepContext();
+            StepContext context = new StepContext(idx++);
             // 给每个任务, 随机分配一个索引值(以对应 RuntimeStatus)
-            context.setIndex(idx++);
             context.setTaskContext(taskContext);
             context.setStepID(extra.getStepID());
             context.setDisplayName(extra.getDisplayName());
@@ -81,7 +80,7 @@ public class TaskLaunch {
 
 
         // 3. 初始化工作空间(todo: 后面可以把task其他的配置信息, 也放到触发器里)
-        Workbench workbench = Workbench.builder().taskID(trigger.getTaskID()).corePoolSize(0).maximumPoolSize(6).context(context, taskContext, stepContexts).build();
+        Workbench workbench = Workbench.builder().taskID(trigger.getTaskID()).corePoolSize(0).maximumPoolSize(6).context(runtimeContext, taskContext, stepContexts).build();
 
         // 4. 初始化 Executor (设置 "listener", "工作空间" )
         List<Executor> executors = trigger.getExtras().stream().map(ExecutorExtraInfo::getExecutor).toList();

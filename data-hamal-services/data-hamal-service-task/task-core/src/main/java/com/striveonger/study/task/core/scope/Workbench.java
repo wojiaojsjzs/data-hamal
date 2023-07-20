@@ -38,7 +38,7 @@ public class Workbench {
 
     private final RuntimeContext context;
 
-    // private final TaskContext taskContext;
+    private final TaskContext taskContext;
 
     private final Map<Executable, StepContext> stepContexts = new ConcurrentHashMap<>();
 
@@ -69,9 +69,9 @@ public class Workbench {
                       RejectedExecutionHandler handler) {
         this.taskID = taskID;
         this.context = context;
-        this.worker = new Worker(corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue, threadFactory, handler);
-        // this.taskContext = taskContext;
+        this.taskContext = taskContext;
         this.stepContexts.putAll(stepContexts);
+        this.worker = new Worker(corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue, threadFactory, handler);
     }
 
 

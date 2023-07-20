@@ -1,5 +1,7 @@
 package com.striveonger.study.task.common.scope.context;
 
+import com.striveonger.study.task.common.constant.StepStatus;
+
 /**
  * @author Mr.Lee
  * @description: Step运行时环境
@@ -7,7 +9,7 @@ package com.striveonger.study.task.common.scope.context;
  */
 public class StepContext {
 
-    private int index;
+    private final int index;
 
     private String stepID;
 
@@ -15,16 +17,16 @@ public class StepContext {
 
     private TaskContext taskContext;
 
+    public StepContext(int index) {
+        this.index = index;
+    }
+
     public String getTaskID() {
         return taskContext.getTaskID();
     }
 
     public int getIndex() {
         return index;
-    }
-
-    public void setIndex(int index) {
-        this.index = index;
     }
 
     public String getStepID() {
@@ -49,5 +51,9 @@ public class StepContext {
 
     public void setTaskContext(TaskContext taskContext) {
         this.taskContext = taskContext;
+    }
+
+    public void updateRuntimeStatus(StepStatus status) {
+        taskContext.updateRuntimeStatus(index, status);
     }
 }

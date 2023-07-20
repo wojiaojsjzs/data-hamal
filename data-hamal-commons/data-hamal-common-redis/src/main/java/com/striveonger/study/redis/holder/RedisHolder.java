@@ -237,7 +237,7 @@ public class RedisHolder {
             key = LOCK_PREFIX + key;
             RLock lock = client.getLock(key);
             try {
-                return lock.tryLock(0, usetime, TimeUnit.MILLISECONDS);
+                return lock.tryLock(waitTime, usetime, TimeUnit.MILLISECONDS);
             } catch (InterruptedException e) {
                 log.error("An attempt to acquire a lock failed... ", e);
             }
@@ -246,7 +246,8 @@ public class RedisHolder {
 
 
         public void unlock(String key) {
-
+            RLock lock = client.getLock(key);
+            lock.unlock();
         }
 
 

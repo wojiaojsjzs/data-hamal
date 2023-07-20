@@ -12,6 +12,9 @@ import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * @author Mr.Lee
  * @description:
@@ -95,8 +98,14 @@ public class TaskExecutorTest {
         assert task != null;
         System.out.println(task.getId());
         TaskExecutor executor = new TaskExecutor();
-        TaskStatus status = executor.exec(task);
-        System.out.println(status);
+//        TaskStatus status = executor.exec(task);
+//        System.out.println(status);
+//
+        List<Object> list = Arrays.asList("A", 1, "B", 'c');
+        for (Object o : list) {
+            System.out.println(o.getClass());
+        }
+
     }
 
 }

@@ -6,7 +6,6 @@ import com.striveonger.study.task.common.listener.StepListener;
 import com.striveonger.study.task.common.constant.StepStatus;
 import com.striveonger.study.task.common.constant.TaskStatus;
 import com.striveonger.study.task.common.scope.context.StepContext;
-import com.striveonger.study.task.common.scope.status.StatusControls;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,11 +34,7 @@ public class StepExecuteStatusListener implements StepListener {
     }
 
     private void process(StepContext context, StepStatus status) {
-        String id = context.getTaskID();
-        int index = context.getIndex();
-        StatusControls controls = StatusControls.Holder.getControls();
-        // controls.update 原子操作, 外层不用考虑多线程问题
-        controls.update(id, index, status);
+        context.updateRuntimeStatus(status);
         // log.info("Step '{}' Step Status: {},  Task Status: {}", context.getDisplayName(), controls.stepStatus(id, index), controls.taskStatus(id));
     }
 
@@ -47,8 +42,7 @@ public class StepExecuteStatusListener implements StepListener {
      * 检查任务执行状态
      */
     private void check(StepContext context) {
-        StatusControls controls = StatusControls.Holder.getControls();
-        TaskStatus status = controls.taskStatus(context.getTaskID());
+        TaskStatus status = context.getTaskContext().getTaskStatus();
         if (status.equals(TaskStatus.FAIL)) {
             // 前置任务执行失败时, 忽略执行
             throw new CustomException(ResultStatus.TASK_EXECUTE_FAIL, "The previous executor failure, ignore execute...");

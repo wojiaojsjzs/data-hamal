@@ -1,6 +1,7 @@
 package com.striveonger.study.task.core.scope.trigger;
 
 import com.striveonger.study.task.common.scope.context.PerformParam;
+import com.striveonger.study.task.common.scope.context.storage.ContextStorage;
 import com.striveonger.study.task.core.executor.extra.ExecutorExtraInfo;
 
 import java.util.*;
@@ -32,6 +33,8 @@ public class TaskTrigger {
      * stepID -> [nextStepID...]
      */
     private Map<String, Set<String>> topology;
+
+    private ContextStorage storage;
 
     public String getTaskID() {
         return taskID;
@@ -77,5 +80,13 @@ public class TaskTrigger {
 
     public void setTopology(Map<String, Set<String>> topology) {
         this.topology = topology;
+    }
+
+    public ContextStorage getStorage() {
+        return storage;
+    }
+
+    public void setStorage(ContextStorage storage) {
+        this.storage = storage;
     }
 }
