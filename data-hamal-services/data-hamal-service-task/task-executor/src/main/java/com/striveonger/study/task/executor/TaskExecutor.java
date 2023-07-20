@@ -1,8 +1,8 @@
 package com.striveonger.study.task.executor;
 
 import com.striveonger.study.task.common.constant.TaskStatus;
-import com.striveonger.study.task.common.scope.trigger.TaskTrigger;
 import com.striveonger.study.task.core.launch.TaskLaunch;
+import com.striveonger.study.task.core.scope.trigger.TaskTrigger;
 import com.striveonger.study.task.executor.entity.TaskBody;
 
 /**

@@ -38,7 +38,7 @@ public class Workbench {
 
     private final RuntimeContext context;
 
-    private final TaskContext taskContext;
+    // private final TaskContext taskContext;
 
     private final Map<Executable, StepContext> stepContexts = new ConcurrentHashMap<>();
 
@@ -70,7 +70,7 @@ public class Workbench {
         this.taskID = taskID;
         this.context = context;
         this.worker = new Worker(corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue, threadFactory, handler);
-        this.taskContext = taskContext;
+        // this.taskContext = taskContext;
         this.stepContexts.putAll(stepContexts);
     }
 
@@ -85,6 +85,10 @@ public class Workbench {
 
     public RuntimeContext getContext() {
         return context;
+    }
+
+    public StepContext getStepContext(Executable executor) {
+        return stepContexts.get(executor);
     }
 
     public static Builder builder() {
@@ -125,6 +129,7 @@ public class Workbench {
                       BlockingQueue<Runnable> workQueue, ThreadFactory threadFactory, RejectedExecutionHandler handler) {
             this.taskExecThreadPool = new ThreadPoolExecutor(corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue, threadFactory, handler);
         }
+
         public void work(Runnable runnable) {
             taskExecThreadPool.execute(runnable);
         }
@@ -133,6 +138,9 @@ public class Workbench {
     public static class Builder {
         private String taskID;
         private RuntimeContext context;
+        private TaskContext taskContext;
+        private Map<Executable, StepContext> stepContexts;
+
         private Integer corePoolSize = 8, maximumPoolSize = 32;
         private Long keepAliveTime = 30L;
         private final TimeUnit unit = TimeUnit.MILLISECONDS;
@@ -149,8 +157,10 @@ public class Workbench {
             return this;
         }
 
-        public Builder context(RuntimeContext context) {
+        public Builder context(RuntimeContext context, TaskContext taskContext, Map<Executable, StepContext> stepContexts) {
             this.context = context;
+            this.taskContext = taskContext;
+            this.stepContexts = stepContexts;
             return this;
         }
 
@@ -182,7 +192,7 @@ public class Workbench {
 
         public Workbench build() {
             if (taskID == null || context == null) throw new BuildTaskException(BuildTaskException.Type.WORKBENCH);
-            return new Workbench(taskID, context, corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue, threadFactory, handler);
+            return new Workbench(taskID, context, taskContext, stepContexts, corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue, threadFactory, handler);
         }
     }
 }

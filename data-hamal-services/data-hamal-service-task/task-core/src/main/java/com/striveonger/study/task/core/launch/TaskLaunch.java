@@ -18,6 +18,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author Mr.Lee
@@ -33,12 +34,15 @@ public class TaskLaunch {
 
     private final RuntimeContext context;
 
+    private final TaskContext taskContext;
+
     private final TaskListener[] listeners;
 
     public TaskLaunch(TaskTrigger trigger) {
         this.trigger = trigger;
         this.context = null; // TODO: 重构 RuntimeContext 功能
         this.listeners = TaskListenerLoader.getInstance().getFullRegisterListeners();
+        this.taskContext = new TaskContext(trigger.getTaskID(), trigger.getExtras().size(), trigger.getParams());
     }
 
     /**
@@ -57,17 +61,17 @@ public class TaskLaunch {
         // 1. 根据触发器, 创建上下文对象
         // RuntimeContext cxt = RuntimeContext.Holder.getContext(trigger);
 
-        this.taskContext = new TaskContext(trigger.getTaskID(), trigger.getExtras().size(), trigger.getParams());
-        this.stepContexts = new ConcurrentHashMap<>();
+
+        Map<Executable, StepContext> stepContexts = new ConcurrentHashMap<>();
         int idx = 0;
         for (ExecutorExtraInfo extra : trigger.getExtras()) {
             StepContext context = new StepContext();
             // 给每个任务, 随机分配一个索引值(以对应 RuntimeStatus)
             context.setIndex(idx++);
-            context.setTaskContext(this.taskContext);
+            context.setTaskContext(taskContext);
             context.setStepID(extra.getStepID());
             context.setDisplayName(extra.getDisplayName());
-            this.stepContexts.put(extra.getExecutor(), context);
+            stepContexts.put(extra.getExecutor(), context);
         }
 
 
@@ -77,12 +81,12 @@ public class TaskLaunch {
 
 
         // 3. 初始化工作空间(todo: 后面可以把task其他的配置信息, 也放到触发器里)
-        Workbench workbench = Workbench.builder().taskID(trigger.getTaskID()).corePoolSize(0).maximumPoolSize(6).context(context).build();
+        Workbench workbench = Workbench.builder().taskID(trigger.getTaskID()).corePoolSize(0).maximumPoolSize(6).context(context, taskContext, stepContexts).build();
 
         // 4. 初始化 Executor (设置 "listener", "工作空间" )
         List<Executor> executors = trigger.getExtras().stream().map(ExecutorExtraInfo::getExecutor).toList();
         executors.forEach(executor -> {
-            executor.setListeners(StepListenerLoader.getInstance().getListenersByConditions(context.getStepContext(executor)));
+            executor.setListeners(StepListenerLoader.getInstance().getListenersByConditions(stepContexts.get(executor)));
             executor.setWorkbench(workbench);
         });
 
@@ -117,14 +121,14 @@ public class TaskLaunch {
         log.info("task start, taskID: {}", trigger.getTaskID());
 
         for (int i = 0; i < listeners.length; i++) {
-            listeners[i].before(context.getTaskContext());
+            listeners[i].before(taskContext);
         }
     }
 
     private void doAfter() {
         Thread.currentThread().setName(name);
         for (int i = listeners.length - 1; i >= 0; i--) {
-            listeners[i].after(context.getTaskContext());
+            listeners[i].after(taskContext);
         }
     }
 
@@ -132,7 +136,7 @@ public class TaskLaunch {
         Thread.currentThread().setName(name);
         Thread.currentThread().setName(name);
         for (int i = listeners.length - 1; i >= 0; i--) {
-            listeners[i].error(context.getTaskContext(), e);
+            listeners[i].error(taskContext, e);
         }
     }
 

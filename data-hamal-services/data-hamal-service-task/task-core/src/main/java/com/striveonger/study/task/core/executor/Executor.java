@@ -37,7 +37,7 @@ public abstract class Executor implements Executable {
     }
 
     public StepContext getStepContext() {
-        return workbench.getContext().getStepContext(this);
+        return workbench.getStepContext(this);
     }
 
     @Override
