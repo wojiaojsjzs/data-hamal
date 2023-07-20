@@ -1,7 +1,10 @@
 package com.striveonger.study.task.core.scope.context.storage;
 
+import com.striveonger.study.task.common.scope.context.storage.ContextStorage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.ServiceLoader;
 
 /**
  * @author Mr.Lee
@@ -11,23 +14,21 @@ import org.slf4j.LoggerFactory;
 public class ContextStorageHolder {
     private final Logger log = LoggerFactory.getLogger(ContextStorageHolder.class);
 
-    /*
-    public static class Holder {
-        private static final Holder instance = new Holder();
+    private static final ContextStorageHolder instance = new ContextStorageHolder();
 
-        private final StatusControls controls;
+    private final ContextStorage storage;
 
-        private Holder() {
-            ServiceLoader<StatusControls> loader = ServiceLoader.load(StatusControls.class);
-            // 尝试加载外部实现, 如果没有加载到外部实现类, 则使用默认的
-            this.controls  = loader.findFirst().orElseGet(Default::new);
-        }
-
-    public static StatusControls getControls() {
-        return instance.controls;
+    private ContextStorageHolder() {
+        ServiceLoader<ContextStorage> loader = ServiceLoader.load(ContextStorage.class);
+        this.storage = loader.findFirst().orElseGet(MemoryContextStorage::new);
     }
-}
-     */
 
+    public ContextStorage getStorage() {
+        return storage;
+    }
+
+    public static ContextStorageHolder getInstance() {
+        return instance;
+    }
 
 }

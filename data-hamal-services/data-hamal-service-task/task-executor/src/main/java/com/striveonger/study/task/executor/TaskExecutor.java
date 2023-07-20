@@ -1,7 +1,9 @@
 package com.striveonger.study.task.executor;
 
 import com.striveonger.study.task.common.constant.TaskStatus;
+import com.striveonger.study.task.common.scope.context.storage.ContextStorage;
 import com.striveonger.study.task.core.launch.TaskLaunch;
+import com.striveonger.study.task.core.scope.context.storage.ContextStorageHolder;
 import com.striveonger.study.task.core.scope.trigger.TaskTrigger;
 import com.striveonger.study.task.executor.entity.TaskBody;
 
@@ -26,12 +28,13 @@ public class TaskExecutor {
         trigger.putAllParam(body.getParams());
         // 3. 根据组件适配器生成Executor及其扩展信息
 
+
         // 4. 任务的执行顺序
         trigger.setTopology(body.getTopology());
         // 5. 任务Context的存储器
-        trigger.setStorage();
-
-        // 4. 启动任务
+        ContextStorage storage = ContextStorageHolder.getInstance().getStorage();
+        trigger.setStorage(storage);
+        // 6. 启动任务
         TaskLaunch launch = new TaskLaunch(trigger);
         return launch.start();
     }
