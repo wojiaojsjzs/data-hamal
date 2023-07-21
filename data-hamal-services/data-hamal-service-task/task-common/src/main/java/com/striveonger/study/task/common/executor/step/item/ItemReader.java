@@ -9,4 +9,5 @@ package com.striveonger.study.task.common.executor.step.item;
 public interface ItemReader<I> {
 
     I read() throws Exception;
+
 }

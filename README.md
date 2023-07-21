@@ -26,6 +26,7 @@ com.striveonger.study
 ├── data-hamal-commons                           // 通用模块
 │   └── data-hamal-common-core                   // 核心功能
 │   └── data-hamal-common-web-core               // 核心功能
+│   └── data-hamal-common-dp                     // 数据来源
 │   └── data-hamal-common-redis                  // 内存存储
 │   └── data-hamal-common-mybatis                // 数据访问
 │   └── data-hamal-common-logs                   // 日志工具
@@ -124,13 +125,6 @@ flowchart LR
     I  --> J
     J  --> K
     
-    
-    F 
-    X1 ---> X2 --> X3  --> F
-    
-    K  --> L1  --> L2 --> L3 --> L4
-    K  --> M1  --> M2 --> M3 --> M4
-    K  --> N1  --> N2 --> N3 --> N4
 ```
 > Task Executor 测试用例示意图
 

@@ -9,4 +9,5 @@ package com.striveonger.study.task.common.executor.step.item;
 public interface ItemProcessor<I, O> {
 
     O process(I input) throws Exception;
+
 }

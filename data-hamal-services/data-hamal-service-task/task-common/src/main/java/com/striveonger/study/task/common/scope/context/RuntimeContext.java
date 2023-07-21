@@ -2,7 +2,7 @@ package com.striveonger.study.task.common.scope.context;
 
 import com.striveonger.study.task.common.constant.StepStatus;
 import com.striveonger.study.task.common.constant.TaskStatus;
-import com.striveonger.study.task.common.scope.status.RuntimeStatus;
+import com.striveonger.study.task.common.scope.context.status.RuntimeStatus;
 import com.striveonger.study.task.common.scope.context.storage.ContextStorage;
 
 import java.util.Objects;
@@ -26,6 +26,10 @@ public class RuntimeContext {
     public StatusHolder status() {
         return this.status;
     }
+
+    // 后面需要什么方法
+
+    // ...
 
     /**
      * 运行时状态的操作对象
@@ -71,6 +75,4 @@ public class RuntimeContext {
             return null;
         }
     }
-
-
 }

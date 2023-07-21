@@ -27,7 +27,7 @@ public class TaskExecutor {
         // 2. 任务执行参数
         trigger.putAllParam(body.getParams());
         // 3. 根据组件适配器生成Executor及其扩展信息
-
+        
 
         // 4. 任务的执行顺序
         trigger.setTopology(body.getTopology());

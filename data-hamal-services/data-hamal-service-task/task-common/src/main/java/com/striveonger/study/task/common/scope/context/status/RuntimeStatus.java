@@ -1,4 +1,4 @@
-package com.striveonger.study.task.common.scope.status;
+package com.striveonger.study.task.common.scope.context.status;
 
 
 import com.striveonger.study.core.constant.ResultStatus;

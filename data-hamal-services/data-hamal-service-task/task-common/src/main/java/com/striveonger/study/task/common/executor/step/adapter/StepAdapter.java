@@ -3,27 +3,21 @@ package com.striveonger.study.task.common.executor.step.adapter;
 import com.striveonger.study.task.common.executor.step.item.ItemProcessor;
 import com.striveonger.study.task.common.executor.step.item.ItemReader;
 import com.striveonger.study.task.common.executor.step.item.ItemWriter;
+import com.striveonger.study.task.common.scope.context.StepContext;
 
 /**
  * @author Mr.Lee
  * @description:
  * @date 2023-07-19 11:25
  */
-public interface StepAdapter<T> {
+public interface StepAdapter<I, O> {
 
-    public default ItemReader<T> reader() {
-        // TODO: ContextReader
-        return null;
-    }
+    ItemReader<I> reader();
 
-    public default ItemProcessor<T, T> processor() {
-        // NonProcessor 就没有处理, 原样输出
-        return x -> x;
-    }
+    ItemProcessor<I, O> processor();
 
-    public default ItemWriter<T> writer() {
-        // TODO: ContextWriter
-        return null;
-    }
+    ItemWriter<I> writer();
+
+    void initialize(StepContext context);
 
 }

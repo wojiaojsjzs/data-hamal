@@ -9,4 +9,5 @@ package com.striveonger.study.task.common.executor.step.item;
 public interface ItemWriter<O> {
 
     void write(O output) throws Exception;
+
 }
