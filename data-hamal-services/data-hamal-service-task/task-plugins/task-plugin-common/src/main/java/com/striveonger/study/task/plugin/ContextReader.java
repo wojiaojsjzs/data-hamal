@@ -1,6 +1,7 @@
 package com.striveonger.study.task.plugin;
 
 import com.striveonger.study.task.common.executor.step.item.ItemReader;
+import com.striveonger.study.task.common.scope.context.StepContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

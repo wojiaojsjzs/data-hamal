@@ -42,7 +42,11 @@ public class TaskLaunch {
         this.trigger = trigger;
         this.runtimeContext = new RuntimeContext(trigger.getStorage());
         this.listeners = TaskListenerLoader.getInstance().getFullRegisterListeners();
-        this.taskContext = new TaskContext(trigger.getTaskID(), trigger.getExtras().size(), runtimeContext, trigger.getParams(), List.of());
+        this.taskContext = TaskContext.Builder.builder().taskID(trigger.getTaskID())
+                .runtimeContext(runtimeContext)
+                .topology(trigger.getTopology())
+                .params(trigger.getParams())
+                .build();
     }
 
     /**
