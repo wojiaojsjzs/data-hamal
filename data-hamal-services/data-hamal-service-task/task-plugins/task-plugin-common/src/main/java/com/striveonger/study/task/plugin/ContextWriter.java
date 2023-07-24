@@ -20,14 +20,9 @@ import java.util.Set;
 public class ContextWriter extends Item implements ItemWriter<Map<String, Object>> {
     private final Logger log = LoggerFactory.getLogger(ContextWriter.class);
 
-    /**
-     *
-     */
-    private List<Map<String, Object>> list;
-
     @Override
     public void write(Map<String, Object> output) throws Exception {
-        list.add(output);
+
     }
 
     @Override

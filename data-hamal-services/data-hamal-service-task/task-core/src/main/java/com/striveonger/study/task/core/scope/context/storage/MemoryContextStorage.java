@@ -27,9 +27,6 @@ public class MemoryContextStorage implements ContextStorage {
         map.put(key, value);
     }
 
-
-
-
     @Override
     public void remove(String key) {
         map.remove(key);
@@ -40,6 +37,36 @@ public class MemoryContextStorage implements ContextStorage {
         if (containsKey(key)) {
             return (T) map.get(key);
         }
+        return null;
+    }
+
+    @Override
+    public <T> boolean offerFirst(String key, T e) {
+        return false;
+    }
+
+    @Override
+    public <T> boolean offerLast(String key, T e) {
+        return false;
+    }
+
+    @Override
+    public <T> T pollFirst(String key) {
+        return null;
+    }
+
+    @Override
+    public <T> T pollLast(String key) {
+        return null;
+    }
+
+    @Override
+    public <T> T peekFirst(String key) {
+        return null;
+    }
+
+    @Override
+    public <T> T peekLast(String key) {
         return null;
     }
 }
