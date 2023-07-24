@@ -15,4 +15,16 @@ public interface ContextStorage {
 
     <T> T get(String key);
 
+    <T> boolean offerFirst(String key, T e);
+
+    <T> boolean offerLast(String key, T e);
+
+    <T> T pollFirst(String key);
+
+    <T> T pollLast(String key);
+
+    <T> T peekFirst(String key);
+
+    <T> T peekLast(String key);
+
 }

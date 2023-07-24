@@ -7,19 +7,27 @@ import com.striveonger.study.task.common.scope.context.StepContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * @author Mr.Lee
- * @description: 将数据写入Context
+ * @description: 将数据写入Context (默认向后写多份)
  * @date 2023-07-21 18:05
  */
 public class ContextWriter extends Item implements ItemWriter<Map<String, Object>> {
     private final Logger log = LoggerFactory.getLogger(ContextWriter.class);
 
+    /**
+     *
+     */
+    private List<Map<String, Object>> list;
+
     @Override
     public void write(Map<String, Object> output) throws Exception {
-
+        list.add(output);
     }
 
     @Override
@@ -30,13 +38,16 @@ public class ContextWriter extends Item implements ItemWriter<Map<String, Object
 
     /**
      * 获取存储Key
+     * 后继节点, 可能不止一个嘛
      */
-    public String getStorageKey() {
+    public Set<String> getStorageKeys() {
         StepContext context = getContext();
         if (context == null) throw new CustomException(ResultStatus.TASK_EXECUTE_FAIL, "Invalid Step Context...");
         String currentStepID = context.getStepID();
-
-
-
+        Set<String> keys = new HashSet<>();
+        for (String next : context.next()) {
+            keys.add(currentStepID + "_" + next);
+        }
+        return keys;
     }
 }
