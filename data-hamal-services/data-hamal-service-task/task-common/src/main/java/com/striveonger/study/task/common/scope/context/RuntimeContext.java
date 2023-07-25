@@ -5,6 +5,7 @@ import com.striveonger.study.task.common.constant.TaskStatus;
 import com.striveonger.study.task.common.scope.context.status.RuntimeStatus;
 import com.striveonger.study.task.common.scope.context.storage.ContextStorage;
 
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -29,6 +30,14 @@ public class RuntimeContext {
 
     // 后面需要什么方法
 
+    public void offer(String key, Object value) {
+        storage.offerFirst(key, value);
+    }
+
+    public <T> T poll(String key, Class<T> clazz) {
+        return storage.pollLast(key, clazz);
+    }
+
     // ...
 
     /**
@@ -52,7 +61,7 @@ public class RuntimeContext {
 
         public void update(String taskID, int index, StepStatus status) {
             synchronized (taskID.intern()) {
-                RuntimeStatus holder = storage.get(taskID);
+                RuntimeStatus holder = storage.get(taskID, RuntimeStatus.class);
                 if (Objects.nonNull(holder)) {
                     holder.update(index, status);
                 }
@@ -60,7 +69,7 @@ public class RuntimeContext {
         }
 
         public StepStatus stepStatus(String taskID, int index) {
-            RuntimeStatus holder = storage.get(taskID);
+            RuntimeStatus holder = storage.get(taskID, RuntimeStatus.class);
             if (Objects.nonNull(holder)) {
                 return holder.stepStatus(index);
             }
@@ -68,7 +77,7 @@ public class RuntimeContext {
         }
 
         public TaskStatus taskStatus(String taskID) {
-            RuntimeStatus holder = storage.get(taskID);
+            RuntimeStatus holder = storage.get(taskID, RuntimeStatus.class);
             if (Objects.nonNull(holder)) {
                 return holder.taskStatus();
             }

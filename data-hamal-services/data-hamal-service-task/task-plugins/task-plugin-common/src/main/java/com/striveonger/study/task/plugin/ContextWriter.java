@@ -3,6 +3,7 @@ package com.striveonger.study.task.plugin;
 import com.striveonger.study.core.constant.ResultStatus;
 import com.striveonger.study.core.exception.CustomException;
 import com.striveonger.study.task.common.executor.step.item.ItemWriter;
+import com.striveonger.study.task.common.scope.context.RuntimeContext;
 import com.striveonger.study.task.common.scope.context.StepContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,14 +23,17 @@ public class ContextWriter extends Item implements ItemWriter<Map<String, Object
 
     @Override
     public void write(Map<String, Object> output) throws Exception {
-
+        RuntimeContext context = getContext().getTaskContext().getRuntimeContext();
+        Set<String> keys = getStorageKeys();
+        for (String key : keys) {
+            context.offer(key, output);
+        }
     }
 
     @Override
     public void finish() throws Exception {
-
+        // pass
     }
-
 
     /**
      * 获取存储Key
@@ -38,10 +42,11 @@ public class ContextWriter extends Item implements ItemWriter<Map<String, Object
     public Set<String> getStorageKeys() {
         StepContext context = getContext();
         if (context == null) throw new CustomException(ResultStatus.TASK_EXECUTE_FAIL, "Invalid Step Context...");
+        String taskID = context.getTaskID();
         String currentStepID = context.getStepID();
         Set<String> keys = new HashSet<>();
         for (String next : context.next()) {
-            keys.add(currentStepID + "_" + next);
+            keys.add(taskID + "_" + currentStepID + "_" + next);
         }
         return keys;
     }

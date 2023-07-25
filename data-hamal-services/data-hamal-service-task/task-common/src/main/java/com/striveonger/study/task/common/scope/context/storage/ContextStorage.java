@@ -11,20 +11,31 @@ public interface ContextStorage {
 
     void put(String key, Object value);
 
+    <T> T get(String key, Class<T> clazz);
+
     void remove(String key);
 
-    <T> T get(String key);
+    <T> void offerFirst(String key, T e);
 
-    <T> boolean offerFirst(String key, T e);
+    <T> void offerLast(String key, T e);
 
-    <T> boolean offerLast(String key, T e);
+    <T> T pollFirst(String key, Class<T> clazz);
 
-    <T> T pollFirst(String key);
+    <T> T pollLast(String key, Class<T> clazz);
 
-    <T> T pollLast(String key);
+    <T> T peekFirst(String key, Class<T> clazz);
 
-    <T> T peekFirst(String key);
+    <T> T peekLast(String key, Class<T> clazz);
 
-    <T> T peekLast(String key);
+    default String getString(String key) {
+        return get(key, String.class);
+    }
 
+    default Integer getInteger(String key) {
+        return get(key, Integer.class);
+    }
+
+    default Long getLong(String key) {
+        return get(key, Long.class);
+    }
 }

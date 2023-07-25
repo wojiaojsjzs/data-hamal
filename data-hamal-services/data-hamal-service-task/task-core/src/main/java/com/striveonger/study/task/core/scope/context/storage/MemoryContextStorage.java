@@ -1,11 +1,18 @@
 package com.striveonger.study.task.core.scope.context.storage;
 
+import cn.hutool.core.util.StrUtil;
 import com.striveonger.study.task.common.scope.context.storage.ContextStorage;
+import org.checkerframework.checker.units.qual.C;
+import org.checkerframework.checker.units.qual.K;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.AbstractList;
+import java.util.LinkedList;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
 
 /**
  * @author Mr.Lee
@@ -28,45 +35,94 @@ public class MemoryContextStorage implements ContextStorage {
     }
 
     @Override
-    public void remove(String key) {
-        map.remove(key);
-    }
-
-    @Override
-    public <T> T get(String key) {
+    public  <T> T get(String key, Class<T> clazz) {
         if (containsKey(key)) {
-            return (T) map.get(key);
+            try {
+                Object o = map.get(key);
+                if (clazz.isInstance(o)) {
+                    return (T) o;
+                }
+            } catch (Exception e) {
+                log.error("Type must match...", e);
+            }
         }
         return null;
     }
 
     @Override
-    public <T> boolean offerFirst(String key, T e) {
-        return false;
+    public void remove(String key) {
+        map.remove(key);
     }
 
     @Override
-    public <T> boolean offerLast(String key, T e) {
-        return false;
+    public <T> void offerFirst(String key, T value) {
+        if (StrUtil.isNotBlank(key)) {
+            deque(key, list -> list.offerFirst(value));
+        }
     }
 
     @Override
-    public <T> T pollFirst(String key) {
-        return null;
+    public <T> void offerLast(String key, T value) {
+        if (StrUtil.isNotBlank(key) || Objects.nonNull(value)) {
+            deque(key, list -> list.offerLast(value));
+        }
     }
 
     @Override
-    public <T> T pollLast(String key) {
-        return null;
+    public <T> T pollFirst(String key, Class<T> clazz) {
+        return deque(key, list -> {
+            Object o = list.pollFirst();
+            if (clazz.isInstance(o)) {
+                return o;
+            }
+            return null;
+        });
     }
 
     @Override
-    public <T> T peekFirst(String key) {
-        return null;
+    public <T> T pollLast(String key, Class<T> clazz) {
+        return deque(key, list -> {
+            Object o = list.pollLast();
+            if (clazz.isInstance(o)) {
+                return o;
+            }
+            return null;
+        });
     }
 
     @Override
-    public <T> T peekLast(String key) {
-        return null;
+    public <T> T peekFirst(String key, Class<T> clazz) {
+        return deque(key, list -> {
+            Object o = list.peekFirst();
+            if (clazz.isInstance(o)) {
+                return o;
+            }
+            return null;
+        });
+    }
+
+    @Override
+    public <T> T peekLast(String key, Class<T> clazz) {
+        return deque(key, list -> {
+            Object o = list.peekLast();
+            if (clazz.isInstance(o)) {
+                return o;
+            }
+            return null;
+        });
+    }
+
+    private <T> T deque(String key, Function<LinkedList<Object>, Object> action) {
+        synchronized (key.intern()) {
+            if (!containsKey(key)) {
+                map.put(key, new LinkedList<Object>());
+            }
+            LinkedList<Object> list = get(key, LinkedList.class);
+            if (Objects.nonNull(list)) {
+                Object o = action.apply(list);
+                return (T) o;
+            }
+            return null;
+        }
     }
 }
