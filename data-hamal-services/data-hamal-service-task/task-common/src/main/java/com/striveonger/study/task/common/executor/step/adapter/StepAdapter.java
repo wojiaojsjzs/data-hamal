@@ -18,6 +18,4 @@ public interface StepAdapter<I, O> {
 
     ItemWriter<I> writer();
 
-    void initialize(StepContext context);
-
 }

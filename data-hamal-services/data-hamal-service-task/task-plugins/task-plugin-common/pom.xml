@@ -16,7 +16,6 @@
             <groupId>com.striveonger.study</groupId>
             <artifactId>task-common</artifactId>
         </dependency>
-
     </dependencies>
 
 </project>
