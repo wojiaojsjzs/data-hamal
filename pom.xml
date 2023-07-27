@@ -146,11 +146,7 @@
                 <artifactId>data-hamal-common-rabbit</artifactId>
                 <version>${data-hamal.version}</version>
             </dependency>
-            <dependency>
-                <groupId>com.striveonger.study</groupId>
-                <artifactId>data-hamal-common-test</artifactId>
-                <version>${data-hamal.version}</version>
-            </dependency>
+
             <dependency>
                 <groupId>com.striveonger.study</groupId>
                 <artifactId>task-common</artifactId>
@@ -158,7 +154,18 @@
             </dependency>
             <dependency>
                 <groupId>com.striveonger.study</groupId>
+                <artifactId>task-plugin-common</artifactId>
+                <version>${data-hamal.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.striveonger.study</groupId>
                 <artifactId>task-core</artifactId>
+                <version>${data-hamal.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.striveonger.study</groupId>
+                <artifactId>data-hamal-common-test</artifactId>
                 <version>${data-hamal.version}</version>
             </dependency>
 

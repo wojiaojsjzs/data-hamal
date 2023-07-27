@@ -14,14 +14,13 @@ import java.util.stream.Collectors;
  * @description:
  * @date 2023-07-17 14:21
  */
-public class SQLInputReader implements ItemReader<Map<String, Object>> {
+public class SQLInputReader extends Item implements ItemReader<Map<String, Object>> {
 
     private final Logger log = LoggerFactory.getLogger(SQLInputReader.class);
 
     private SQLInputBuildConfig buildConfig;
     private List<Map<String, Object>> source = null;
     private int start = 0, skip = 5;
-
 
     /**
      * 从数据源读取数据

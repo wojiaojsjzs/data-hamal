@@ -1,40 +1,28 @@
 package com.striveonger.study.task.plugin;
 
-import com.striveonger.study.task.common.executor.step.adapter.StepAdapter;
-import com.striveonger.study.task.common.executor.step.item.ItemProcessor;
 import com.striveonger.study.task.common.executor.step.item.ItemReader;
-import com.striveonger.study.task.common.executor.step.item.ItemWriter;
 import com.striveonger.study.task.common.scope.context.StepContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Map;
 
 /**
  * @author Mr.Lee
  * @description:
  * @date 2023-07-26 22:09
  */
-public class SQLInputStepAdapter implements StepAdapter {
+public class SQLInputStepAdapter extends BasicStepAdapter {
     private final Logger log = LoggerFactory.getLogger(SQLInputStepAdapter.class);
 
-
-
-    @Override
-    public ItemReader reader() {
-        return null;
+    public SQLInputStepAdapter(StepContext context) {
+        super(context);
     }
 
     @Override
-    public ItemProcessor processor() {
-        return null;
+    public ItemReader<Map<String, Object>> reader() {
+        return new SQLInputReader();
     }
 
-    @Override
-    public ItemWriter writer() {
-        return null;
-    }
 
-    @Override
-    public void initialize(StepContext context) {
-
-    }
 }

@@ -12,18 +12,15 @@
     <artifactId>task-plugin-sql-input</artifactId>
 
     <dependencies>
-
-        <dependency>
-            <groupId>com.striveonger.study</groupId>
-            <artifactId>task-common</artifactId>
-        </dependency>
-
         <dependency>
             <groupId>com.striveonger.study</groupId>
             <artifactId>dp-jdbc</artifactId>
             <version>${data-hamal.version}</version>
         </dependency>
-
+        <dependency>
+            <groupId>com.striveonger.study</groupId>
+            <artifactId>task-plugin-common</artifactId>
+        </dependency>
 
 
     </dependencies>
