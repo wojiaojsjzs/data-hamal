@@ -12,17 +12,12 @@ import java.util.Map;
  * @description:
  * @date 2023-07-26 22:09
  */
-public class SQLInputStepAdapter extends BasicStepAdapter {
+public class SQLInputStepAdapter extends PluginAdapter {
     private final Logger log = LoggerFactory.getLogger(SQLInputStepAdapter.class);
-
-    public SQLInputStepAdapter(StepContext context) {
-        super(context);
-    }
 
     @Override
     public ItemReader<Map<String, Object>> reader() {
         return new SQLInputReader();
     }
-
 
 }

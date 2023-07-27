@@ -18,31 +18,18 @@ import java.util.Map;
 public class PluginAdapter implements StepAdapter<Map<String, Object>, Map<String, Object>> {
     private final Logger log = LoggerFactory.getLogger(PluginAdapter.class);
 
-    private StepContext context;
-
     @Override
     public ItemReader<Map<String, Object>> reader() {
-        ContextReader reader = new ContextReader();
-        reader.setContext(context);
-        return reader;
+        return new ContextReader();
     }
 
     @Override
     public ItemProcessor<Map<String, Object>, Map<String, Object>> processor() {
-        NonProcessor processor = new NonProcessor();
-        processor.setContext(context);
-        return processor;
+        return new NonProcessor();
     }
 
     @Override
     public ItemWriter<Map<String, Object>> writer() {
-        ContextWriter writer = new ContextWriter();
-        writer.setContext(context);
-        return writer;
-    }
-
-    @Override
-    public void initialize(StepContext context) {
-        this.context = context;
+        return new ContextWriter();
     }
 }
