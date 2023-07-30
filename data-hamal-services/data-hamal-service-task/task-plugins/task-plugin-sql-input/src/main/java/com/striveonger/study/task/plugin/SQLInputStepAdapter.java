@@ -20,4 +20,9 @@ public class SQLInputStepAdapter extends PluginAdapter {
         return new SQLInputReader();
     }
 
+    @Override
+    public String type() {
+        return "SQL_INPUT";
+    }
+
 }

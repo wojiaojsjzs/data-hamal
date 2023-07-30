@@ -15,7 +15,7 @@ import java.util.Map;
  * @description:
  * @date 2023-07-21 17:37
  */
-public class PluginAdapter implements StepAdapter<Map<String, Object>, Map<String, Object>> {
+public abstract class PluginAdapter implements StepAdapter<Map<String, Object>, Map<String, Object>> {
     private final Logger log = LoggerFactory.getLogger(PluginAdapter.class);
 
     @Override

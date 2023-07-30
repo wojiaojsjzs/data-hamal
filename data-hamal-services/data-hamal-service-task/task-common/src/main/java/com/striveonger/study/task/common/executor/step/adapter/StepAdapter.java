@@ -18,4 +18,5 @@ public interface StepAdapter<I, O> {
 
     ItemWriter<I> writer();
 
+    String type();
 }

@@ -15,7 +15,7 @@
 
         <dependency>
             <groupId>com.striveonger.study</groupId>
-            <artifactId>task-common</artifactId>
+            <artifactId>task-plugin-common</artifactId>
         </dependency>
 
 
