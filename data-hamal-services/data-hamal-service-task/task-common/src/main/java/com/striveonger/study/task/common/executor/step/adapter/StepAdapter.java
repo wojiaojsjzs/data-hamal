@@ -1,5 +1,6 @@
 package com.striveonger.study.task.common.executor.step.adapter;
 
+import com.striveonger.study.task.common.entity.BuildConfig;
 import com.striveonger.study.task.common.executor.step.item.ItemProcessor;
 import com.striveonger.study.task.common.executor.step.item.ItemReader;
 import com.striveonger.study.task.common.executor.step.item.ItemWriter;
@@ -12,11 +13,11 @@ import com.striveonger.study.task.common.scope.context.StepContext;
  */
 public interface StepAdapter<I, O> {
 
-    ItemReader<I> reader();
+    ItemReader<I> reader(BuildConfig config);
 
-    ItemProcessor<I, O> processor();
+    ItemProcessor<I, O> processor(BuildConfig config);
 
-    ItemWriter<I> writer();
+    ItemWriter<I> writer(BuildConfig config);
 
     String type();
 }

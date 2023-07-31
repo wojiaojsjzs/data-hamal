@@ -1,5 +1,6 @@
 package com.striveonger.study.task.plugin;
 
+import com.striveonger.study.task.common.entity.BuildConfig;
 import com.striveonger.study.task.common.executor.step.adapter.StepAdapter;
 import com.striveonger.study.task.common.executor.step.item.ItemProcessor;
 import com.striveonger.study.task.common.executor.step.item.ItemReader;
@@ -19,17 +20,17 @@ public abstract class PluginAdapter implements StepAdapter<Map<String, Object>, 
     private final Logger log = LoggerFactory.getLogger(PluginAdapter.class);
 
     @Override
-    public ItemReader<Map<String, Object>> reader() {
+    public ItemReader<Map<String, Object>> reader(BuildConfig config) {
         return new ContextReader();
     }
 
     @Override
-    public ItemProcessor<Map<String, Object>, Map<String, Object>> processor() {
+    public ItemProcessor<Map<String, Object>, Map<String, Object>> processor(BuildConfig config) {
         return new NonProcessor();
     }
 
     @Override
-    public ItemWriter<Map<String, Object>> writer() {
+    public ItemWriter<Map<String, Object>> writer(BuildConfig config) {
         return new ContextWriter();
     }
 }

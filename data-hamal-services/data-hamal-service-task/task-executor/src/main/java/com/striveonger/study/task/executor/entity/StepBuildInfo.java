@@ -8,7 +8,7 @@ import com.striveonger.study.task.common.entity.BuildConfig;
  * @description: 步骤实体
  * @date 2023-07-14 14:35
  */
-public class StepPart {
+public class StepBuildInfo {
 
     /**
      * 步骤ID

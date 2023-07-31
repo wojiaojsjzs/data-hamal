@@ -1,5 +1,6 @@
 package com.striveonger.study.task.plugin;
 
+import com.striveonger.study.task.common.executor.step.item.Item;
 import com.striveonger.study.task.common.scope.context.StepContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,8 +10,8 @@ import org.slf4j.LoggerFactory;
  * @description:
  * @date 2023-07-21 10:08
  */
-public abstract class Item {
-    private final Logger log = LoggerFactory.getLogger(Item.class);
+public abstract class BasicItem implements Item {
+    private final Logger log = LoggerFactory.getLogger(BasicItem.class);
 
     private StepContext context;
 

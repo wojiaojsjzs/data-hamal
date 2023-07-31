@@ -26,7 +26,7 @@ public class TaskBody {
     /**
      * 执行步骤
      */
-    private List<StepPart> steps;
+    private List<StepBuildInfo> steps;
 
     /**
      * 执行顺序(DAG.Topology)
@@ -49,11 +49,11 @@ public class TaskBody {
         this.params = params;
     }
 
-    public List<StepPart> getSteps() {
+    public List<StepBuildInfo> getSteps() {
         return steps;
     }
 
-    public void setSteps(List<StepPart> steps) {
+    public void setSteps(List<StepBuildInfo> steps) {
         this.steps = steps;
     }
 

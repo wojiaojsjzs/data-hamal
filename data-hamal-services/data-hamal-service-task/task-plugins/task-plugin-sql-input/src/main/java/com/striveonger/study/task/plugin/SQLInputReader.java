@@ -1,6 +1,7 @@
 package com.striveonger.study.task.plugin;
 
 import cn.hutool.core.lang.Dict;
+import com.striveonger.study.core.utils.JacksonUtils;
 import com.striveonger.study.task.common.executor.step.item.ItemReader;
 import com.striveonger.study.task.plugin.entity.SQLInputBuildConfig;
 import org.slf4j.Logger;
@@ -14,19 +15,25 @@ import java.util.stream.Collectors;
  * @description:
  * @date 2023-07-17 14:21
  */
-public class SQLInputReader extends Item implements ItemReader<Map<String, Object>> {
+public class SQLInputReader extends BasicItem implements ItemReader<Map<String, Object>> {
 
     private final Logger log = LoggerFactory.getLogger(SQLInputReader.class);
 
-    private SQLInputBuildConfig buildConfig;
+    private final SQLInputBuildConfig buildConfig;
     private List<Map<String, Object>> source = null;
     private int start = 0, skip = 5;
+
+
+    public SQLInputReader(SQLInputBuildConfig buildConfig) {
+        this.buildConfig = buildConfig;
+    }
 
     /**
      * 从数据源读取数据
      * TODO: 暂时数据结构用Map代替, 后期再考虑数据传输结构的问题(暂时, 先把流程跑通了, 才是重点哦)
      */
     private List<Map<String, Object>> readSource() {
+        log.info("Build Config: {}", JacksonUtils.toJSONString(buildConfig));
         // TODO: 临时写法哦~
         if (start >= data.size()) {
             return new ArrayList<>();

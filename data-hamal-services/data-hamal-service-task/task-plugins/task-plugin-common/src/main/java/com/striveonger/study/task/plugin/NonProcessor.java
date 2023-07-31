@@ -9,7 +9,7 @@ import java.util.Map;
  * @description:
  * @date 2023-04-24 11:03
  */
-public class NonProcessor extends Item implements ItemProcessor<Map<String, Object>, Map<String, Object>> {
+public class NonProcessor extends BasicItem implements ItemProcessor<Map<String, Object>, Map<String, Object>> {
 
     @Override
     public Map<String, Object> process(Map<String, Object> in) throws Exception {

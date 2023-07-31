@@ -1,6 +1,8 @@
 package com.striveonger.study.task.plugin;
 
+import com.striveonger.study.task.common.entity.BuildConfig;
 import com.striveonger.study.task.common.executor.step.item.ItemWriter;
+import com.striveonger.study.task.plugin.entity.TableOutputBuildConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,8 +17,11 @@ public class TableOutputStepAdapter extends PluginAdapter {
     private final Logger log = LoggerFactory.getLogger(TableOutputStepAdapter.class);
 
     @Override
-    public ItemWriter<Map<String, Object>> writer() {
-        return new TableOutputWriter();
+    public ItemWriter<Map<String, Object>> writer(BuildConfig config) {
+        if (config instanceof TableOutputBuildConfig c) {
+            return new TableOutputWriter(c);
+        }
+        return null;
     }
 
     @Override

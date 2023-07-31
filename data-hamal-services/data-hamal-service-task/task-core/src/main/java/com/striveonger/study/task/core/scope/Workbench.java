@@ -20,7 +20,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class Workbench {
     private final Logger log = LoggerFactory.getLogger(Workbench.class);
 
-    /**
+    /*
      * 任务的工作区
      * 包括:
      *   1. 任务的基本信息

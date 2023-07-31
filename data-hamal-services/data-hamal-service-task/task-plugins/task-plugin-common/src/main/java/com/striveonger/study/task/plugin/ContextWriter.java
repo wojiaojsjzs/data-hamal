@@ -9,7 +9,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -18,7 +17,7 @@ import java.util.Set;
  * @description: 将数据写入Context (默认向后写多份)
  * @date 2023-07-21 18:05
  */
-public class ContextWriter extends Item implements ItemWriter<Map<String, Object>> {
+public class ContextWriter extends BasicItem implements ItemWriter<Map<String, Object>> {
     private final Logger log = LoggerFactory.getLogger(ContextWriter.class);
 
     @Override

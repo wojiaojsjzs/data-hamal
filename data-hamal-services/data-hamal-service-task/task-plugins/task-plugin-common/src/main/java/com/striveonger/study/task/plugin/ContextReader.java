@@ -15,7 +15,7 @@ import java.util.Map;
  * @description:
  * @date 2023-07-21 15:00
  */
-public class ContextReader extends Item implements ItemReader<Map<String, Object>> {
+public class ContextReader extends BasicItem implements ItemReader<Map<String, Object>> {
     private final Logger log = LoggerFactory.getLogger(ContextReader.class);
 
     @Override

@@ -89,7 +89,8 @@ public class TaskLaunch {
         // 4. 初始化 Executor (设置 "listener", "工作空间" )
         List<Executor> executors = trigger.getExtras().stream().map(ExecutorExtraInfo::getExecutor).toList();
         executors.forEach(executor -> {
-            executor.setListeners(StepListenerLoader.getInstance().getListenersByConditions(stepContexts.get(executor)));
+            StepContext context = stepContexts.get(executor);
+            executor.setListeners(StepListenerLoader.getInstance().getListenersByConditions(context));
             executor.setWorkbench(workbench);
         });
 

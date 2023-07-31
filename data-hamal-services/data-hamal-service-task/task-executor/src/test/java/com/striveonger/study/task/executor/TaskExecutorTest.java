@@ -98,13 +98,8 @@ public class TaskExecutorTest {
         assert task != null;
         System.out.println(task.getId());
         TaskExecutor executor = new TaskExecutor();
-//        TaskStatus status = executor.exec(task);
-//        System.out.println(status);
-//
-        List<Object> list = Arrays.asList("A", 1, "B", 'c');
-        for (Object o : list) {
-            System.out.println(o.getClass());
-        }
+        TaskStatus status = executor.exec(task);
+        System.out.println(status);
 
     }
 

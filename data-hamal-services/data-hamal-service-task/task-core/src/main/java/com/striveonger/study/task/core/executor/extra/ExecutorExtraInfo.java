@@ -9,7 +9,6 @@ import com.striveonger.study.task.core.executor.Executor;
  */
 public class ExecutorExtraInfo {
     // 扩展内容 start...
-    private int index;
     private String stepID;
     private String displayName;
     private String type;
@@ -17,13 +16,6 @@ public class ExecutorExtraInfo {
 
     private Executor executor;
 
-    public int getIndex() {
-        return index;
-    }
-
-    public void setIndex(int index) {
-        this.index = index;
-    }
 
     public String getStepID() {
         return stepID;

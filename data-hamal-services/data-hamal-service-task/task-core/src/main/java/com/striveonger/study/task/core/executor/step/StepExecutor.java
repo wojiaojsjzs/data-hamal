@@ -3,9 +3,14 @@ package com.striveonger.study.task.core.executor.step;
 import com.striveonger.study.task.common.executor.step.item.ItemProcessor;
 import com.striveonger.study.task.common.executor.step.item.ItemReader;
 import com.striveonger.study.task.common.executor.step.item.ItemWriter;
+import com.striveonger.study.task.common.scope.context.StepContext;
+import com.striveonger.study.task.core.exception.BuildTaskException;
 import com.striveonger.study.task.core.executor.Executor;
+import com.striveonger.study.task.core.scope.Workbench;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import static com.striveonger.study.task.core.exception.BuildTaskException.Type.STEP;
 
 /**
  * @author Mr.Lee
@@ -24,6 +29,9 @@ public class StepExecutor<I, O> extends Executor {
     private final ItemWriter<O> writer;
 
     public StepExecutor(ItemReader<I> reader, ItemProcessor<I, O> processor, ItemWriter<O> writer) {
+        if (reader == null || processor == null || writer == null) {
+            throw new BuildTaskException(STEP, "Build step contain item is null...");
+        }
         this.reader = reader;
         this.processor = processor;
         this.writer = writer;
@@ -37,5 +45,15 @@ public class StepExecutor<I, O> extends Executor {
             writer.write(out);
         }
         writer.finish();
+    }
+
+    @Override
+    public void setWorkbench(Workbench workbench) {
+        super.setWorkbench(workbench);
+        // 初始化 Items
+        StepContext context = workbench.getStepContext(this);
+        reader.setContext(context);
+        processor.setContext(context);
+        writer.setContext(context);
     }
 }
