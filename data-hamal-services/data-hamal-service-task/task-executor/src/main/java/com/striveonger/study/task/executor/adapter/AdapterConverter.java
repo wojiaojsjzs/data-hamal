@@ -5,6 +5,7 @@ import com.striveonger.study.task.common.executor.step.adapter.StepAdapter;
 import com.striveonger.study.task.common.executor.step.item.ItemProcessor;
 import com.striveonger.study.task.common.executor.step.item.ItemReader;
 import com.striveonger.study.task.common.executor.step.item.ItemWriter;
+import com.striveonger.study.task.core.exception.BuildTaskException;
 import com.striveonger.study.task.core.executor.extra.ExecutorExtraInfo;
 import com.striveonger.study.task.core.executor.step.StepExecutor;
 import com.striveonger.study.task.executor.entity.StepBuildInfo;
@@ -34,6 +35,9 @@ public class AdapterConverter {
         extra.setType(type);
         BuildConfig config = info.getBuildConfig();
         StepAdapter<Map<String, Object>, Map<String, Object>> adapter = AdapterLoader.getInstance().getStepAdapter(type);
+        if (adapter == null) {
+            throw new BuildTaskException(BuildTaskException.Type.STEP, String.format("Not Found type [%s] contra StepAdapter...", type));
+        }
         ItemReader<Map<String, Object>> reader = adapter.reader(config);
         ItemProcessor<Map<String, Object>, Map<String, Object>> processor = adapter.processor(config);
         ItemWriter<Map<String, Object>> writer = adapter.writer(config);
