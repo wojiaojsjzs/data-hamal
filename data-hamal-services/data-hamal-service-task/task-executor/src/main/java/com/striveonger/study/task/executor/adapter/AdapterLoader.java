@@ -23,7 +23,7 @@ public class AdapterLoader {
     private final static AdapterLoader instance = new AdapterLoader();
     public final Map<String, StepAdapter<Map<String, Object>, Map<String, Object>>> cache = new ConcurrentHashMap<>();
 
-    public AdapterLoader() {
+    private AdapterLoader() {
         ServiceLoader<StepAdapter> loader = ServiceLoader.load(StepAdapter.class);
         for (StepAdapter<Map<String, Object>, Map<String, Object>> adapter : loader) {
             cache.put(adapter.type(), adapter);
