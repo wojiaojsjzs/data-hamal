@@ -1,5 +1,6 @@
 package com.striveonger.study.redis.config;
 
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
@@ -11,7 +12,7 @@ import java.util.List;
  * @date 2023-06-29 11:25
  */
 @Component
-// @ConfigurationProperties(prefix = "spring.redis")
+@ConfigurationProperties(prefix = "spring.redis")
 public class RedisConfigProperties implements Serializable {
 
     /**

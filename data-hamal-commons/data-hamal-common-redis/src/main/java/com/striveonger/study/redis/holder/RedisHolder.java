@@ -8,8 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.Serializable;
-import java.util.Arrays;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -22,9 +20,11 @@ public class RedisHolder {
     private final Logger log = LoggerFactory.getLogger(RedisHolder.class);
 
     private final RedissonClient client;
+    private final Lock localock;
 
     private RedisHolder(RedissonClient client) {
         this.client = client;
+        this.localock = new Lock();
     }
 
     public <T extends Serializable> void putValue(String key, T val) {
@@ -72,7 +72,7 @@ public class RedisHolder {
      * @return
      */
     public Lock acquireLock() {
-        return new Lock();
+        return localock;
     }
 
     // /**
@@ -246,6 +246,7 @@ public class RedisHolder {
 
 
         public void unlock(String key) {
+            key = LOCK_PREFIX + key;
             RLock lock = client.getLock(key);
             lock.unlock();
         }
@@ -257,8 +258,7 @@ public class RedisHolder {
 
         private RedissonClient client;
 
-        private Builder() {
-        }
+        private Builder() { }
 
         public static Builder builder() {
             return new Builder();
@@ -270,7 +270,9 @@ public class RedisHolder {
         }
 
         public RedisHolder build() {
-            if (client == null) throw new CustomException(ResultStatus.ACCIDENT, "RedissonClient is NULL");
+            if (client == null) {
+                throw new CustomException(ResultStatus.ACCIDENT, "RedissonClient is NULL");
+            }
             return new RedisHolder(client);
         }
     }

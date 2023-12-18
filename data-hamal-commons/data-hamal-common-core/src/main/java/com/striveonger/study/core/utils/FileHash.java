@@ -23,11 +23,6 @@ public enum FileHash {
         this.name = name;
     }
 
-    public String getName() {
-        return name;
-    }
-
-
     public String code(File file) {
         try {
             return code(new FileInputStream(file));
@@ -39,7 +34,7 @@ public enum FileHash {
 
     public String code(InputStream input) {
         try (input) {
-            MessageDigest digest = MessageDigest.getInstance(getName());
+            MessageDigest digest = MessageDigest.getInstance(this.name);
             byte[] bytes = new byte[4096];
             int count;
             while ((count = input.read(bytes)) > 0) {

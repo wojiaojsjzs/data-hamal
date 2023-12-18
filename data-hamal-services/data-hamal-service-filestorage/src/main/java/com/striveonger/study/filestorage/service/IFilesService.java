@@ -1,6 +1,7 @@
 package com.striveonger.study.filestorage.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
+
+import com.mybatisflex.core.service.IService;
 import com.striveonger.study.filestorage.entity.Files;
 
 /**

@@ -47,5 +47,4 @@ public class RabbitConfig {
         return new RabbitHold(template);
     }
 
-
 }

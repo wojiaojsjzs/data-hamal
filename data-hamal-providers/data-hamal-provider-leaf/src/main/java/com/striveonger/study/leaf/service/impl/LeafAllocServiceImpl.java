@@ -1,7 +1,6 @@
 package com.striveonger.study.leaf.service.impl;
 
-
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.mybatisflex.spring.service.impl.ServiceImpl;
 import com.striveonger.study.leaf.entity.LeafAlloc;
 import com.striveonger.study.leaf.mapper.LeafAllocMapper;
 import com.striveonger.study.leaf.service.ILeafAllocService;
@@ -26,37 +25,37 @@ public class LeafAllocServiceImpl extends ServiceImpl<LeafAllocMapper, LeafAlloc
 
     @Override
     public List<LeafAlloc> getAllLeafAllocs() {
-        return this.getBaseMapper().getAllLeafAllocs();
+        return this.mapper.getAllLeafAllocs();
     }
 
     @Override
     @Transactional
     public LeafAlloc updateMaxIdAndGetLeafAlloc(String tag) {
-        this.getBaseMapper().updateMaxId(tag);
-        return this.getBaseMapper().getLeafAlloc(tag);
+        this.mapper.updateMaxId(tag);
+        return this.mapper.getLeafAlloc(tag);
     }
 
     @Override
     @Transactional
     public LeafAlloc updateMaxIdByCustomStepAndGetLeafAlloc(LeafAlloc leafAlloc) {
         log.info("update leafAlloc {}", leafAlloc);
-        this.getBaseMapper().updateMaxIdByCustomStep(leafAlloc);
-        return this.getBaseMapper().getLeafAlloc(leafAlloc.getKey());
+        this.mapper.updateMaxIdByCustomStep(leafAlloc);
+        return this.mapper.getLeafAlloc(leafAlloc.getKey());
     }
 
     @Override
     public List<String> getAllTags() {
-        return this.getBaseMapper().getAllTags();
+        return this.mapper.getAllTags();
     }
 
     @Override
     public int count(String tag) {
-        return this.getBaseMapper().count(tag);
+        return this.mapper.count(tag);
     }
 
     @Override
     public boolean save(LeafAlloc leafAlloc) {
-        return this.getBaseMapper().save(leafAlloc);
+        return this.mapper.save(leafAlloc);
     }
 
 

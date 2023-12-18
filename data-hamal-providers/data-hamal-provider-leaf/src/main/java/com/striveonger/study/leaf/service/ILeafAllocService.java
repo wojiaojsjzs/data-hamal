@@ -1,6 +1,7 @@
 package com.striveonger.study.leaf.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
+
+import com.mybatisflex.core.service.IService;
 import com.striveonger.study.leaf.entity.LeafAlloc;
 
 import java.util.List;

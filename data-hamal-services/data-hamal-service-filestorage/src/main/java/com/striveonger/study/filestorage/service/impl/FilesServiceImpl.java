@@ -1,8 +1,8 @@
 package com.striveonger.study.filestorage.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+
+import com.mybatisflex.core.query.QueryWrapper;
+import com.mybatisflex.spring.service.impl.ServiceImpl;
 import com.striveonger.study.filestorage.entity.Files;
 import com.striveonger.study.filestorage.mapper.FilesMapper;
 import com.striveonger.study.filestorage.service.IFilesService;
@@ -23,15 +23,17 @@ public class FilesServiceImpl extends ServiceImpl<FilesMapper, Files> implements
 
     @Override
     public Files getByHashCode(String hashcode) {
-        LambdaQueryWrapper<Files> wrapper = new QueryWrapper<Files>().lambda().select(Files.class, x -> true).eq(Files::getHashcode, hashcode);
-        List<Files> list = list(wrapper);
-        if (list == null || list.isEmpty()) return null;
+        QueryWrapper wrapper = QueryWrapper.create().select(x -> true).eq(Files::getHashcode, hashcode);
+        List<Files> list = this.list(wrapper);
+        if (list == null || list.isEmpty()) {
+            return null;
+        }
         return list.get(0);
     }
 
     @Override
     public Files getById(String id) {
-        LambdaQueryWrapper<Files> wrapper = new QueryWrapper<Files>().lambda().select(Files.class, x -> true).eq(Files::getId, id);
+        QueryWrapper wrapper = QueryWrapper.create().select(x -> true).eq(Files::getId, id);
         return getOne(wrapper);
     }
 }

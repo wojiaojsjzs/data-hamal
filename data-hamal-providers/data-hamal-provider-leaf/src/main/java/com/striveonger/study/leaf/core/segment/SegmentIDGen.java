@@ -8,7 +8,6 @@ import com.striveonger.study.leaf.core.segment.model.Segment;
 import com.striveonger.study.leaf.core.segment.model.SegmentBuffer;
 import com.striveonger.study.leaf.entity.LeafAlloc;
 import com.striveonger.study.leaf.service.ILeafAllocService;
-import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -53,7 +52,7 @@ public class SegmentIDGen implements IDGen {
         }
 
         @Override
-        public Thread newThread(@NotNull Runnable runnable) {
+        public Thread newThread(Runnable runnable) {
             return new Thread(runnable, "Thread-Segment-Update-" + nextThreadNum());
         }
     }

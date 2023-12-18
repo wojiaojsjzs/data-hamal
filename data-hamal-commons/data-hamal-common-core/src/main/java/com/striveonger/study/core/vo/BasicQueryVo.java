@@ -7,26 +7,26 @@ package com.striveonger.study.core.vo;
  */
 public class BasicQueryVo {
 
-    private Integer pageSize;
-
-    private Integer pageNum;
+    private Integer from;
+    
+    private Integer size;
 
     private String search;
 
-    public Integer getPageSize() {
-        return pageSize == null ? 15 : pageSize;
+    public Integer getSize() {
+        return this.size == null || size <= 0 ? 15 : size;
     }
 
-    public void setPageSize(Integer pageSize) {
-        this.pageSize = pageSize;
+    public void setSize(Integer size) {
+        this.size = size;
     }
 
-    public Integer getPageNum() {
-        return pageNum == null ? 1 : pageNum;
+    public Integer getFrom() {
+        return from == null || from <= 0 ? 1 : from;
     }
 
-    public void setPageNum(Integer pageNum) {
-        this.pageNum = pageNum;
+    public void setFrom(Integer from) {
+        this.from = from;
     }
 
     public String getSearch() {

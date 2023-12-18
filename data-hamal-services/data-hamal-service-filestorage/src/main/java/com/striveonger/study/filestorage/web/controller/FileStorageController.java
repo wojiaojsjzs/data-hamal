@@ -1,13 +1,10 @@
 package com.striveonger.study.filestorage.web.controller;
 
 import cn.hutool.core.date.DateUtil;
-import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.mybatisflex.core.paginate.Page;
+import com.mybatisflex.core.query.QueryWrapper;
 import com.striveonger.study.api.leaf.IDGenRemoteService;
-import com.striveonger.study.api.leaf.constant.Keys;
 import com.striveonger.study.api.leaf.core.ID;
 import com.striveonger.study.api.leaf.core.Status;
 import com.striveonger.study.core.constant.ResultStatus;
@@ -35,7 +32,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
 
-import static com.striveonger.study.api.leaf.constant.Keys.AUTH_USER;
 import static com.striveonger.study.api.leaf.constant.Keys.FILE_STORAGE;
 
 
@@ -65,20 +61,24 @@ public class FileStorageController {
      */
     @PostMapping("/upload")
     @ResponseBody
-    public Result<Object> upload(MultipartFile[] files) {
+    public Result upload(MultipartFile[] files) {
         if (files == null || files.length == 0) {
             throw new CustomException(ResultStatus.NOT_FOUND);
         }
         for (MultipartFile file : files) {
             String filename = file.getOriginalFilename();
-            if (StrUtil.isBlank(filename)) continue;
+            if (StrUtil.isBlank(filename)) {
+                continue;
+            }
             log.info("upload filename: {}", filename);
             try {
                 ID id = null; int retry = 3;
                 do {
                     id = idGenRemoteService.acquireDisrupt(FILE_STORAGE.getKey());
                 } while (retry-- > 0 && Status.exception(id));
-                if (Status.exception(id)) return Result.fail().message("User ID create failure");
+                if (Status.exception(id)) {
+                    return Result.fail().message("User ID create failure");
+                }
 
                 // 1. generate file info
                 String filetype = StrUtil.subAfter(filename, '.', true);
@@ -116,14 +116,24 @@ public class FileStorageController {
      */
     @GetMapping("/list")
     @ResponseBody
-    public Result<IPage<Files>> list(BasicQueryVo vo) {
-        IPage<Files> page = new Page<>(vo.getPageNum(), vo.getPageSize());
-        LambdaQueryWrapper<Files> wrapper = new LambdaQueryWrapper<>();
+    public Result list(BasicQueryVo vo) {
+        QueryWrapper wrapper = QueryWrapper.create();
+        Page<Files> page = new Page<>(vo.getFrom(), vo.getSize());
         if (StrUtil.isNotBlank(vo.getSearch())) {
             wrapper.like(Files::getFilename, vo.getSearch());
         }
-        wrapper.orderByDesc(Files::getCreateTime);
-        return Result.success(filesService.page(page, wrapper));
+        wrapper.orderBy(Files::getCreateTime);
+        //
+        page = filesService.page(page, wrapper);
+        if (page != null) {
+            Result.Page<Files> own = new Result.Page<>();
+            own.setForm(page.getPageNumber());
+            own.setSize(page.getPageSize());
+            own.setTotal(page.getTotalRow());
+            own.setList(page.getRecords());
+            return Result.success().page(own);
+        }
+        return Result.status(ResultStatus.NOT_FOUND);
     }
 
     @GetMapping("/download")

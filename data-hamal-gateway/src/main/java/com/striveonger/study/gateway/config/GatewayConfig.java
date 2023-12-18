@@ -31,6 +31,9 @@ import java.util.function.Consumer;
 public class GatewayConfig {
     private final Logger log = LoggerFactory.getLogger(GatewayConfig.class);
 
+    /**
+     * 白名单
+     */
     @Resource
     private AuthWhiteList whites;
 
@@ -56,7 +59,6 @@ public class GatewayConfig {
                 });
     }
 
-
     /**
      * User相关的自定义路由规则
      */
@@ -70,7 +72,4 @@ public class GatewayConfig {
         routes.route("register_custom_routh", r -> r.path("/register").filters(fn -> fn.rewritePath("/register", "/auth/user/register")).uri("lb://data-hamal-auth"));
         return routes.build();
     }
-
-
-
 }

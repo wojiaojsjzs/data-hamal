@@ -59,7 +59,7 @@ public class RedisHolderTest {
         properties.setPassword("123456");
         properties.setModel("single");
         RedisConfigProperties.Single single = new RedisConfigProperties.Single();
-        single.setAddress("redis://localhost:6379");
+        single.setAddress("redis://127.0.0.1:6379");
         single.setDatabase(0);
         properties.setSingle(single);
         RedisConfig redis = new RedisConfig();
@@ -68,8 +68,8 @@ public class RedisHolderTest {
 
     @Test
     public void test() {
-        String key = "data-hamal:KLP:aaa";
-        System.out.println("------------------------");
+        // final String key = "data-hamal:KLP:aaa";
+        // System.out.println("------------------------");
         // Result<String> result = Result.success("yyy");
         // holder.putValue(key, JacksonUtils.toJSONString(result));
         // String s = holder.getValue(key);
@@ -117,43 +117,52 @@ public class RedisHolderTest {
         //     holder.removeValue("TYO");
         // }
 
-        System.out.println("-------------------------------------------------------------");
-        ExecutorService pool = Executors.newCachedThreadPool();
-        Thread t1 = new Thread(() -> {
-            log.error("T1 start...");
-            RedisHolder.Lock lock = holder.acquireLock();
-            boolean acquire = lock.tryLock("test", 0);
-            log.error("T1 acquire: " + acquire);
-            if (acquire) {
-                // 持有锁的时间
-                ThreadUtil.sleep(50 * 1000); // 占用时间 5s
-                log.error("T1 unlock");
-                lock.unlock("test");
-            }
-            log.error("T1 end...");
-        }, "T1");
+        // System.out.println("-------------------------------------------------------------");
+        // ExecutorService pool = Executors.newCachedThreadPool();
+        // Thread t1 = new Thread(() -> {
+        //     log.error("T1 start...");
+        //     RedisHolder.Lock lock = holder.acquireLock();
+        //     boolean acquire = lock.tryLock(key, 0);
+        //     log.error("T1 acquire: " + acquire);
+        //     if (acquire) {
+        //         // 持有锁的时间
+        //         // ThreadUtil.sleep(50 * 1000); // 占用时间 5s
+        //         log.error("T1 unlock");
+        //         lock.unlock(key);
+        //     }
+        //     log.error("T1 end...");
+        // }, "T1");
+        //
+        // Thread t2 = new Thread(() -> {
+        //     log.error("T2 start...");
+        //     Thread.yield();
+        //     // SleepHelper.sleepMilliSeconds(50);
+        //     // log.error("T2 start...");
+        //     RedisHolder.Lock lock = holder.acquireLock();
+        //     boolean acquire = lock.tryLock(key, 1000 * 3); // 等待时间 3s
+        //
+        //     log.error("T2 acquire: " + acquire);
+        //     if (acquire) {
+        //         // 持有锁的时间
+        //         ThreadUtil.sleep(50 * 1000);
+        //         log.error("T2 unlock");
+        //         lock.unlock(key);
+        //     }
+        //     log.error("T2 end...");
+        // }, "T2");
+        //
+        // pool.submit(t1);
+        // pool.submit(t2);
 
-        Thread t2 = new Thread(() -> {
-            log.error("T2 start...");
-            Thread.yield();
-            // SleepHelper.sleepMilliSeconds(50);
-            // log.error("T2 start...");
-            RedisHolder.Lock lock = holder.acquireLock();
-            boolean acquire = lock.tryLock("test", 1000 * 3); // 等待时间 3s
-
-            log.error("T2 acquire: " + acquire);
-            if (acquire) {
-                // 持有锁的时间
-                ThreadUtil.sleep(50 * 1000);
-                log.error("T2 unlock");
-                lock.unlock("test");
-            }
-            log.error("T2 end...");
-        }, "T2");
-
-        pool.submit(t1); pool.submit(t2);
-
-        ThreadUtil.sleep(3 * 60 * 1000);
+        // ThreadUtil.sleep(3 * 60 * 1000);
         // System.out.println("finish~");
+
+        final RedisHolder.Lock lock = holder.acquireLock();
+        final String key = "aaa";
+        final boolean acquire = lock.tryLock(key, 0);
+        log.info("acquire: " + acquire);
+        if (acquire) {
+            lock.unlock(key);
+        }
     }
 }

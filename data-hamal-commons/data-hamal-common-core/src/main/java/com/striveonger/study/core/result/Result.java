@@ -6,13 +6,14 @@ import com.striveonger.study.core.constant.ResultStatus;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * @author Mr.Lee
  * @description: 公用响应结果
  * @date 2022-11-08 21:36
  */
-public class Result<T> implements Serializable {
+public class Result implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -38,7 +39,7 @@ public class Result<T> implements Serializable {
     private String message;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private T data;
+    private Object data;
 
     private Result() { }
 
@@ -64,45 +65,97 @@ public class Result<T> implements Serializable {
         return message;
     }
 
-    public T getData() {
+    public Object getData() {
         return this.data;
     }
 
-    public static <T> Result<T> success() {
-        return new Result<>(ResultStatus.SUCCESS);
+    public static Result success() {
+        return new Result(ResultStatus.SUCCESS);
     }
 
-    public static <T> Result<T> success(T data) {
-        return new Result<T>(ResultStatus.SUCCESS).data(data);
+    public static <T> Result success(T data) {
+        return new Result(ResultStatus.SUCCESS).data(data);
     }
 
-    public static <T> Result<T> success(T data, String message) {
-        return new Result<T>(ResultStatus.SUCCESS).message(message).data(data);
+    public static <T> Result success(T data, String message) {
+        return new Result(ResultStatus.SUCCESS).message(message).data(data);
     }
 
-    public static <T> Result<T> fail() {
-        return new Result<>(ResultStatus.FAIL);
+    public static <T> Result success(Page<T> page) {
+        return new Result(ResultStatus.SUCCESS).page(page);
     }
 
-    public static <T> Result<T> accident() {
-        return new Result<T>(ResultStatus.ACCIDENT);
+    public static <T> Result success(Page<T> page, String message) {
+        return new Result(ResultStatus.SUCCESS).message(message).page(page);
     }
 
-    public static <T> Result<T> status(ResultStatus status) {
-        return new Result<>(status);
+    public static Result fail() {
+        return new Result(ResultStatus.FAIL);
     }
 
-    public static <T> Result<T> status(boolean status) {
-        return new Result<>(status ? ResultStatus.SUCCESS : ResultStatus.FAIL);
+    public static Result accident() {
+        return new Result(ResultStatus.ACCIDENT);
     }
 
-    public Result<T> message(String message) {
+    public static Result status(ResultStatus status) {
+        return new Result(status);
+    }
+
+    public static Result status(boolean status) {
+        return new Result(status ? ResultStatus.SUCCESS : ResultStatus.FAIL);
+    }
+
+    public Result message(String message) {
         this.message = message;
         return this;
     }
 
-    public Result<T> data(T data) {
+    public <T> Result data(T data) {
         this.data = data;
         return this;
+    }
+
+    public <T> Result page(Page<T> page) {
+        this.data = page;
+        return this;
+    }
+
+    public static class Page<T> {
+        private long form;
+        private long size;
+        private long total;
+        private List<T> list;
+
+        public long getForm() {
+            return form;
+        }
+
+        public void setForm(long form) {
+            this.form = form;
+        }
+
+        public long getSize() {
+            return size;
+        }
+
+        public void setSize(long size) {
+            this.size = size;
+        }
+
+        public long getTotal() {
+            return total;
+        }
+
+        public void setTotal(long total) {
+            this.total = total;
+        }
+
+        public List<T> getList() {
+            return list;
+        }
+
+        public void setList(List<T> list) {
+            this.list = list;
+        }
     }
 }

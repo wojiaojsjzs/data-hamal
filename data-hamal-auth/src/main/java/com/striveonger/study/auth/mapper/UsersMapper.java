@@ -1,7 +1,7 @@
 package com.striveonger.study.auth.mapper;
 
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.mybatisflex.core.BaseMapper;
 import com.striveonger.study.auth.entity.Users;
 
 /**

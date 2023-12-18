@@ -25,7 +25,7 @@ public class WebFluxUtils {
      * @param result   相应的消息
      * @return
      */
-    public static <T> Mono<Void> responseWriter(ServerWebExchange exchange, Result<T> result) {
+    public static Mono<Void> responseWriter(ServerWebExchange exchange, Result result) {
         ServerHttpResponse response = exchange.getResponse();
         response.getHeaders().setContentType(MediaType.APPLICATION_JSON);
         response.setStatusCode(HttpStatus.OK);

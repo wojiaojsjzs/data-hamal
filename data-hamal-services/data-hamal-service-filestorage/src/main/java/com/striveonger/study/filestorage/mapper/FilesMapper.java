@@ -1,6 +1,7 @@
 package com.striveonger.study.filestorage.mapper;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+
+import com.mybatisflex.core.BaseMapper;
 import com.striveonger.study.filestorage.entity.Files;
 
 /**

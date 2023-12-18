@@ -1,6 +1,6 @@
 package com.striveonger.study.leaf.mapper;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.mybatisflex.core.BaseMapper;
 import com.striveonger.study.leaf.entity.LeafAlloc;
 import org.apache.ibatis.annotations.*;
 

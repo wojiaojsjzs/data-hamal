@@ -1,7 +1,7 @@
 package com.striveonger.study.auth.service;
 
 
-import com.baomidou.mybatisplus.extension.service.IService;
+import com.mybatisflex.core.service.IService;
 import com.striveonger.study.auth.entity.Users;
 
 /**

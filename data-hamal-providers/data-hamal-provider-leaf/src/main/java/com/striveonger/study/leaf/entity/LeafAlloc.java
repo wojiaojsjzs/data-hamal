@@ -1,9 +1,9 @@
 package com.striveonger.study.leaf.entity;
 
 
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.mybatisflex.annotation.Column;
+import com.mybatisflex.annotation.Id;
+import com.mybatisflex.annotation.Table;
 
 /**
  * <p>
@@ -13,11 +13,11 @@ import com.baomidou.mybatisplus.annotation.TableName;
  * @author Mr.Lee
  * @since 2022-11-23
  */
-@TableName("alloc")
+@Table(value ="alloc")
 public class LeafAlloc {
 
-    @TableId
-    @TableField(value = "biz_tag")
+    @Id
+    @Column(value = "biz_tag")
     private String key;
     private long maxId;
     private int step;

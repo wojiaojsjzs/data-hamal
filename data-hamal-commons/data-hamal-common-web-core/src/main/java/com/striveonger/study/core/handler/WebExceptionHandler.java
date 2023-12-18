@@ -22,14 +22,14 @@ public class WebExceptionHandler {
 
     @ResponseBody
     @ExceptionHandler(CustomException.class)
-    public Result<Object> customExceptionHandler(CustomException e, HttpServletRequest request) {
+    public Result customExceptionHandler(CustomException e, HttpServletRequest request) {
         log.error(e.getMessage(), e);
         return Result.status(e.getStatus()).message(e.getMessage());
     }
 
     @ResponseBody
     @ExceptionHandler(Exception.class)
-    public Result<Object> exceptionHandler(Exception e, HttpServletRequest request) {
+    public Result exceptionHandler(Exception e, HttpServletRequest request) {
         log.error(e.getMessage(), e);
         return Result.accident().message(e.getMessage());
     }

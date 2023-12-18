@@ -3,8 +3,7 @@ package com.striveonger.study.auth.web.controller;
 import cn.dev33.satoken.stp.SaTokenInfo;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.lang.Dict;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.mybatisflex.core.query.QueryWrapper;
 import com.striveonger.study.api.leaf.IDGenRemoteService;
 import com.striveonger.study.api.leaf.core.ID;
 import com.striveonger.study.api.leaf.core.Status;
@@ -53,21 +52,23 @@ public class UserController {
      * 用户注册
      */
     @PostMapping("/register")
-    public Result<Object> register(UserRegisterVo vo) {
+    public Result register(UserRegisterVo vo) {
         synchronized (vo.toString().intern()) {
             // 1. 检查用户名和邮箱是否已占用
-            LambdaQueryWrapper<Users> wrapper = new QueryWrapper<Users>().lambda()
-                    .eq(Users::getUsername, vo.getUsername())
-                    .or()
-                    .eq(Users::getEmail, vo.getEmail());
+            QueryWrapper wrapper = QueryWrapper.create().where(Users::getUsername).eq(vo.getUsername())
+                                                        .or(Users::getEmail).eq(vo.getEmail());
             long count = usersService.count(wrapper);
-            if (count > 0) throw new CustomException(ResultStatus.FAIL, "注册用户失败");
+            if (count > 0) {
+                throw new CustomException(ResultStatus.FAIL, "注册用户失败");
+            }
             // 2. 落库
-            ID id = null; int retry = 3;
+            ID id; int retry = 3;
             do {
                 id = service.acquireSerial(AUTH_USER.getKey());
             } while (retry-- > 0 && Status.exception(id));
-            if (Status.exception(id)) return Result.fail().message("User ID create failure");
+            if (Status.exception(id)) {
+                return Result.fail().message("User ID create failure");
+            }
 
             Users user = new Users();
             user.setId(id.toString());
@@ -88,9 +89,11 @@ public class UserController {
      * @return 登录结果
      */
     @PostMapping("/login")
-    public Result<Object> login(String username, String password) {
-        Users hold = usersService.getOne(new LambdaQueryWrapper<Users>().eq(Users::getUsername, username));
-        if (hold == null) return Result.status(ResultStatus.NOT_FOUND).message("用户名错误");
+    public Result login(String username, String password) {
+        Users hold = usersService.getOne(QueryWrapper.create().where(Users::getUsername).eq(username));
+        if (hold == null) {
+            return Result.status(ResultStatus.NOT_FOUND).message("用户名错误");
+        }
         String encode = encoder.encode(password);
         if (encode.equals(hold.getPassword())) {
             StpUtil.login(hold.getId());
@@ -107,7 +110,7 @@ public class UserController {
      * @return 登出结果
      */
     @GetMapping("/logout")
-    public Result<Object> logout() {
+    public Result logout() {
         if (StpUtil.isLogin()) {
             StpUtil.logout();
             // 删除Redis中的用户信息 TODO: remove key -> UserID

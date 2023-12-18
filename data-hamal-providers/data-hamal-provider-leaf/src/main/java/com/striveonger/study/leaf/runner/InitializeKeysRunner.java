@@ -1,9 +1,7 @@
 package com.striveonger.study.leaf.runner;
 
 import cn.hutool.core.date.DateUtil;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.striveonger.study.api.leaf.constant.Keys;
-import com.striveonger.study.core.constant.DistractLockKeys;
 import com.striveonger.study.leaf.entity.LeafAlloc;
 import com.striveonger.study.leaf.service.ILeafAllocService;
 import com.striveonger.study.redis.holder.RedisHolder;

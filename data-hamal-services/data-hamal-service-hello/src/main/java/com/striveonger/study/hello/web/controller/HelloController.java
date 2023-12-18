@@ -31,13 +31,13 @@ public class HelloController {
     private RabbitHold hold;
 
     @GetMapping("/hi")
-    public Result<Object> hi(String name) {
+    public Result hi(String name) {
         String hi = service.hi(name);
         return Result.success(hi);
     }
 
     @GetMapping("/test")
-    public Result<Object> test() {
+    public Result test() {
         Dict dict = Dict.create();
         log.info("test start...");
         String exchangeName = "data.hamal.exchange", queueName = "data.hamal.message.full", routingKey = "data.hamal.message.#";
@@ -70,7 +70,7 @@ public class HelloController {
         return Result.success().data(dict);
     }
     @GetMapping("/test/send")
-    public Result<Object> testSend() {
+    public Result testSend() {
         Dict dict = Dict.create();
         log.info("test start...");
         String exchangeName = "data.hamal.exchange", queueName = "data.hamal.message.full", routingKey = "data.hamal.message.#";
@@ -86,7 +86,7 @@ public class HelloController {
         return Result.success().data(dict);
     }
     @GetMapping("/test/receive")
-    public Result<Object> testReceive() {
+    public Result testReceive() {
         Dict dict = Dict.create();
         log.info("test start...");
         String exchangeName = "data.hamal.exchange", queueName = "data.hamal.message.full", routingKey = "data.hamal.message.#";

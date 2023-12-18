@@ -28,7 +28,7 @@ public class ExceptionHandler implements ErrorWebExceptionHandler {
         if (response.isCommitted()) {
             return Mono.error(t);
         }
-        Result<Object> message;
+        Result message;
         if (t instanceof CustomException e) {
              message = Result.status(e.getStatus()).message(e.getMessage());
         } else {
