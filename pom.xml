@@ -59,8 +59,9 @@
         <redisson.version>3.22.1</redisson.version>
 
         <!-- task plugin -->
-        <!-- 我本地用的是 Chrome 114.0.5735.106 -->
-        <!-- 对应的 ChromeDriver 114.0.5735.90  -->
+        <!-- 我本地用的是 Chrome 122.0.6261.69 -->
+        <!-- 对应的 ChromeDriver 122.0.6261.69  -->
+        <!-- ChromeDriver 下载地址: https://googlechromelabs.github.io/chrome-for-testing/ -->
         <selenium.version>4.9.1</selenium.version> <!-- 这里 是需要覆盖Spring的默认依赖的 -->
 
         <!-- dp-file -->

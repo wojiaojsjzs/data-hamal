@@ -2,6 +2,7 @@ package com.striveonger.study.spider;
 
 
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 /**
@@ -15,14 +16,14 @@ public class Main {
     public void test() {
 
         System.setProperty("webdriver.chrome.driver", "/Users/striveonger/software/chromedriver");
-        ChromeDriver driver = null;
+        WebDriver driver = null;
         try {
             // 1. 创建浏览器对象
             driver = new ChromeDriver();
             driver.manage().window().maximize();
             // 2. 打开登录页
-            driver.get("https://www.google.com/");
-
+            driver.get("https://www.baidu.com/");
+            //
 
 
             Thread.sleep(5000);
@@ -30,8 +31,8 @@ public class Main {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            if (driver != null) { driver.quit(); }
-            driver = null;
+            // if (driver != null) { driver.quit(); }
+            // driver = null;
         }
     }
 
