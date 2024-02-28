@@ -25,9 +25,21 @@
         </dependency>
 
         <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-support</artifactId>
+        </dependency>
+
+
+        <dependency>
             <groupId>com.striveonger.study</groupId>
             <artifactId>data-hamal-common-test</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-http</artifactId>
+        </dependency>
+
 
     </dependencies>
 
