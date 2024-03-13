@@ -1,17 +1,15 @@
 package com.striveonger.study.spider;
 
 import cn.hutool.core.io.FileUtil;
-import cn.hutool.core.util.ByteUtil;
-import cn.hutool.core.util.StrUtil;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.nio.charset.StandardCharsets;
 
 /**
  * @author Mr.Lee
