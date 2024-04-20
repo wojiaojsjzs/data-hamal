@@ -71,6 +71,8 @@ com.striveonger.study
 ### data-hamal-provider-leaf
 > 照搬了美团开源的Leaf, 提供分布式的ID服务
 
+
+
 ## 安装教程
 
 ### 关于ProtoBuf
@@ -103,6 +105,17 @@ docker compose -p data-hamal images
 ```
 
 ## 使用说明
+
+### 版本升级
+```shell
+# 设置版本号
+mvn versions:set -DnewVersion=0.0.2
+
+# 提交版本修改
+mvn versions:commit
+```
+> 注意: `0.0.2` 是想要升级的版本
+
 
 
 ## DAG测试

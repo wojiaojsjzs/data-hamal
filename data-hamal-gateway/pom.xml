@@ -7,7 +7,7 @@
     <parent>
         <artifactId>data-hamal</artifactId>
         <groupId>com.striveonger.study</groupId>
-        <version>0.0.1</version>
+        <version>0.0.2</version>
     </parent>
     <artifactId>data-hamal-gateway</artifactId>
 
