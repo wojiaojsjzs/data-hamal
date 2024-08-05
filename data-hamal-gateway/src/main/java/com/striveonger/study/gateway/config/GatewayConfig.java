@@ -1,26 +1,20 @@
 package com.striveonger.study.gateway.config;
 
-import cn.dev33.satoken.reactor.filter.SaReactorFilter;
-import cn.dev33.satoken.router.SaRouter;
-import cn.dev33.satoken.stp.StpUtil;
-import com.striveonger.study.core.constant.ResultStatus;
-import com.striveonger.study.core.exception.CustomException;
+import javax.annotation.Resource;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.cloud.gateway.filter.GatewayFilter;
-import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.server.reactive.ServerHttpRequest;
-import org.springframework.web.server.ServerWebExchange;
-import reactor.core.publisher.Mono;
 
-import javax.annotation.Resource;
-import java.net.URI;
-import java.util.Optional;
-import java.util.function.Consumer;
+import com.striveonger.study.core.constant.ResultStatus;
+import com.striveonger.study.core.exception.CustomException;
+
+import cn.dev33.satoken.reactor.filter.SaReactorFilter;
+import cn.dev33.satoken.router.SaRouter;
+import cn.dev33.satoken.stp.StpUtil;
 
 /**
  * @author Mr.Lee
